@@ -1,6 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.Path.RootPath;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractObjectAssert;

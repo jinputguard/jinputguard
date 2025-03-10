@@ -1,9 +1,9 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.GuardResultAssert;
+import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.ValidationError;
 import java.util.HashSet;
 import java.util.List;
@@ -251,12 +251,12 @@ class SetInputGuardBuilderTest {
 
 			@Test
 			void validation_fail_atPath() {
-				var elementGuardGuard = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
+				var elementGuardGuard = InputGuard.builder().forString().validateThat().isMaxLength(2).then().build();
 				var setGuard = InputGuard.builder().forSet(String.class)
 					.processEach(elementGuardGuard)
 					.build();
 
-				var value = Set.of("", "abc", "123");
+				var value = Set.of("", "abc", "0", "123");
 				var actualResult = setGuard.process(value).atPath(Path.createPropertyPath("mySet"));
 
 				GuardResultAssert.assertThat(actualResult)
@@ -264,11 +264,17 @@ class SetInputGuardBuilderTest {
 					.isMultiFailure()
 					.hasPathEqualTo("mySet")
 					.failuresAssert(
-						assertor -> assertor.satisfiesExactly(
+						assertor -> assertor.satisfiesExactlyInAnyOrder(
 							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
-								.hasPathEqualTo("mySet")
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
+								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
+								.hasValueEqualTo("abc")
+								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2)),
+							fail2 -> GuardFailureAssert.assertThat(fail2)
+								.isValidationFailure()
+								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
+								.hasValueEqualTo("123")
+								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2))
 						)
 					);
 			}

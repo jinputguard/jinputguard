@@ -1,6 +1,6 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.Path;
+import io.github.jinputguard.result.Path.ElementPath;
 import io.github.jinputguard.result.Path.IndexPath;
 import io.github.jinputguard.result.Path.PropertyPath;
 import io.github.jinputguard.result.Path.RootPath;
@@ -149,6 +149,41 @@ class PathTest {
 		void format_withParent() {
 			var newPath = INDEX_PATH.atIndex(456).atIndex(789);
 			Assertions.assertThat(newPath.format()).isEqualTo("index [789][456][123]");
+		}
+
+	}
+
+	@Nested
+	class ElementPathTest {
+
+		private static final Path ELEMENT_PATH = Path.createElementPath();
+
+		@Test
+		void staticFactory() {
+			Assertions.assertThat(ELEMENT_PATH).isInstanceOf(ElementPath.class);
+			Assertions.assertThat((ElementPath) ELEMENT_PATH)
+				.extracting(ElementPath::parent)
+				.satisfies(
+					parent -> Assertions.assertThat(parent).isInstanceOf(RootPath.class)
+				);
+		}
+
+		@Test
+		void nullParent_forbidden() {
+			Assertions.assertThatNullPointerException()
+				.isThrownBy(() -> new ElementPath(null))
+				.withMessage("parent path cannot be null");
+		}
+
+		@Test
+		void format_withNoParent() {
+			Assertions.assertThat(ELEMENT_PATH.format()).isEqualTo("element");
+		}
+
+		@Test
+		void format_withParent() {
+			var newPath = ELEMENT_PATH.atIndex(789).atProperty("myVal");
+			Assertions.assertThat(newPath.format()).isEqualTo("myVal[789][?]");
 		}
 
 	}

@@ -29,6 +29,10 @@ public sealed interface Path {
 		return new IndexPath(root(), index);
 	}
 
+	static Path createElementPath() {
+		return new ElementPath(root());
+	}
+
 	default Path atProperty(String property) {
 		return atPath(createPropertyPath(property));
 	}
@@ -100,6 +104,28 @@ public sealed interface Path {
 		public Path atPath(Path superPath) {
 			Objects.requireNonNull(superPath, "Path cannot be null");
 			return new IndexPath(parent.atPath(superPath), index);
+		}
+
+	}
+
+	record ElementPath(Path parent) implements Path {
+
+		public ElementPath(Path parent) {
+			this.parent = Objects.requireNonNull(parent, "parent path cannot be null");
+		}
+
+		@Override
+		public String format() {
+			if (parent instanceof RootPath) {
+				return "element";
+			}
+			return parent.format() + "[?]";
+		}
+
+		@Override
+		public Path atPath(Path superPath) {
+			Objects.requireNonNull(superPath, "Path cannot be null");
+			return new ElementPath(parent.atPath(superPath));
 		}
 
 	}
