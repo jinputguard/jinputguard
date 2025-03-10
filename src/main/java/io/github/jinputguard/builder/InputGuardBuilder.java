@@ -3,7 +3,7 @@ package io.github.jinputguard.builder;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
 import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationError.GenericError;
+import io.github.jinputguard.result.ValidationError.GenericValidationError;
 import io.github.jinputguard.result.ValidationFailure;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
@@ -63,7 +63,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
-	 * @see GenericError
+	 * @see GenericValidationError
 	 */
 	@Nonnull
 	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull String errorMessage);
@@ -78,7 +78,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
-	 * @see GenericError
+	 * @see GenericValidationError
 	 */
 	@Nonnull
 	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<OUT, String> errorMessageFunction);

@@ -14,11 +14,11 @@ public final class MultiFailure extends GuardFailure {
 	private final @Nonnull List<GuardFailure> failures;
 
 	public MultiFailure(@Nullable Object value, List<GuardFailure> failures) {
-		this(value, failures, Path.root());
+		this(value, failures, Path.root(), null);
 	}
 
-	protected MultiFailure(@Nullable Object value, List<GuardFailure> failures, Path path) {
-		super(value, path);
+	protected MultiFailure(@Nullable Object value, List<GuardFailure> failures, Path path, Throwable cause) {
+		super(value, path, cause);
 		this.failures = Objects.requireNonNull(failures, "failures cannot be null");
 	}
 
@@ -35,7 +35,7 @@ public final class MultiFailure extends GuardFailure {
 	@Override
 	public MultiFailure atPath(Path superPath) {
 		var newFailures = failures.stream().map(failure -> failure.atPath(superPath)).toList();
-		return new MultiFailure(value, newFailures, path.atPath(superPath));
+		return new MultiFailure(value, newFailures, path.atPath(superPath), cause);
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public final class MultiFailure extends GuardFailure {
 		if (obj instanceof MultiFailure other) {
 			return Objects.equals(this.value, other.value)
 				&& Objects.equals(this.path, other.path)
+				&& Objects.equals(this.cause, other.cause)
 				&& Objects.equals(this.failures, other.failures);
 		}
 		return false;

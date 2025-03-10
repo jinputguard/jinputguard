@@ -8,14 +8,17 @@ import java.util.Objects;
 /**
  * A class representing the failure of a guard.
  */
-public abstract class GuardFailure implements Serializable {
+public sealed abstract class GuardFailure implements Serializable
+	permits ValidationFailure, MultiFailure, MappingFailure {
 
 	protected final Object value;
 	protected final Path path;
+	protected final Throwable cause;
 
-	protected GuardFailure(@Nullable Object value, @Nonnull Path path) {
+	protected GuardFailure(@Nullable Object value, @Nonnull Path path, @Nullable Throwable cause) {
 		this.value = value;
 		this.path = Objects.requireNonNull(path, "path cannot be null");
+		this.cause = cause;
 	}
 
 	public Object getValue() {
@@ -27,7 +30,7 @@ public abstract class GuardFailure implements Serializable {
 	}
 
 	public InputGuardFailureException toException() {
-		return new InputGuardFailureException(this);
+		return new InputGuardFailureException(this, cause);
 	}
 
 	public abstract String getMessage();

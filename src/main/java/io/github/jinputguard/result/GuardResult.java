@@ -4,6 +4,7 @@ import io.github.jinputguard.InputGuard;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * The result produced by a {@link InputGuard}, either successful or failed.
@@ -90,12 +91,27 @@ public class GuardResult<T> {
 	/**
 	 * Get the value if guard has succeed, or throws an exception if failure.
 	 * 
-	 * @return
+	 * @return	The result value
+	 * 
+	 * @throws InputGuardFailureException if guard failed
 	 */
 	@Nonnull
 	public T getOrThrow() {
+		return getOrThrow(failure -> failure.toException());
+	}
+
+	/**
+	 * Get the value if guard has succeed, or throws an exception if failure.
+	 * The thrown exception is the result of the given exception mapper.
+	 * 
+	 * @return	The result value
+	 * 
+	 * @throws X if guard failed
+	 */
+	@Nonnull
+	public <X extends RuntimeException> T getOrThrow(@Nonnull Function<GuardFailure, X> exceptionMapper) {
 		if (isFailure()) {
-			throw new InputGuardFailureException(failure);
+			throw exceptionMapper.apply(failure);
 		}
 		return value;
 	}

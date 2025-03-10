@@ -9,11 +9,11 @@ public final class ValidationFailure extends GuardFailure {
 	private final @Nonnull ValidationError error;
 
 	public ValidationFailure(@Nullable Object value, @Nonnull ValidationError error) {
-		this(value, error, Path.root());
+		this(value, error, Path.root(), null);
 	}
 
-	protected ValidationFailure(@Nullable Object value, @Nonnull ValidationError error, Path path) {
-		super(value, path);
+	protected ValidationFailure(@Nullable Object value, @Nonnull ValidationError error, Path path, Throwable cause) {
+		super(value, path, cause);
 		this.error = Objects.requireNonNull(error, "Validation error cannot be null");
 	}
 
@@ -28,7 +28,7 @@ public final class ValidationFailure extends GuardFailure {
 
 	@Override
 	public ValidationFailure atPath(Path superPath) {
-		return new ValidationFailure(value, error, path.atPath(superPath));
+		return new ValidationFailure(value, error, path.atPath(superPath), cause);
 	}
 
 	@Override
@@ -41,6 +41,7 @@ public final class ValidationFailure extends GuardFailure {
 		if (obj instanceof ValidationFailure other) {
 			return Objects.equals(this.value, other.value)
 				&& Objects.equals(this.path, other.path)
+				&& Objects.equals(this.cause, other.cause)
 				&& Objects.equals(this.error, other.error);
 		}
 		return false;

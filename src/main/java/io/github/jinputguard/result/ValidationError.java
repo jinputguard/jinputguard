@@ -29,7 +29,10 @@ public sealed interface ValidationError {
 	// ===========================================================================
 	// GENERIC
 
-	record GenericError(String message) implements ValidationError {
+	/**
+	 * A simple validation error that has just a message. 
+	 */
+	record GenericValidationError(String message) implements ValidationError {
 
 		@Override
 		public String getConstraintMessage() {

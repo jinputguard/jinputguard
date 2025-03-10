@@ -6,20 +6,12 @@ import java.util.Objects;
 
 public final class MappingFailure extends GuardFailure {
 
-	private final Throwable cause;
-
 	public MappingFailure(@Nullable Object value, @Nullable Throwable cause) {
 		this(value, Path.root(), cause);
 	}
 
 	protected MappingFailure(@Nullable Object value, @Nonnull Path path, @Nullable Throwable cause) {
-		super(value, path);
-		this.cause = cause;
-	}
-
-	@Override
-	public InputGuardFailureException toException() {
-		return new InputGuardFailureException(this, cause);
+		super(value, path, cause);
 	}
 
 	@Override

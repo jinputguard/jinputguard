@@ -38,7 +38,7 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 
 	@Override
 	public SELF validate(Predicate<OUT> validationPredicate, Function<OUT, String> errorMessageFunction) {
-		return this.validate(value -> validationPredicate.test(value) ? null : new ValidationError.GenericError(errorMessageFunction.apply(value)));
+		return this.validate(value -> validationPredicate.test(value) ? null : new ValidationError.GenericValidationError(errorMessageFunction.apply(value)));
 	}
 
 	@Override
