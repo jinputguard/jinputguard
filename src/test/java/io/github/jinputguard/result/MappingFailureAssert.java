@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions;
  * 
  *
  */
-public class MappingFailureAssert extends ProcessFailureAssert<MappingFailureAssert, MappingFailure> {
+public class MappingFailureAssert extends GuardFailureAssert<MappingFailureAssert, MappingFailure> {
 
 	private MappingFailureAssert(MappingFailure actual) {
 		super(actual, MappingFailureAssert.class);

@@ -5,17 +5,17 @@ import io.github.jinputguard.result.GuardResult;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
-public class ProcessResultAssert<T> extends AbstractAssert<ProcessResultAssert<T>, GuardResult<T>> {
+public class GuardResultAssert<T> extends AbstractAssert<GuardResultAssert<T>, GuardResult<T>> {
 
-	private ProcessResultAssert(GuardResult<T> actual) {
-		super(actual, ProcessResultAssert.class);
+	private GuardResultAssert(GuardResult<T> actual) {
+		super(actual, GuardResultAssert.class);
 	}
 
-	public static <T> ProcessResultAssert<T> assertThat(GuardResult<T> actual) {
-		return new ProcessResultAssert<>(actual);
+	public static <T> GuardResultAssert<T> assertThat(GuardResult<T> actual) {
+		return new GuardResultAssert<>(actual);
 	}
 
-	public ProcessResultAssert<T> isSuccess() {
+	public GuardResultAssert<T> isSuccess() {
 		Assertions.assertThat(actual.isSuccess())
 			.as(descriptionText())
 			.overridingErrorMessage(() -> "Expected process result to be success, but is failure: " + actual.getFailure())
@@ -23,7 +23,7 @@ public class ProcessResultAssert<T> extends AbstractAssert<ProcessResultAssert<T
 		return this;
 	}
 
-	public ProcessResultAssert<T> isSuccessWithValue(T expectedValue) {
+	public GuardResultAssert<T> isSuccessWithValue(T expectedValue) {
 		isSuccess();
 		Assertions.assertThat(actual.get())
 			.as(descriptionText())
@@ -33,17 +33,17 @@ public class ProcessResultAssert<T> extends AbstractAssert<ProcessResultAssert<T
 	}
 
 	@SuppressWarnings("unchecked")
-	public <A extends ProcessFailureAssert<A, F>, F extends GuardFailure> ProcessFailureAssert<A, F> isFailure() {
+	public <A extends GuardFailureAssert<A, F>, F extends GuardFailure> GuardFailureAssert<A, F> isFailure() {
 		Assertions.assertThat(actual.isFailure())
 			.as(descriptionText())
 			.overridingErrorMessage(() -> "Expected process result to be failure, but is success with value: " + actual.get())
 			.isTrue();
-		return (ProcessFailureAssert<A, F>) ProcessFailureAssert.assertThat(actual.getFailure());
+		return (GuardFailureAssert<A, F>) GuardFailureAssert.assertThat(actual.getFailure());
 	}
 
 	@SuppressWarnings("unchecked")
-	public <A extends ProcessFailureAssert<A, F>, F extends GuardFailure> ProcessFailureAssert<A, F> isFailure(GuardFailure expectedFailure) {
-		return (ProcessFailureAssert<A, F>) isFailure().isEqualTo(expectedFailure);
+	public <A extends GuardFailureAssert<A, F>, F extends GuardFailure> GuardFailureAssert<A, F> isFailure(GuardFailure expectedFailure) {
+		return (GuardFailureAssert<A, F>) isFailure().isEqualTo(expectedFailure);
 	}
 
 }

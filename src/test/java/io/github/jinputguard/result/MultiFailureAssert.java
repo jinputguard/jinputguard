@@ -12,7 +12,7 @@ import org.assertj.core.api.ListAssert;
  * 
  *
  */
-public class MultiFailureAssert extends ProcessFailureAssert<MultiFailureAssert, MultiFailure> {
+public class MultiFailureAssert extends GuardFailureAssert<MultiFailureAssert, MultiFailure> {
 
 	private MultiFailureAssert(MultiFailure actual) {
 		super(actual, MultiFailureAssert.class);

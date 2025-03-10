@@ -2,7 +2,7 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.SanitizationGuard;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -21,7 +21,7 @@ class SanitizationGuardTest {
 
 		var actualResult = guard.process(" plop ");
 
-		ProcessResultAssert.assertThat(actualResult).isSuccessWithValue("plop");
+		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("plop");
 	}
 
 	@Test
@@ -30,7 +30,7 @@ class SanitizationGuardTest {
 
 		var actualResult = guard.process(" plop ");
 
-		ProcessResultAssert.assertThat(actualResult).isSuccessWithValue(null);
+		GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
 	}
 
 	@Test

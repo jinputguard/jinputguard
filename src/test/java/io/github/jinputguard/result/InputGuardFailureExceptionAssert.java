@@ -18,8 +18,8 @@ public class InputGuardFailureExceptionAssert extends AbstractThrowableAssert<In
 		return new InputGuardFailureExceptionAssert((InputGuardFailureException) actual);
 	}
 
-	public InputGuardFailureExceptionAssert hasFailureSatisfing(Consumer<ProcessFailureAssert<?, ?>> assertor) {
-		assertor.accept(ProcessFailureAssert.assertThat(actual.getFailure()));
+	public InputGuardFailureExceptionAssert hasFailureSatisfing(Consumer<GuardFailureAssert<?, ?>> assertor) {
+		assertor.accept(GuardFailureAssert.assertThat(actual.getFailure()));
 		return this;
 	}
 

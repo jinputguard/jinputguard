@@ -1,8 +1,8 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.ValidationError;
 import io.github.jinputguard.result.ValidationError.CollectionIsEmpty;
 import io.github.jinputguard.result.ValidationError.CustomValidationError;
+import io.github.jinputguard.result.ValidationError.GenericError;
 import io.github.jinputguard.result.ValidationError.NumberMustBeBetween;
 import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterOrEqualTo;
 import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterThan;
@@ -27,6 +27,11 @@ public class AbstractValidationErrorAssert<SELF extends AbstractValidationErrorA
 
 	public SELF isCustomValidationError() {
 		return isInstanceOf(CustomValidationError.class);
+	}
+
+	public SELF isGenericError(String expectedMessage) {
+		var expected = new GenericError(expectedMessage);
+		return isEqualTo(expected);
 	}
 
 	public SELF isObjectIsNull() {

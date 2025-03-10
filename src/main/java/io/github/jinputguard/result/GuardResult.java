@@ -160,7 +160,7 @@ public class GuardResult<T> {
 
 	@Override
 	public String toString() {
-		return "ProcessResult" +
+		return "GuardResult" +
 			(isSuccess()
 				? "<Success>: " + value
 				: "<Failure>: " + failure);

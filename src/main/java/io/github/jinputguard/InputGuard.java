@@ -1,8 +1,8 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.Builder;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.GuardResult;
+import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
  *   .validate(value -> value == null ? new ValidationFailure.ObjectIsNull() : null)
  *   .sanitize(String::strip)
  *   .build();
- * ProcessResult<String> result = guard.process(" some input  ");
+ * GuardResult<String> result = guard.process(" some input  ");
  * String safeValue = result.getOrThrow(); // "some input"
  * </pre>
  * 
@@ -26,7 +26,7 @@ import java.util.Objects;
  *   .validateThat().isNotNull().then()
  *   .sanitize().strip().then()
  *   .build();
- * ProcessResult<String> result = guard.process(" some input  ");
+ * GuardResult<String> result = guard.process(" some input  ");
  * String safeValue = result.getOrThrow(); // "some input"
  * </pre>
  * 

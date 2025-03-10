@@ -10,18 +10,18 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.Assertions;
 
-public class ProcessFailureAssert<SELF extends ProcessFailureAssert<SELF, T>, T extends GuardFailure> extends AbstractAssert<SELF, T> {
+public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T extends GuardFailure> extends AbstractAssert<SELF, T> {
 
-	private ProcessFailureAssert(T actual) {
-		super(actual, ProcessFailureAssert.class);
+	private GuardFailureAssert(T actual) {
+		super(actual, GuardFailureAssert.class);
 	}
 
-	protected ProcessFailureAssert(T actual, Class<SELF> assertClass) {
+	protected GuardFailureAssert(T actual, Class<SELF> assertClass) {
 		super(actual, assertClass);
 	}
 
-	public static <A extends ProcessFailureAssert<A, T>, T extends GuardFailure> ProcessFailureAssert<A, T> assertThat(T actual) {
-		return new ProcessFailureAssert<>(actual);
+	public static <A extends GuardFailureAssert<A, T>, T extends GuardFailure> GuardFailureAssert<A, T> assertThat(T actual) {
+		return new GuardFailureAssert<>(actual);
 	}
 
 	// -------------------------------------------------------------------------------------------

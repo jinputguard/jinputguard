@@ -18,8 +18,8 @@ public abstract class AbstractSequencedCollectionInputGuardBuilder<IN, C extends
 	public <B extends AbstractSequencedCollectionInputGuardBuilder<IN, C_OUT, OUT, B>, C_OUT extends SequencedCollection<OUT>, OUT> B filterAndProcessEach(
 		Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard, Collector<OUT, ?, C_OUT> collector, Function<InputGuard<IN, C_OUT>, B> builderFunction
 	) {
-		InputGuard<C, C_OUT> forEachProcess = new SequencedCollectionIterationGuard<>(elementFilter, elementGuard, collector);
-		return builderFunction.apply(build().andThen(forEachProcess));
+		InputGuard<C, C_OUT> forEachGuard = new SequencedCollectionIterationGuard<>(elementFilter, elementGuard, collector);
+		return builderFunction.apply(build().andThen(forEachGuard));
 	}
 
 }

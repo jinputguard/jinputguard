@@ -3,9 +3,11 @@ package io.github.jinputguard.builder;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
 import io.github.jinputguard.result.ValidationError;
+import io.github.jinputguard.result.ValidationError.GenericError;
 import io.github.jinputguard.result.ValidationFailure;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @param <IN>
@@ -46,9 +48,40 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
+	 * @see	ValidationError
 	 */
 	@Nonnull
 	SELF validate(@Nonnull Function<OUT, ValidationError> validationFunction);
+
+	/**
+	 * Validate the value using the given predicate.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure}  containing a {@link ValidationError#GenericError} with the given error message.
+	 * 
+	 * @param validationPredicate	The test to apply on the value
+	 * @param errorMessage			The error message
+	
+	 * @return	a new builder
+	 * 
+	 * @see ValidationFailure
+	 * @see GenericError
+	 */
+	@Nonnull
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull String errorMessage);
+
+	/**
+	 * Validate the value using the given predicate.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure}  containing a {@link ValidationError#GenericError} with the given error message.
+	 * 
+	 * @param validationPredicate	The test to apply on the value
+	 * @param errorMessageFunction	The error message function
+	
+	 * @return	a new builder
+	 * 
+	 * @see ValidationFailure
+	 * @see GenericError
+	 */
+	@Nonnull
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<OUT, String> errorMessageFunction);
 
 	/**
 	 * Apply the given guard, i.e. include it into the current one.

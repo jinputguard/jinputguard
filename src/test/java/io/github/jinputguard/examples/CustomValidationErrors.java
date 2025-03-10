@@ -35,11 +35,11 @@ public class CustomValidationErrors {
 		if (result.isSuccess()) {
 			System.out.println(value + " --> " + result.get());
 		} else {
-			System.out.println(value + " --> " + handleProcessFailure(result.getFailure()));
+			System.out.println(value + " --> " + handleGuardFailure(result.getFailure()));
 		}
 	}
 
-	private static String handleProcessFailure(GuardFailure failure) {
+	private static String handleGuardFailure(GuardFailure failure) {
 		if (failure instanceof ValidationFailure validationFailure) {
 			return handleCustomValidationFailure(validationFailure);
 		}

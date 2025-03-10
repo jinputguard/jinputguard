@@ -4,10 +4,11 @@ import io.github.jinputguard.guard.ChainedGuard;
 import io.github.jinputguard.guard.MappingGuard;
 import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
+import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.guard.SanitizationGuard;
 import io.github.jinputguard.guard.ValidationGuard;
-import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.result.ValidationError;
+import io.github.jinputguard.result.ValidationFailure;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
 
@@ -97,8 +98,8 @@ public final class InputGuards {
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
 		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
 	) {
-		var mappingProcess = new MappingGuard<>(mappingFunction);
-		return initialGuard.andThen(mappingProcess);
+		var mappingGuard = new MappingGuard<>(mappingFunction);
+		return initialGuard.andThen(mappingGuard);
 	}
 
 	/**

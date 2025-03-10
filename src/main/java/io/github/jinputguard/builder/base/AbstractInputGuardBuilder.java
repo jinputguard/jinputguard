@@ -8,6 +8,7 @@ import io.github.jinputguard.result.ValidationError;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractInputGuardBuilder<IN, OUT, SELF>> implements InputGuardBuilder<IN, OUT, SELF> {
 
@@ -16,6 +17,8 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	protected AbstractInputGuardBuilder(InputGuard<IN, OUT> previous) {
 		this.guard = Objects.requireNonNull(previous);
 	}
+
+	protected abstract SELF newInstance(InputGuard<IN, OUT> guard);
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -34,11 +37,19 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	}
 
 	@Override
+	public SELF validate(Predicate<OUT> validationPredicate, Function<OUT, String> errorMessageFunction) {
+		return this.validate(value -> validationPredicate.test(value) ? null : new ValidationError.GenericError(errorMessageFunction.apply(value)));
+	}
+
+	@Override
+	public SELF validate(Predicate<OUT> validationPredicate, String errorMessage) {
+		return this.validate(validationPredicate, value -> errorMessage);
+	}
+
+	@Override
 	public SELF apply(InputGuard<OUT, OUT> guard) {
 		return newInstance(this.build().andThen(guard));
 	}
-
-	protected abstract SELF newInstance(InputGuard<IN, OUT> guard);
 
 	@SuppressWarnings("unchecked")
 	@Override

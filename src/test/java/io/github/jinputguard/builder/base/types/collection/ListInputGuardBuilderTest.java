@@ -2,8 +2,8 @@ package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.ProcessFailureAssert;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardFailureAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.ValidationError;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,7 +27,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of("a", "bb", "ccc", "d", "eeee", "f", ""));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(List.of("bb", "ccc", "eeee"));
 		}
 
@@ -44,7 +44,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of("a"));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(List.of("a"));
 
 			Assertions.assertThat(actualResult.get())
@@ -59,7 +59,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of());
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.isValidationFailure()
 				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
@@ -78,7 +78,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of("0", "1", "2"));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(List.of(0, 1, 2));
 
 			Assertions.assertThat(actualResult.get())
@@ -99,7 +99,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(List.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
@@ -115,7 +115,7 @@ class ListInputGuardBuilderTest {
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(List.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
@@ -139,7 +139,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", "", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -161,7 +161,7 @@ class ListInputGuardBuilderTest {
 				listWithNull.add(null);
 				var actualResult = listGuard.process(listWithNull);
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", "", "a", "b", "c", "!"));
 
 				Assertions.assertThat(actualResult.get())
@@ -178,7 +178,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -194,7 +194,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", "", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -211,7 +211,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -232,7 +232,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of("", " ", " a", "b ", " c "));
 
 				Assertions.assertThat(actualResult.get())
@@ -249,21 +249,21 @@ class ListInputGuardBuilderTest {
 				var value = List.of("", "abc", "", "123", "");
 				var actualResult = listGuard.process(value);
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
 					.isMultiFailure()
 					.hasRootPath()
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
-							fail1 -> ProcessFailureAssert.assertThat(fail1)
+							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
 								.hasPathEqualTo(Path.createIndexPath(0))
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail2 -> ProcessFailureAssert.assertThat(fail2)
+							fail2 -> GuardFailureAssert.assertThat(fail2)
 								.isValidationFailure()
 								.hasPathEqualTo(Path.createIndexPath(2))
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail3 -> ProcessFailureAssert.assertThat(fail3)
+							fail3 -> GuardFailureAssert.assertThat(fail3)
 								.isValidationFailure()
 								.hasPathEqualTo(Path.createIndexPath(4))
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
@@ -281,21 +281,21 @@ class ListInputGuardBuilderTest {
 				var value = List.of("", "abc", "", "123", "");
 				var actualResult = listGuard.process(value).atPath(Path.createPropertyPath("myList"));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
 					.isMultiFailure()
 					.hasPathEqualTo("myList")
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
-							fail1 -> ProcessFailureAssert.assertThat(fail1)
+							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
 								.hasPathEqualTo("myList[0]")
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail2 -> ProcessFailureAssert.assertThat(fail2)
+							fail2 -> GuardFailureAssert.assertThat(fail2)
 								.isValidationFailure()
 								.hasPathEqualTo("myList[2]")
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail3 -> ProcessFailureAssert.assertThat(fail3)
+							fail3 -> GuardFailureAssert.assertThat(fail3)
 								.isValidationFailure()
 								.hasPathEqualTo("myList[4]")
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
@@ -317,7 +317,7 @@ class ListInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(List.of("0", "1", "2"));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(List.of(0, 1, 2));
 
 				Assertions.assertThat(actualResult.get())

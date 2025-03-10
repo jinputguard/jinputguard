@@ -1,16 +1,10 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.InputGuardFailureException;
-import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.GuardFailure;
-import io.github.jinputguard.result.GuardResult;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationFailure;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class ProcessResultTest {
+class GuardResultTest {
 
 	private static final GuardResult<Object> SUCCESS_WITH_NULL = GuardResult.success(null);
 	private static final Object OBJECT = new Object();
@@ -25,7 +19,7 @@ class ProcessResultTest {
 
 		@Test
 		void sucess() {
-			ProcessResultAssert.assertThat(GuardResult.success(""))
+			GuardResultAssert.assertThat(GuardResult.success(""))
 				.isSuccessWithValue("");
 		}
 
@@ -33,7 +27,7 @@ class ProcessResultTest {
 		void failure() {
 			var error = new ValidationError.ObjectIsNull();
 			var failure = new ValidationFailure(null, error);
-			ProcessResultAssert.assertThat(GuardResult.failure(failure))
+			GuardResultAssert.assertThat(GuardResult.failure(failure))
 				.isFailure(failure);
 		}
 
@@ -151,7 +145,7 @@ class ProcessResultTest {
 		void when_success() {
 			var path = Path.createPropertyPath("value").atIndex(0);
 			var actualResult = SUCCESS_WITH_ANY.atPath(path);
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(SUCCESS_WITH_ANY.get());
 		}
 
@@ -159,7 +153,7 @@ class ProcessResultTest {
 		void when_failure() {
 			var path = Path.createPropertyPath("value").atIndex(0);
 			var actualResult = FAILURE_WITH_ANY.atPath(path);
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isFailure(FAILURE_WITH_ANY.getFailure().atPath(path));
 		}
 
@@ -171,19 +165,19 @@ class ProcessResultTest {
 		@Test
 		void when_success_with_null() {
 			Assertions.assertThat(SUCCESS_WITH_NULL.toString())
-				.isEqualTo("ProcessResult<Success>: null");
+				.isEqualTo("GuardResult<Success>: null");
 		}
 
 		@Test
 		void when_success_with_anyObject() {
 			Assertions.assertThat(SUCCESS_WITH_ANY.toString())
-				.isEqualTo("ProcessResult<Success>: " + OBJECT.toString());
+				.isEqualTo("GuardResult<Success>: " + OBJECT.toString());
 		}
 
 		@Test
 		void when_failure_with_anyReason() {
 			Assertions.assertThat(FAILURE_WITH_ANY.toString())
-				.isEqualTo("ProcessResult<Failure>: " + FAILURE.toString());
+				.isEqualTo("GuardResult<Failure>: " + FAILURE.toString());
 		}
 
 	}

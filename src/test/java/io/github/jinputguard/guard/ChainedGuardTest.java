@@ -3,7 +3,7 @@ package io.github.jinputguard.guard;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.ChainedGuard;
 import io.github.jinputguard.result.GuardResult;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.ValidationError;
 import io.github.jinputguard.result.ValidationFailure;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,7 +35,7 @@ class ChainedGuardTest {
 		var guard = new ChainedGuard<>(subGuard1, subGuard2);
 		var actualResult = guard.process("0");
 
-		ProcessResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2");
+		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2");
 	}
 
 	@Test
@@ -45,9 +45,9 @@ class ChainedGuardTest {
 		var validationFailure = new ValidationFailure("0", validationError);
 		InputGuard<String, String> subGuard1 = value -> GuardResult.failure(validationFailure);
 
-		var secondProcessIsCalled = new AtomicBoolean(false);
+		var secondGuardIsCalled = new AtomicBoolean(false);
 		InputGuard<String, String> subGuard2 = value -> {
-			secondProcessIsCalled.set(true);
+			secondGuardIsCalled.set(true);
 			return GuardResult.success("2");
 		};
 
@@ -55,8 +55,8 @@ class ChainedGuardTest {
 
 		var actualResult = guard.process("0");
 
-		ProcessResultAssert.assertThat(actualResult).isFailure(validationFailure);
-		Assertions.assertThat(secondProcessIsCalled).isFalse();
+		GuardResultAssert.assertThat(actualResult).isFailure(validationFailure);
+		Assertions.assertThat(secondGuardIsCalled).isFalse();
 	}
 
 	@Nested
@@ -73,7 +73,7 @@ class ChainedGuardTest {
 
 			var actualResult = guard.process("0");
 
-			ProcessResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2-3");
+			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2-3");
 		}
 
 	}
@@ -92,7 +92,7 @@ class ChainedGuardTest {
 
 			var actualResult = guard.process("0");
 
-			ProcessResultAssert.assertThat(actualResult).isSuccessWithValue("0-3-1-2");
+			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-3-1-2");
 		}
 
 	}

@@ -1,7 +1,10 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardResultAssert;
+import io.github.jinputguard.result.InputGuardFailureExceptionAssert;
+import io.github.jinputguard.result.Path;
+import java.util.Objects;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -21,7 +24,7 @@ class ObjectInputGuardBuilderTest {
 
 			var actualResult = guard.process(null);
 
-			ProcessResultAssert.assertThat(actualResult).isSuccessWithValue("null-1");
+			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("null-1");
 		}
 
 		@Test
@@ -31,8 +34,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue("null-1");
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue("null-1");
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -42,8 +45,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue(null);
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue(null);
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -53,8 +56,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isFailure().isValidationFailure();
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isFailure().isValidationFailure();
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -64,8 +67,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue("default-1");
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue("default-1");
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -87,8 +90,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue(null);
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue(null);
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -102,8 +105,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue("plop-1");
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue("plop-1");
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1");
 		}
 
 		@Test
@@ -121,8 +124,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-5")
 				.build();
 
-			ProcessResultAssert.assertThat(guard.process(null)).isSuccessWithValue("null-2-3-4-5");
-			ProcessResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1-2-3-4-5");
+			GuardResultAssert.assertThat(guard.process(null)).isSuccessWithValue("null-2-3-4-5");
+			GuardResultAssert.assertThat(guard.process("val")).isSuccessWithValue("val-1-2-3-4-5");
 		}
 
 	}
@@ -159,14 +162,14 @@ class ObjectInputGuardBuilderTest {
 			@Test
 			void when_applyWithNull_then_function_is_called() {
 				var actualResult = GUARD.process(null);
-				ProcessResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
+				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
 			}
 
 			@Test
 			void when_apply_then_function_is_called() {
 				var nonNullObject = new Object();
 				var actualResult = GUARD.process(nonNullObject);
-				ProcessResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
+				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
 			}
 
 		}
@@ -176,21 +179,96 @@ class ObjectInputGuardBuilderTest {
 	@Nested
 	class ValidationTest {
 
-		@Test
-		void when_exception() {
-			var exception = new RuntimeException("any runtime exception happening :-/");
-			var guard = InputGuard.builder().forClass(Object.class)
-				.validate(value -> {
-					throw exception;
-				})
-				.build();
+		@Nested
+		class ValidateTest {
 
-			final var value = new Object();
+			@Test
+			void when_exception() {
+				var exception = new RuntimeException("any runtime exception happening :-/");
+				var guard = InputGuard.builder().forClass(Object.class)
+					.validate(value -> {
+						throw exception;
+					})
+					.build();
 
-			Assertions.assertThatRuntimeException()
-				.isThrownBy(() -> guard.process(value))
-				.isEqualTo(exception);
+				final var value = new Object();
+
+				Assertions.assertThatRuntimeException()
+					.isThrownBy(() -> guard.process(value))
+					.isEqualTo(exception);
+			}
+
 		}
+
+		@Nested
+		class Validate_Predicate_Function_Test {
+
+			private static InputGuard<Object, Object> GUARD;
+
+			@BeforeAll
+			static void setup() {
+				GUARD = InputGuard.builder().forClass(Object.class)
+					.validate(Objects::isNull, value -> "object is not null: " + value)
+					.build();
+			}
+
+			@Test
+			void success() {
+				var actualResult = GUARD.process(null);
+
+				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
+			}
+
+			@Test
+			void failure() {
+				var actualResult = GUARD.process("plop");
+
+				GuardResultAssert.assertThat(actualResult)
+					.isFailure()
+					.isValidationFailure()
+					.errorAssert(assertor -> assertor.isGenericError("object is not null: plop"));
+			}
+
+		}
+
+		@Nested
+		class Validate_Predicate_String_Test {
+
+			private static InputGuard<Object, Object> GUARD;
+
+			@BeforeAll
+			static void setup() {
+				GUARD = InputGuard.builder().forClass(Object.class)
+					.validate(Objects::isNull, "object is not null")
+					.build();
+			}
+
+			@Test
+			void success() {
+				var actualResult = GUARD.process(null);
+
+				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
+			}
+
+			@Test
+			void failure() {
+				var actualResult = GUARD.process("plop");
+
+				GuardResultAssert.assertThat(actualResult)
+					.isFailure()
+					.isValidationFailure()
+					.errorAssert(assertor -> assertor.isGenericError("object is not null"));
+
+				InputGuardFailureExceptionAssert.assertThat(actualResult.getFailure().toException())
+					.hasMessage(Path.root(), "object is not null");
+			}
+
+		}
+
+	}
+
+	@Nested
+	class ValidateThatTest {
 
 		@Nested
 		class IsNotNullTest {
@@ -207,7 +285,7 @@ class ObjectInputGuardBuilderTest {
 			@Test
 			void when_null_then_failure() {
 				var actual = GUARD.process(null);
-				ProcessResultAssert.assertThat(actual)
+				GuardResultAssert.assertThat(actual)
 					.isFailure()
 					.isValidationFailure()
 					.errorAssert(errorAssert -> errorAssert.isObjectIsNull());
@@ -217,98 +295,98 @@ class ObjectInputGuardBuilderTest {
 			void when_nonNull_then_success() {
 				final var nonNullObject = new Object();
 				var actual = GUARD.process(nonNullObject);
-				ProcessResultAssert.assertThat(actual).isSuccessWithValue(nonNullObject);
+				GuardResultAssert.assertThat(actual).isSuccessWithValue(nonNullObject);
 			}
 
-		}
+			@Nested
+			class IsInstanceOfTest {
 
-		@Nested
-		class IsInstanceOfTest {
+				private static InputGuard<Number, Number> GUARD_FOR_NUMBER;
+				private static InputGuard<Number, Number> GUARD_FOR_INTEGER;
 
-			private static InputGuard<Number, Number> GUARD_FOR_NUMBER;
-			private static InputGuard<Number, Number> GUARD_FOR_INTEGER;
+				@BeforeAll
+				static void setup() {
+					GUARD_FOR_NUMBER = InputGuard.builder().forClass(Number.class)
+						.validateThat().isInstanceOf(Number.class).then()
+						.build();
+					GUARD_FOR_INTEGER = InputGuard.builder().forClass(Number.class)
+						.validateThat().isInstanceOf(Integer.class).then()
+						.build();
+				}
 
-			@BeforeAll
-			static void setup() {
-				GUARD_FOR_NUMBER = InputGuard.builder().forClass(Number.class)
-					.validateThat().isInstanceOf(Number.class).then()
-					.build();
-				GUARD_FOR_INTEGER = InputGuard.builder().forClass(Number.class)
-					.validateThat().isInstanceOf(Integer.class).then()
-					.build();
+				@Test
+				void when_null_then_failure() {
+					// null is not instance of Integer
+					var actual = GUARD_FOR_INTEGER.process(null);
+					GuardResultAssert.assertThat(actual)
+						.isFailure()
+						.isValidationFailure()
+						.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(null, Integer.class));
+				}
+
+				@Test
+				void when_sameType_then_success() {
+					// Integer is instance of Integer
+					final var intValue = Integer.valueOf(3);
+					var actual = GUARD_FOR_INTEGER.process(intValue);
+					GuardResultAssert.assertThat(actual).isSuccessWithValue(intValue);
+				}
+
+				@Test
+				void when_superType_then_success() {
+					// Integer is instance of Number
+					final var intValue = Integer.valueOf(3);
+					var actual = GUARD_FOR_NUMBER.process(intValue);
+					GuardResultAssert.assertThat(actual).isSuccessWithValue(intValue);
+				}
+
+				@Test
+				void when_otherType_then_failure() {
+					// Long is not instance of Integer
+					final var longValue = Long.valueOf(3L);
+					var actual = GUARD_FOR_INTEGER.process(longValue);
+					GuardResultAssert.assertThat(actual)
+						.isFailure()
+						.isValidationFailure()
+						.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(Long.class, Integer.class));
+				}
+
 			}
 
-			@Test
-			void when_null_then_failure() {
-				// null is not instance of Integer
-				var actual = GUARD_FOR_INTEGER.process(null);
-				ProcessResultAssert.assertThat(actual)
-					.isFailure()
-					.isValidationFailure()
-					.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(null, Integer.class));
-			}
+			@Nested
+			class IsEqualTo {
 
-			@Test
-			void when_sameType_then_success() {
-				// Integer is instance of Integer
-				final var intValue = Integer.valueOf(3);
-				var actual = GUARD_FOR_INTEGER.process(intValue);
-				ProcessResultAssert.assertThat(actual).isSuccessWithValue(intValue);
-			}
+				private static InputGuard<String, String> GUARD_FOR_STRING;
 
-			@Test
-			void when_superType_then_success() {
-				// Integer is instance of Number
-				final var intValue = Integer.valueOf(3);
-				var actual = GUARD_FOR_NUMBER.process(intValue);
-				ProcessResultAssert.assertThat(actual).isSuccessWithValue(intValue);
-			}
+				@BeforeAll
+				static void setup() {
+					GUARD_FOR_STRING = InputGuard.builder().forString()
+						.validateThat().isEqualTo("expected").then()
+						.build();
+				}
 
-			@Test
-			void when_otherType_then_failure() {
-				// Long is not instance of Integer
-				final var longValue = Long.valueOf(3L);
-				var actual = GUARD_FOR_INTEGER.process(longValue);
-				ProcessResultAssert.assertThat(actual)
-					.isFailure()
-					.isValidationFailure()
-					.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(Long.class, Integer.class));
-			}
+				@Test
+				void when_null_then_failure() {
+					var actual = GUARD_FOR_STRING.process(null);
+					GuardResultAssert.assertThat(actual).isFailure()
+						.isValidationFailure()
+						.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
+				}
 
-		}
+				@Test
+				void when_notEqualValue_then_failure() {
+					var actual = GUARD_FOR_STRING.process("other");
+					GuardResultAssert.assertThat(actual).isFailure()
+						.isValidationFailure()
+						.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
+				}
 
-		@Nested
-		class IsEqualTo {
+				@Test
+				void when_equalValue_then_failure() {
+					var actual = GUARD_FOR_STRING.process("expected");
+					GuardResultAssert.assertThat(actual).isSuccessWithValue("expected");
+				}
 
-			private static InputGuard<String, String> GUARD_FOR_STRING;
-
-			@BeforeAll
-			static void setup() {
-				GUARD_FOR_STRING = InputGuard.builder().forString()
-					.validateThat().isEqualTo("expected").then()
-					.build();
-			}
-
-			@Test
-			void when_null_then_failure() {
-				var actual = GUARD_FOR_STRING.process(null);
-				ProcessResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
-			}
-
-			@Test
-			void when_notEqualValue_then_failure() {
-				var actual = GUARD_FOR_STRING.process("other");
-				ProcessResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
-			}
-
-			@Test
-			void when_equalValue_then_failure() {
-				var actual = GUARD_FOR_STRING.process("expected");
-				ProcessResultAssert.assertThat(actual).isSuccessWithValue("expected");
 			}
 
 		}
@@ -330,7 +408,7 @@ class ObjectInputGuardBuilderTest {
 			final var value = new Object();
 			var actualResult = guard.process(value);
 
-			ProcessResultAssert.assertThat(actualResult).isFailure()
+			GuardResultAssert.assertThat(actualResult).isFailure()
 				.hasValueEqualTo(value)
 				.isMappingFailure()
 				.hasSameCause(exception);
@@ -346,7 +424,7 @@ class ObjectInputGuardBuilderTest {
 
 			var actual = guard.process(inputValue);
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue(outputValue);
+			GuardResultAssert.assertThat(actual).isSuccessWithValue(outputValue);
 		}
 
 	}

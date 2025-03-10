@@ -4,7 +4,7 @@ import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +44,7 @@ class NullStrategyGuardTest {
 		void null_case_notProcessed() {
 			var actual = NOOP_GUARD.process(null);
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue(null);
+			GuardResultAssert.assertThat(actual).isSuccessWithValue(null);
 		}
 
 		@Test
@@ -57,7 +57,7 @@ class NullStrategyGuardTest {
 		void nonNull_case() {
 			var actual = OP_GUARD.process(" val ");
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue("val");
+			GuardResultAssert.assertThat(actual).isSuccessWithValue("val");
 		}
 
 	}
@@ -76,14 +76,14 @@ class NullStrategyGuardTest {
 		void null_case() {
 			var actual = GUARD.process(null);
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue(null);
+			GuardResultAssert.assertThat(actual).isSuccessWithValue(null);
 		}
 
 		@Test
 		void nonNull_case() {
 			var actual = GUARD.process("val");
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue("val");
+			GuardResultAssert.assertThat(actual).isSuccessWithValue("val");
 		}
 
 	}
@@ -102,7 +102,7 @@ class NullStrategyGuardTest {
 		void null_case() {
 			var actual = GUARD.process(null);
 
-			ProcessResultAssert.assertThat(actual)
+			GuardResultAssert.assertThat(actual)
 				.isFailure()
 				.isValidationFailure()
 				.errorAssert(errorAssert -> errorAssert.isObjectIsNull());
@@ -112,7 +112,7 @@ class NullStrategyGuardTest {
 		void nonNull_case() {
 			var actual = GUARD.process("val");
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue("val");
+			GuardResultAssert.assertThat(actual).isSuccessWithValue("val");
 		}
 
 	}
@@ -132,14 +132,14 @@ class NullStrategyGuardTest {
 		void null_case() {
 			var actual = GUARD.process(null);
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue(DEFAULT_VALUE);
+			GuardResultAssert.assertThat(actual).isSuccessWithValue(DEFAULT_VALUE);
 		}
 
 		@Test
 		void nonNull_case() {
 			var actual = GUARD.process("val");
 
-			ProcessResultAssert.assertThat(actual).isSuccessWithValue("val");
+			GuardResultAssert.assertThat(actual).isSuccessWithValue("val");
 		}
 
 	}

@@ -2,7 +2,7 @@ package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -50,11 +50,11 @@ class IntegerInputGuardBuilderTest extends AbstractNumberInputGuardBuilderTest<I
 		@Test
 		void mapToLong() {
 			var guard = initiateGuard().mapToLong().build();
-			ProcessResultAssert.assertThat(guard.process(getMinValue())).as("mapToLong(MIN)").isSuccessWithValue(getMinValue().longValue());
-			ProcessResultAssert.assertThat(guard.process(getMinusOne())).as("mapToLong(-1)").isSuccessWithValue(getMinusOne().longValue());
-			ProcessResultAssert.assertThat(guard.process(getZero())).as("mapToLong(0)").isSuccessWithValue(getZero().longValue());
-			ProcessResultAssert.assertThat(guard.process(getOne())).as("mapToLong(1)").isSuccessWithValue(getOne().longValue());
-			ProcessResultAssert.assertThat(guard.process(getMaxValue())).as("mapToLong(MAX)").isSuccessWithValue(getMaxValue().longValue());
+			GuardResultAssert.assertThat(guard.process(getMinValue())).as("mapToLong(MIN)").isSuccessWithValue(getMinValue().longValue());
+			GuardResultAssert.assertThat(guard.process(getMinusOne())).as("mapToLong(-1)").isSuccessWithValue(getMinusOne().longValue());
+			GuardResultAssert.assertThat(guard.process(getZero())).as("mapToLong(0)").isSuccessWithValue(getZero().longValue());
+			GuardResultAssert.assertThat(guard.process(getOne())).as("mapToLong(1)").isSuccessWithValue(getOne().longValue());
+			GuardResultAssert.assertThat(guard.process(getMaxValue())).as("mapToLong(MAX)").isSuccessWithValue(getMaxValue().longValue());
 		}
 
 	}

@@ -2,8 +2,8 @@ package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.ProcessFailureAssert;
-import io.github.jinputguard.result.ProcessResultAssert;
+import io.github.jinputguard.result.GuardFailureAssert;
+import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.ValidationError;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +27,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of("a", "bb", "ccc", "d", "eeee", "f", ""));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(Set.of("bb", "ccc", "eeee"));
 		}
 
@@ -44,7 +44,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of("a"));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(Set.of("a"));
 		}
 
@@ -56,7 +56,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of());
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.isValidationFailure()
 				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
@@ -75,7 +75,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of("0", "1", "2"));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(Set.of(0, 1, 2));
 		}
 
@@ -93,7 +93,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(Set.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
@@ -109,7 +109,7 @@ class SetInputGuardBuilderTest {
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-			ProcessResultAssert.assertThat(actualResult)
+			GuardResultAssert.assertThat(actualResult)
 				.isSuccessWithValue(Set.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
@@ -133,7 +133,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", "a", "b", "c"));
 			}
 
@@ -152,7 +152,7 @@ class SetInputGuardBuilderTest {
 				listWithNull.add(null);
 				var actualResult = setGuard.process(listWithNull);
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", "a", "b", "c", "!"));
 
 				Assertions.assertThat(actualResult.get())
@@ -169,7 +169,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = listGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -185,7 +185,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -202,7 +202,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
@@ -223,7 +223,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of("", " ", " a", "b ", " c "));
 			}
 
@@ -237,12 +237,12 @@ class SetInputGuardBuilderTest {
 				var value = Set.of("", "abc", "123");
 				var actualResult = setGuard.process(value);
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
 					.isMultiFailure()
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
-							fail1 -> ProcessFailureAssert.assertThat(fail1)
+							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
 						)
@@ -259,13 +259,13 @@ class SetInputGuardBuilderTest {
 				var value = Set.of("", "abc", "123");
 				var actualResult = setGuard.process(value).atPath(Path.createPropertyPath("mySet"));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
 					.isMultiFailure()
 					.hasPathEqualTo("mySet")
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
-							fail1 -> ProcessFailureAssert.assertThat(fail1)
+							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
 								.hasPathEqualTo("mySet")
 								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
@@ -287,7 +287,7 @@ class SetInputGuardBuilderTest {
 
 				var actualResult = setGuard.process(Set.of("0", "1", "2"));
 
-				ProcessResultAssert.assertThat(actualResult)
+				GuardResultAssert.assertThat(actualResult)
 					.isSuccessWithValue(Set.of(0, 1, 2));
 
 				Assertions.assertThat(actualResult.get())

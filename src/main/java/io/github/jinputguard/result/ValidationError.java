@@ -27,6 +27,18 @@ public sealed interface ValidationError {
 	}
 
 	// ===========================================================================
+	// GENERIC
+
+	record GenericError(String message) implements ValidationError {
+
+		@Override
+		public String getConstraintMessage() {
+			return message;
+		}
+
+	}
+
+	// ===========================================================================
 	// OBJECT
 
 	record ObjectIsNull() implements ValidationError {

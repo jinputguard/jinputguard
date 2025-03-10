@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * 
  *
  */
-public class ValidationFailureAssert extends ProcessFailureAssert<ValidationFailureAssert, ValidationFailure> {
+public class ValidationFailureAssert extends GuardFailureAssert<ValidationFailureAssert, ValidationFailure> {
 
 	private ValidationFailureAssert(ValidationFailure actual) {
 		super(actual, ValidationFailureAssert.class);
