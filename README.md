@@ -17,17 +17,18 @@
 * [Introduction](#introduction)
   * [Definition](#definition)
   * [Why should I use it?](#why-should-i-use-it)
+* [Usage](#usage)
   * [Base builder](#base-builder)
   * [Specialized builders](#specialized-builders)
-* [Features](#features)
   * [Sanitization](#sanitization)
   * [Mapping](#mapping)
   * [Validation](#validation)
   * [Handling null](#handling-null)
-  * [Custom specialized builders](#custom-specialized-builders)
   * [Nesting guards](#nesting-guards)
   * [Testing result](#testing-result)
   * [Getting the value or the failure](#getting-the-value-or-the-failure)
+* [Customization](#customization)
+  * [Custom specialized builders](#custom-specialized-builders)
   * [Custom exception](#custom-exception)
 * [License](#license)
 * [Contact](#contact)
@@ -76,15 +77,17 @@ Processing an input argument consists basically in performing sequential operati
 * **mapping**: transform a value into a value of _another_ type (e.g. `String` to `Integer`, or `String` to `UUID`)
 * **validation**: verifies a value matches a given condition
 
-See [features](#Features) for more details about all available operations.
+See [usage](#usage) for more details about available operations.
 
-# Why should I use it?
+## Why should I use it?
 JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. But even if you're not using Value Objects (you should envisage it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-1019: Validate Inputs](https://cwe.mitre.org/data/definitions/1019.html): SQL/XML injections, CSRF, etc.
 
 To facilitate adoption, JInputGuards is/has:
 * Discoverable API: Thanks to fluent methods, use your IDE auto-completion to easily create and use guards.
 * Fully extensible: Write your own sanitization, transdormation or validation functions to satisfy your needs.
 * Immutability: Guards are immutable and thread-safe POJOs in their default implementation.
+
+# Usage
 
 ## Base builder
 Base guard builder is obtained by calling the `InputGuard.builder().forClass(Class<T>)` method, which returns a `InputGuardBuilder`. From there you can call generic sanitization, validation and mapping methods to configure guard process steps. These methods usualy take lambdas as arguments.
@@ -116,7 +119,6 @@ var myGuard = InputGuard.builder()
     .build();
 ```
 
-# Features
 ## Sanitization
 Sanitization is the process of applying a transformation to data while preserving its type.
 It is mainly used for cleaning input data and making it safe to use in your code (e.g., removing illegal characters from a string, clamping numbers, etc.). 
@@ -207,17 +209,6 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .build();
 ```
 
-## Custom specialized builders
-In case the specialized builder for a specific type does not (yet) exists, or you require custom guard methods, you can create it by extending `AbstractInputGuardBuilder` (see `StringInputGuardBuilder` in code as an example):
-```java
-// InputGuardBuilder.map(Function<T, R>, Function<InputGuard<T, R>, B>)
-InputGuard<String, Integer> myGuard = InputGuard.builder()
-  .forString()
-  .map(MyCustomType::parse, MyCustomTypeInputGuardBuilder::new) // Map String into MyCustomType using MyCustomType.parse(String), and return a new specialized builder
-  .anyCustomMethod(/* ... */) // Use MyCustomTypeInputGuardBuilder specialized methods
-  .build();
-```
-
 ## Nesting guards
 It is possible to reuse guards by nesting one into another.
 
@@ -270,6 +261,19 @@ You can also directly get the output value by calling the `getOrThrow()` method,
 ```java
 GuardResult<Integer> result = myGuard.process("notAnInt");
 var i = result.getOrThrow(); // throws InputGuardFailureException
+```
+
+# Customization
+
+## Custom specialized builders
+In case the specialized builder for a specific type does not (yet) exists, or you require custom guard methods, you can create it by extending `AbstractInputGuardBuilder` (see `StringInputGuardBuilder` in code as an example):
+```java
+// InputGuardBuilder.map(Function<T, R>, Function<InputGuard<T, R>, B>)
+InputGuard<String, Integer> myGuard = InputGuard.builder()
+  .forString()
+  .map(MyCustomType::parse, MyCustomTypeInputGuardBuilder::new) // Map String into MyCustomType using MyCustomType.parse(String), and return a new specialized builder
+  .anyCustomMethod(/* ... */) // Use MyCustomTypeInputGuardBuilder specialized methods
+  .build();
 ```
 
 
