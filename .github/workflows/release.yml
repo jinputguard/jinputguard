@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*'  # Runs only for version tags (e.g., v1.0.0)
+    branches:
+      - release/*
+
 
 jobs:
   release:
@@ -14,9 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Extract version from Git tag
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -29,31 +31,38 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
-      - name: Update pom.xml version
-        run: mvn versions:set -DnewVersion=${{ env.RELEASE_VERSION }}
-
-      - name: Commit version change
+      - name: Set up Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+
+      - name: Extract version from Git tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
+      - name: Update pom.xml version
+        run: |
+          mvn versions:set -DnewVersion=${{ env.RELEASE_VERSION }}
           git commit -am "Set version to ${{ env.RELEASE_VERSION }}"
-          git push origin HEAD:main  # Push the updated version back to main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         run: mvn clean test
 
-      - name: Build and package core module
+      - name: Build and package
         run: mvn clean install
 
-      - name: Publish core module to Maven Central
+      - name: Publish RELEASE to Maven Central
         run: |
           mvn -P release --batch-mode deploy -am -DskipTests
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Push version change
+        run: |
+          git push origin HEAD
 
       - name: Bump to next SNAPSHOT version
         run: |
@@ -62,7 +71,21 @@ jobs:
           NEXT_VERSION=$(echo ${{ env.RELEASE_VERSION }} | awk -F. '{print $1"."$2"."$3+1"-SNAPSHOT"}')
           mvn versions:set -DnewVersion=$NEXT_VERSION -am
           git commit -am "Set version to $NEXT_VERSION"
-          git push origin HEAD:main
+          git push origin HEAD
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Finish Git Flow Release
+        run: |
+          RELEASE_BRANCH=$(git branch --show-current)
+          git checkout main
+          git merge --no-ff $RELEASE_BRANCH -m "Merge release ${{ env.RELEASE_VERSION }} into main"
+          git push origin main
+
+          git checkout develop
+          git merge --no-ff $RELEASE_BRANCH -m "Merge release ${{ env.RELEASE_VERSION }} into develop"
+          git push origin develop
+
+          git push origin --delete $RELEASE_BRANCH || echo "Branch already deleted or not pushed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
