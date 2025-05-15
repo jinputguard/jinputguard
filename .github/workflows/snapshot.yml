@@ -5,12 +5,10 @@ on:
     branches:
       - release/*
 
-
 jobs:
   snapshot:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
