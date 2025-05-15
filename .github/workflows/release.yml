@@ -1,0 +1,76 @@
+name: Publish RELEASE to Maven Central
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    if: startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          server-id: central
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Update pom.xml version
+        run: |
+          mvn versions:set -DremoveSnapshot
+          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          git commit -am "Set version to ${{ env.RELEASE_VERSION }}"
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
+          RELEASE_BRANCH=$(git branch --show-current)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        run: mvn clean test
+
+      - name: Build and package
+        run: mvn clean install
+
+      - name: Publish RELEASE to Maven Central
+        run: |
+          mvn -P release --batch-mode deploy -am -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Merge to main branch
+        run: |
+          git checkout main
+          git merge --no-ff $RELEASE_BRANCH -m "Merge release ${{ env.RELEASE_VERSION }} into main"
+          git push origin main
+
+      - name: Merge to develop branch
+        run: |
+          git checkout develop
+          git merge --no-ff $RELEASE_BRANCH -m "Merge release ${{ env.RELEASE_VERSION }} into develop"
+          NEXT_VERSION=$(echo ${{ env.RELEASE_VERSION }} | awk -F. '{print $1"."$2"."$3+1"-SNAPSHOT"}')
+          mvn versions:set -DnewVersion=$NEXT_VERSION -am
+          git commit -am "Set version to $NEXT_VERSION"
+          git push origin develop
+
+          git push origin --delete $RELEASE_BRANCH || echo "Branch already deleted or not pushed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
