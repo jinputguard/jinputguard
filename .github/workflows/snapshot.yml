@@ -1,4 +1,4 @@
-name: Publish Core Module to Maven Central
+name: Publish SNAPSHOT to Maven Central
 
 on:
   push:
