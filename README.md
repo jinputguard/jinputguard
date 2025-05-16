@@ -41,15 +41,21 @@ Create input guards and use them at the beginning of any method to process input
 ```java
 InputGuard<String, Integer> guard = InputGuard.builder()
     .forString()
-    .sanitize().strip().then()
+    .sanitize().strip().replace(".0", "").then()
     .validateThat().isMaxLength(3).then()
     .mapToInteger()
+    .validateThat().isPositive().then()
+    .sanitize().clamp(10, 100).then()
     .build();
 ```
 * Process some input value and get the result, or throw an exception in case of failure:
 ```java
-Integer resultOK = guard.process(" 42 ").getOrThrow();    // result = 42
-Integer resultKO = guard.process(" 12345 ").getOrThrow(); // throw InputGuardFailureException "value is too long"
+Integer resultOK1 = guard.process("  42  ").getOrThrow(); // result = 42
+Integer resultOK2 = guard.process("8 ").getOrThrow();     // result = 10
+Integer resultOK3 = guard.process(" 150.0").getOrThrow(); // result = 100
+Integer resultKO4 = guard.process("12345 ").getOrThrow(); // throw InputGuardFailureException "value is too long"
+Integer resultKO5 = guard.process("-8").getOrThrow();     // throw InputGuardFailureException "value must be positive"
+Integer resultKO6 = guard.process("abc").getOrThrow();    // throw InputGuardFailureException - NumberFormatException
 ```
 
 # Installation
@@ -80,11 +86,11 @@ Processing an input argument consists basically in performing sequential operati
 See [usage](#usage) for more details about available operations.
 
 ## Why should I use it?
-JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. But even if you're not using Value Objects (you should envisage it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-1019: Validate Inputs](https://cwe.mitre.org/data/definitions/1019.html): SQL/XML injections, CSRF, etc.
+JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. But even if you're not using Value Objects (you should consider it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-1019: Validate Inputs](https://cwe.mitre.org/data/definitions/1019.html): SQL/XML injections, CSRF, etc.
 
 To facilitate adoption, JInputGuards is/has:
 * Discoverable API: Thanks to fluent methods, use your IDE auto-completion to easily create and use guards.
-* Fully extensible: Write your own sanitization, transdormation or validation functions to satisfy your needs.
+* Fully extensible: Write your own sanitization, transformation or validation functions to satisfy your needs.
 * Immutability: Guards are immutable and thread-safe POJOs in their default implementation.
 
 # Usage
