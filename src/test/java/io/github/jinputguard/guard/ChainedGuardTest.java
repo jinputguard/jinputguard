@@ -1,7 +1,6 @@
 package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.guard.ChainedGuard;
 import io.github.jinputguard.result.GuardResult;
 import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.ValidationError;
@@ -42,7 +41,7 @@ class ChainedGuardTest {
 	void when_error_in_first_then_second_is_not_processed() {
 
 		var validationError = new ValidationError.ObjectIsNull();
-		var validationFailure = new ValidationFailure("0", validationError);
+		var validationFailure = new ValidationFailure(validationError);
 		InputGuard<String, String> subGuard1 = value -> GuardResult.failure(validationFailure);
 
 		var secondGuardIsCalled = new AtomicBoolean(false);

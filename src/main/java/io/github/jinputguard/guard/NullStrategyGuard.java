@@ -2,8 +2,8 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.GuardResult;
-import io.github.jinputguard.result.ValidationFailure;
 import io.github.jinputguard.result.ValidationError.ObjectIsNull;
+import io.github.jinputguard.result.ValidationFailure;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
@@ -31,7 +31,7 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 		return switch (strategy) {
 			case Process<IN> str -> nextGuard.process(value);
 			case SkipProcess<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value);
-			case Fail<IN> str -> value == null ? GuardResult.failure(new ValidationFailure(value, new ObjectIsNull())) : nextGuard.process(value);
+			case Fail<IN> str -> value == null ? GuardResult.failure(new ValidationFailure(new ObjectIsNull())) : nextGuard.process(value);
 			case UseDefault<IN>(var defaultValue) -> value == null ? nextGuard.process(defaultValue) : nextGuard.process(value);
 		};
 	}

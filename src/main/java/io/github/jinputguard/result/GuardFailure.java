@@ -11,18 +11,12 @@ import java.util.Objects;
 public sealed abstract class GuardFailure implements Serializable
 	permits ValidationFailure, MultiFailure, MappingFailure {
 
-	protected final Object value;
 	protected final Path path;
 	protected final Throwable cause;
 
-	protected GuardFailure(@Nullable Object value, @Nonnull Path path, @Nullable Throwable cause) {
-		this.value = value;
+	protected GuardFailure(@Nonnull Path path, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
 		this.cause = cause;
-	}
-
-	public Object getValue() {
-		return value;
 	}
 
 	public Path getPath() {

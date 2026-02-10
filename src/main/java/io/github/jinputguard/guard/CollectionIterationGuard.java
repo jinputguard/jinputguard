@@ -36,7 +36,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 			.map(GuardResult::getFailure)
 			.toList();
 		if (!failures.isEmpty()) {
-			return GuardResult.failure(new MultiFailure(value, failures));
+			return GuardResult.failure(new MultiFailure(failures));
 		}
 
 		var newCollection = resultMap.getOrDefault(true, List.of()).stream()

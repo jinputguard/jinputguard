@@ -24,7 +24,7 @@ public class ValidationGuard<T> implements InputGuard<T, T> {
 		var error = validationFailureFunction.apply(value);
 		return error == null
 			? GuardResult.success(value)
-			: GuardResult.failure(new ValidationFailure(value, error));
+			: GuardResult.failure(new ValidationFailure(error));
 	}
 
 	@Override

@@ -6,12 +6,12 @@ import java.util.Objects;
 
 public final class MappingFailure extends GuardFailure {
 
-	public MappingFailure(@Nullable Object value, @Nullable Throwable cause) {
-		this(value, Path.root(), cause);
+	public MappingFailure(@Nullable Throwable cause) {
+		this(Path.root(), cause);
 	}
 
-	protected MappingFailure(@Nullable Object value, @Nonnull Path path, @Nullable Throwable cause) {
-		super(value, path, cause);
+	protected MappingFailure(@Nonnull Path path, @Nullable Throwable cause) {
+		super(path, cause);
 	}
 
 	@Override
@@ -25,19 +25,18 @@ public final class MappingFailure extends GuardFailure {
 
 	@Override
 	public MappingFailure atPath(Path superPath) {
-		return new MappingFailure(value, path.atPath(superPath), cause);
+		return new MappingFailure(path.atPath(superPath), cause);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(value, path, cause);
+		return Objects.hash(path, cause);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof MappingFailure other) {
-			return Objects.equals(this.value, other.value)
-				&& Objects.equals(this.path, other.path)
+			return Objects.equals(this.path, other.path)
 				&& Objects.equals(this.cause, other.cause);
 		}
 		return false;

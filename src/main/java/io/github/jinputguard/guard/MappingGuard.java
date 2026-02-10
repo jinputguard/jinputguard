@@ -1,8 +1,8 @@
 package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.MappingFailure;
 import io.github.jinputguard.result.GuardResult;
+import io.github.jinputguard.result.MappingFailure;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
@@ -21,7 +21,7 @@ public class MappingGuard<OUT, NEW_OUT> implements InputGuard<OUT, NEW_OUT> {
 			NEW_OUT outValue = mappingFunction.apply(value);
 			return GuardResult.success(outValue);
 		} catch (Exception e) {
-			return GuardResult.failure(new MappingFailure(value, e));
+			return GuardResult.failure(new MappingFailure(e));
 		}
 	}
 

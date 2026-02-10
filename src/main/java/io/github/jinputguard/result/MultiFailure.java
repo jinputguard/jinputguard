@@ -1,7 +1,6 @@
 package io.github.jinputguard.result;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -13,12 +12,12 @@ public final class MultiFailure extends GuardFailure {
 
 	private final @Nonnull List<GuardFailure> failures;
 
-	public MultiFailure(@Nullable Object value, List<GuardFailure> failures) {
-		this(value, failures, Path.root(), null);
+	public MultiFailure(List<GuardFailure> failures) {
+		this(failures, Path.root(), null);
 	}
 
-	protected MultiFailure(@Nullable Object value, List<GuardFailure> failures, Path path, Throwable cause) {
-		super(value, path, cause);
+	protected MultiFailure(List<GuardFailure> failures, Path path, Throwable cause) {
+		super(path, cause);
 		this.failures = Objects.requireNonNull(failures, "failures cannot be null");
 	}
 
@@ -35,19 +34,18 @@ public final class MultiFailure extends GuardFailure {
 	@Override
 	public MultiFailure atPath(Path superPath) {
 		var newFailures = failures.stream().map(failure -> failure.atPath(superPath)).toList();
-		return new MultiFailure(value, newFailures, path.atPath(superPath), cause);
+		return new MultiFailure(newFailures, path.atPath(superPath), cause);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(value, path, failures);
+		return Objects.hash(path, failures);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof MultiFailure other) {
-			return Objects.equals(this.value, other.value)
-				&& Objects.equals(this.path, other.path)
+			return Objects.equals(this.path, other.path)
 				&& Objects.equals(this.cause, other.cause)
 				&& Objects.equals(this.failures, other.failures);
 		}

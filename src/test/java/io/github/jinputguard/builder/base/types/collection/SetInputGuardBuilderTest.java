@@ -268,12 +268,10 @@ class SetInputGuardBuilderTest {
 							fail1 -> GuardFailureAssert.assertThat(fail1)
 								.isValidationFailure()
 								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
-								.hasValueEqualTo("abc")
 								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2)),
 							fail2 -> GuardFailureAssert.assertThat(fail2)
 								.isValidationFailure()
 								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
-								.hasValueEqualTo("123")
 								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2))
 						)
 					);

@@ -11,7 +11,7 @@ class GuardResultTest {
 	private static final GuardResult<Object> SUCCESS_WITH_ANY = GuardResult.success(OBJECT);
 
 	private static final ValidationError ERROR = new ValidationError.ObjectIsNull();
-	private static final GuardFailure FAILURE = new ValidationFailure(OBJECT, ERROR);
+	private static final GuardFailure FAILURE = new ValidationFailure(ERROR);
 	private static final GuardResult<Object> FAILURE_WITH_ANY = GuardResult.failure(FAILURE);
 
 	@Nested
@@ -26,7 +26,7 @@ class GuardResultTest {
 		@Test
 		void failure() {
 			var error = new ValidationError.ObjectIsNull();
-			var failure = new ValidationFailure(null, error);
+			var failure = new ValidationFailure(error);
 			GuardResultAssert.assertThat(GuardResult.failure(failure))
 				.isFailure(failure);
 		}
@@ -245,7 +245,7 @@ class GuardResultTest {
 
 		@Test
 		void test_equals_and_hash_code_onNotSameFailure_() {
-			var otherDifferent = GuardResult.failure(new ValidationFailure(null, new ValidationError.StringIsEmpty()));
+			var otherDifferent = GuardResult.failure(new ValidationFailure(new ValidationError.StringIsEmpty()));
 			Assertions.assertThat(FAILURE_WITH_ANY).isNotEqualTo(otherDifferent);
 		}
 

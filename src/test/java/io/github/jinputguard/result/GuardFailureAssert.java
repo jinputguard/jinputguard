@@ -1,10 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.MappingFailure;
-import io.github.jinputguard.result.MultiFailure;
-import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.GuardFailure;
-import io.github.jinputguard.result.ValidationFailure;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
@@ -42,22 +37,6 @@ public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T exte
 
 	public SELF messageStartWith(String expected) {
 		return messageAssert(assertor -> assertor.startsWith(expected));
-	}
-
-	// -------------------------------------------------------------------------------------------
-	// VALUE
-
-	public SELF valueSatisfies(Consumer<Object> consumer) {
-		consumer.accept(actual.getValue());
-		return myself;
-	}
-
-	public SELF valueAssert(Consumer<AbstractAssert<?, Object>> consumer) {
-		return valueSatisfies(value -> consumer.accept(Assertions.assertThat(value)));
-	}
-
-	public SELF hasValueEqualTo(Object expected) {
-		return valueAssert(assertor -> assertor.isEqualTo(expected));
 	}
 
 	// -------------------------------------------------------------------------------------------

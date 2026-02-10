@@ -409,7 +409,6 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value);
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.hasValueEqualTo(value)
 				.isMappingFailure()
 				.hasSameCause(exception);
 		}
