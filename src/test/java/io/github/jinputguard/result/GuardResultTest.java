@@ -111,7 +111,7 @@ class GuardResultTest {
 		void when_failure_with_anyReason_then_exception() {
 			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
 				.isThrownBy(() -> FAILURE_WITH_ANY.getOrThrow())
-				.extracting(InputGuardFailureException::getFailure).isEqualTo(FAILURE);
+				.extracting(InputGuardFailureException::getPath).isEqualTo(Path.root());
 		}
 
 	}

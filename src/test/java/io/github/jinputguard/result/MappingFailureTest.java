@@ -33,7 +33,7 @@ class MappingFailureTest {
 
 			InputGuardFailureExceptionAssert.assertThat(actual)
 				.hasMessage(failure.getMessage())
-				.hasFailure(failure)
+				.hasPath(Path.root())
 				.hasCause(cause);
 		}
 

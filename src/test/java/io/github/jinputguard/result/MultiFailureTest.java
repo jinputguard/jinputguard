@@ -37,7 +37,7 @@ class MultiFailureTest {
 
 			InputGuardFailureExceptionAssert.assertThat(actual)
 				.hasMessage(failure.getMessage())
-				.hasFailure(failure)
+				.hasPath(Path.root())
 				.hasNoCause();
 		}
 
