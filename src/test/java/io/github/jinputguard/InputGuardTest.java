@@ -1,7 +1,5 @@
 package io.github.jinputguard;
 
-import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardResult;
 import io.github.jinputguard.result.GuardResultAssert;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.GuardResultAssert;
+import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.ValidationError;
 import java.util.ArrayList;
 import java.util.LinkedList;

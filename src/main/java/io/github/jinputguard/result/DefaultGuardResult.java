@@ -1,5 +1,6 @@
 package io.github.jinputguard.result;
 
+import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -16,12 +17,12 @@ import java.util.function.Function;
  * 
  * @param <T>
  */
-public class GuardResult<T> {
+public class DefaultGuardResult<T> implements GuardResult<T> {
 
 	private final @Nullable T value;
 	private final @Nullable GuardFailure failure;
 
-	private GuardResult(@Nullable T value, @Nullable GuardFailure failure) {
+	public DefaultGuardResult(@Nullable T value, @Nullable GuardFailure failure) {
 		this.value = value;
 		this.failure = failure;
 	}
@@ -36,7 +37,7 @@ public class GuardResult<T> {
 	 */
 	@Nonnull
 	public static <OUT> GuardResult<OUT> success(@Nullable OUT value) {
-		return new GuardResult<OUT>(value, null);
+		return new DefaultGuardResult<OUT>(value, null);
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class GuardResult<T> {
 	@Nonnull
 	public static <OUT> GuardResult<OUT> failure(@Nonnull GuardFailure failure) {
 		Objects.requireNonNull(failure, "failure cannot be null");
-		return new GuardResult<>(null, failure);
+		return new DefaultGuardResult<>(null, failure);
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -60,6 +61,7 @@ public class GuardResult<T> {
 	 * 
 	 * @return	<code>true</code> if this result is a success, <code>false</code> if it is a failure
 	 */
+	@Override
 	public boolean isSuccess() {
 		return failure == null;
 	}
@@ -69,6 +71,7 @@ public class GuardResult<T> {
 	 * 
 	 * @return	<code>true</code> if this result is a failure, <code>false</code> if it is a success
 	 */
+	@Override
 	public boolean isFailure() {
 		return !isSuccess();
 	}
@@ -80,6 +83,7 @@ public class GuardResult<T> {
 	 * 
 	 * @throws IllegalStateException if guard result is failure
 	 */
+	@Override
 	@Nonnull
 	public T get() {
 		if (isFailure()) {
@@ -95,6 +99,7 @@ public class GuardResult<T> {
 	 * 
 	 * @throws InputGuardFailureException if guard failed
 	 */
+	@Override
 	@Nonnull
 	public T getOrThrow() {
 		return getOrThrow(failure -> failure.toException());
@@ -125,6 +130,7 @@ public class GuardResult<T> {
 	 * 
 	 * @see GuardFailure
 	 */
+	@Override
 	@Nonnull
 	public GuardFailure getFailure() {
 		if (isSuccess()) {
@@ -151,7 +157,7 @@ public class GuardResult<T> {
 		if (isSuccess()) {
 			return this;
 		}
-		return new GuardResult<>(value, failure.atPath(path));
+		return new DefaultGuardResult<>(value, failure.atPath(path));
 	}
 
 	// ===========================================================================================================
@@ -169,7 +175,7 @@ public class GuardResult<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GuardResult<?> other = (GuardResult<?>) obj;
+		DefaultGuardResult<?> other = (DefaultGuardResult<?>) obj;
 		return Objects.equals(failure, other.failure)
 			&& Objects.equals(value, other.value);
 	}

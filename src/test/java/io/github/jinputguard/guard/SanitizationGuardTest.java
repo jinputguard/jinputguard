@@ -1,7 +1,6 @@
 package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.guard.SanitizationGuard;
 import io.github.jinputguard.result.GuardResultAssert;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;

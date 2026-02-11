@@ -1,7 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.MultiFailure;
-import io.github.jinputguard.result.GuardFailure;
 import java.util.List;
 import java.util.function.Consumer;
 import org.assertj.core.api.Assertions;

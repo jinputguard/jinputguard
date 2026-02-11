@@ -1,6 +1,5 @@
 package io.github.jinputguard.util;
 
-import io.github.jinputguard.util.NamedPredicate;
 import java.util.function.Predicate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package io.github.jinputguard.guard;
 
+import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardResult;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;

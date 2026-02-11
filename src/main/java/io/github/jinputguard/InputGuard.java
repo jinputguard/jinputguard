@@ -1,7 +1,6 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.Builder;
-import io.github.jinputguard.result.GuardResult;
 import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

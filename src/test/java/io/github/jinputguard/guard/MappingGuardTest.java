@@ -1,6 +1,5 @@
 package io.github.jinputguard.guard;
 
-import io.github.jinputguard.guard.MappingGuard;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;

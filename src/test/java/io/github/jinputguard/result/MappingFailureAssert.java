@@ -1,6 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.MappingFailure;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractThrowableAssert;
 import org.assertj.core.api.Assertions;

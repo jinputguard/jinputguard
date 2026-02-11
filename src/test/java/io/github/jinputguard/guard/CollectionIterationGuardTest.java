@@ -1,9 +1,8 @@
 package io.github.jinputguard.guard;
 
+import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.guard.CollectionIterationGuard;
-import io.github.jinputguard.result.GuardResult;
 import io.github.jinputguard.util.Predicates;
 import java.util.List;
 import java.util.Set;

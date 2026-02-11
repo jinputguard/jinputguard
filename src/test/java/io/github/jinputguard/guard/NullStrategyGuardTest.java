@@ -2,7 +2,6 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;

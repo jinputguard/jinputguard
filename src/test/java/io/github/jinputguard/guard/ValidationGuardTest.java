@@ -1,6 +1,5 @@
 package io.github.jinputguard.guard;
 
-import io.github.jinputguard.guard.ValidationGuard;
 import io.github.jinputguard.result.ValidationError;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;

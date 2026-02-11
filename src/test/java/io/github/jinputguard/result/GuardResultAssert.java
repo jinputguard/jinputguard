@@ -1,7 +1,6 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.GuardFailure;
-import io.github.jinputguard.result.GuardResult;
+import io.github.jinputguard.GuardResult;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
