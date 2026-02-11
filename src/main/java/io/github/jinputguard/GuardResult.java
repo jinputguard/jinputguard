@@ -2,7 +2,6 @@ package io.github.jinputguard;
 
 import io.github.jinputguard.result.DefaultGuardResult;
 import io.github.jinputguard.result.InputGuardFailureException;
-import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
@@ -63,21 +62,6 @@ public interface GuardResult<T> {
 	 */
 	@Nonnull
 	GuardFailure getFailure();
-
-	// ------------------------------------------------------------------------------------------------------------
-
-	/**
-	 * Modify the path of the result to place it under the given path.
-	 * See {@link Path#atPath(Path)}) for more details.
-	 * 
-	 * @param path	The path that comes over the existing path
-	 * 
-	 * @return		A new result
-	 * 
-	 * @see Path
-	 */
-	@Nonnull
-	public GuardResult<T> atPath(@Nonnull Path path);
 
 	// ------------------------------------------------------------------------------------------------------------
 

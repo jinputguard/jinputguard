@@ -2,6 +2,7 @@ package io.github.jinputguard.guard.sanitization;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
@@ -15,7 +16,7 @@ public class SanitizationGuard<T> implements InputGuard<T, T> {
 	}
 
 	@Override
-	public GuardResult<T> process(T value) {
+	public GuardResult<T> process(T value, @Nonnull Path path) {
 		T newValue = sanitizationFunction.apply(value);
 		return GuardResult.success(newValue);
 	}

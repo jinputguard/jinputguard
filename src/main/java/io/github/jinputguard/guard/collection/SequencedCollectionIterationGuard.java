@@ -27,11 +27,11 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 	}
 
 	@Override
-	public GuardResult<C_OUT> process(C_IN value) {
+	public GuardResult<C_OUT> process(C_IN value, @Nonnull Path path) {
 
 		var iter = value.iterator();
 		var resultMap = IntStream.range(0, value.size())
-			.mapToObj(index -> processElement(iter.next(), index))
+			.mapToObj(index -> processElement(iter.next(), path.atIndex(index)))
 			.filter(elem -> elem != null)
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
@@ -40,7 +40,7 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 			.map(GuardResult::getFailure)
 			.toList();
 		if (!failures.isEmpty()) {
-			return GuardResult.failure(new MultiFailure(failures));
+			return GuardResult.failure(new MultiFailure(failures, path));
 		}
 
 		var newCollection = resultMap.getOrDefault(true, List.of()).stream()
@@ -49,12 +49,11 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 		return GuardResult.success(newCollection);
 	}
 
-	private GuardResult<OUT> processElement(T elem, int index) {
+	private GuardResult<OUT> processElement(T elem, Path indexPath) {
 		if (!elementFilter.test(elem)) {
 			return null;
 		}
-		return elementGuard.process(elem)
-			.atPath(Path.createIndexPath(index));
+		return elementGuard.process(elem, indexPath);
 	}
 
 	@Override

@@ -10,12 +10,13 @@ import org.junit.jupiter.api.Test;
 
 class GuardResultTest {
 
+	private static final Path BASE_PATH = Path.create("myVal");
 	private static final GuardResult<Object> SUCCESS_WITH_NULL = GuardResult.success(null);
 	private static final Object OBJECT = new Object();
 	private static final GuardResult<Object> SUCCESS_WITH_ANY = GuardResult.success(OBJECT);
 
 	private static final ValidationError ERROR = new ValidationError.ObjectIsNull();
-	private static final GuardFailure FAILURE = new ValidationFailure(ERROR);
+	private static final GuardFailure FAILURE = new ValidationFailure(ERROR, BASE_PATH);
 	private static final GuardResult<Object> FAILURE_WITH_ANY = GuardResult.failure(FAILURE);
 
 	@Nested
@@ -30,7 +31,7 @@ class GuardResultTest {
 		@Test
 		void failure() {
 			var error = new ValidationError.ObjectIsNull();
-			var failure = new ValidationFailure(error);
+			var failure = new ValidationFailure(error, BASE_PATH);
 			GuardResultAssert.assertThat(GuardResult.failure(failure))
 				.isFailure(failure);
 		}
@@ -115,7 +116,7 @@ class GuardResultTest {
 		void when_failure_with_anyReason_then_exception() {
 			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
 				.isThrownBy(() -> FAILURE_WITH_ANY.getOrThrow())
-				.extracting(InputGuardFailureException::getPath).isEqualTo(Path.root());
+				.extracting(InputGuardFailureException::getPath).isEqualTo(BASE_PATH);
 		}
 
 	}
@@ -138,27 +139,6 @@ class GuardResultTest {
 		@Test
 		void when_failure_with_anyReason_then_exception() {
 			Assertions.assertThat(FAILURE_WITH_ANY.getFailure()).isSameAs(FAILURE);
-		}
-
-	}
-
-	@Nested
-	class AtPath {
-
-		@Test
-		void when_success() {
-			var path = Path.createPropertyPath("value").atIndex(0);
-			var actualResult = SUCCESS_WITH_ANY.atPath(path);
-			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(SUCCESS_WITH_ANY.get());
-		}
-
-		@Test
-		void when_failure() {
-			var path = Path.createPropertyPath("value").atIndex(0);
-			var actualResult = FAILURE_WITH_ANY.atPath(path);
-			GuardResultAssert.assertThat(actualResult)
-				.isFailure(FAILURE_WITH_ANY.getFailure().atPath(path));
 		}
 
 	}
@@ -242,14 +222,8 @@ class GuardResultTest {
 		}
 
 		@Test
-		void test_equals_and_hash_code_onNotSamePath() {
-			Assertions.assertThat(SUCCESS_WITH_ANY.atPath(Path.createPropertyPath("somePath")))
-				.isEqualTo(SUCCESS_WITH_ANY.atPath(Path.createPropertyPath("anyOtherPath")));
-		}
-
-		@Test
 		void test_equals_and_hash_code_onNotSameFailure_() {
-			var otherDifferent = GuardResult.failure(new ValidationFailure(new ValidationError.StringIsEmpty()));
+			var otherDifferent = GuardResult.failure(new ValidationFailure(new ValidationError.StringIsEmpty(), BASE_PATH));
 			Assertions.assertThat(FAILURE_WITH_ANY).isNotEqualTo(otherDifferent);
 		}
 

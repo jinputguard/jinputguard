@@ -8,13 +8,15 @@ import java.util.Objects;
 /**
  * A class representing the failure of a guard.
  */
-public abstract class AbstractGuardFailure implements GuardFailure {
+public class DefaultGuardFailure implements GuardFailure {
 
-	protected final Path path;
-	protected final Throwable cause;
+	private final Path path;
+	private final String message;
+	private final Throwable cause;
 
-	protected AbstractGuardFailure(@Nonnull Path path, @Nullable Throwable cause) {
+	protected DefaultGuardFailure(@Nonnull Path path, @Nonnull String message, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
+		this.message = Objects.requireNonNull(message, "message cannot be null");
 		this.cause = cause;
 	}
 
@@ -29,19 +31,16 @@ public abstract class AbstractGuardFailure implements GuardFailure {
 	}
 
 	@Override
-	public abstract String getMessage();
-
-	@Override
-	public abstract int hashCode();
-
-	@Override
-	public abstract boolean equals(Object obj);
+	public String getMessage() {
+		return message;
+	}
 
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + ":\n"
 			+ "  - Path: " + path + "\n"
-			+ "  - Message: " + getMessage();
+			+ "  - Message: " + message + "\n"
+			+ "  - Cause: " + (cause == null ? "" : cause.getMessage());
 	}
 
 }

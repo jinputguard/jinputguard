@@ -1,6 +1,5 @@
 package io.github.jinputguard.guard.collection;
 
-import io.github.jinputguard.guard.collection.MultiFailure;
 import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.guard.validation.ValidationFailure;
 import io.github.jinputguard.result.Path;
@@ -16,9 +15,10 @@ class MultiFailureTest {
 
 		@Test
 		void nominal() {
-			var subFailure1 = new ValidationFailure(new ValidationError.ObjectIsNull()).atPath(Path.createPropertyPath("subVal1"));
-			var subFailure2 = new ValidationFailure(new ValidationError.StringIsEmpty()).atPath(Path.createPropertyPath("subVal2"));
-			var failure = new MultiFailure(List.of(subFailure1, subFailure2)).atPath(Path.createPropertyPath("myVal"));
+			var path = Path.create("myVal");
+			var subFailure1 = new ValidationFailure(new ValidationError.ObjectIsNull(), path.in("subVal1"));
+			var subFailure2 = new ValidationFailure(new ValidationError.StringIsEmpty(), path.in("subVal2"));
+			var failure = new MultiFailure(List.of(subFailure1, subFailure2), path);
 
 			MultiFailureAssert.assertThat(failure)
 				.hasMessage(
@@ -35,43 +35,46 @@ class MultiFailureTest {
 
 		@Test
 		void test_equals_and_hash_code_onNull() {
-			var failure = new MultiFailure(List.of());
+			var failure = new MultiFailure(List.of(), Path.create("myVal"));
 			Assertions.assertThat(failure).isNotEqualTo(null);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onOtherObjectType() {
-			var failure = new MultiFailure(List.of());
-			Assertions.assertThat(failure).isNotEqualTo(new ValidationFailure(new ValidationError.ObjectIsNull()));
+			var failure = new MultiFailure(List.of(), Path.create("myVal"));
+			Assertions.assertThat(failure).isNotEqualTo(new ValidationFailure(new ValidationError.ObjectIsNull(), Path.create("myVal")));
 		}
 
 		@Test
 		void test_equals_and_hash_code_onSameObject() {
-			var failure = new MultiFailure(List.of());
+			var failure = new MultiFailure(List.of(), Path.create("myVal"));
 			Assertions.assertThat(failure).hasSameHashCodeAs(failure);
 			Assertions.assertThat(failure).isEqualTo(failure);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onIdenticalObject() {
-			var failure = new MultiFailure(List.of());
-			var otherFailure = new MultiFailure(List.of());
+			var failure = new MultiFailure(List.of(), Path.create("myVal"));
+			var otherFailure = new MultiFailure(List.of(), Path.create("myVal"));
 			Assertions.assertThat(failure).hasSameHashCodeAs(otherFailure);
 			Assertions.assertThat(failure).isEqualTo(otherFailure);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onNotSameValidationError() {
-			var failure = new MultiFailure(List.of());
-			var otherFailure = new MultiFailure(List.of(new ValidationFailure(new ValidationError.ObjectIsNull())));
+			var failure = new MultiFailure(List.of(), Path.create("myVal"));
+			var otherFailure = new MultiFailure(
+				List.of(new ValidationFailure(new ValidationError.ObjectIsNull(), Path.create("myVal"))),
+				Path.create("myVal")
+			);
 			Assertions.assertThat(failure).isNotEqualTo(otherFailure);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onNotSamePath() {
-			var failure = new MultiFailure(List.of());
-			Assertions.assertThat(failure.atPath(Path.createPropertyPath("somePath")))
-				.isNotEqualTo(failure.atPath(Path.createPropertyPath("anyOtherPath")));
+			var failure1 = new MultiFailure(List.of(), Path.create("myVal1"));
+			var failure2 = new MultiFailure(List.of(), Path.create("myVal2"));
+			Assertions.assertThat(failure1).isNotEqualTo(failure2);
 		}
 
 	}

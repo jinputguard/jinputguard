@@ -42,7 +42,12 @@ public interface InputGuard<IN, OUT> {
 	 * @return
 	 */
 	@Nonnull
-	GuardResult<OUT> process(@Nullable IN value);
+	GuardResult<OUT> process(@Nullable IN value, @Nonnull Path path);
+
+	@Deprecated
+	default GuardResult<OUT> process(@Nullable IN value) {
+		return process(value, Path.root());
+	}
 
 	/**
 	 * 
@@ -52,7 +57,7 @@ public interface InputGuard<IN, OUT> {
 	 */
 	@Nonnull
 	default GuardResult<OUT> process(@Nullable IN value, @Nonnull String property) {
-		return process(value).atPath(Path.createPropertyPath(property));
+		return process(value, Path.root().in(property));
 	}
 
 	// ===========================================================================================================

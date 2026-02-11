@@ -8,10 +8,6 @@ import java.util.Objects;
 
 public final class MappingFailure extends AbstractGuardFailure {
 
-	public MappingFailure(@Nullable Throwable cause) {
-		this(Path.root(), cause);
-	}
-
 	protected MappingFailure(@Nonnull Path path, @Nullable Throwable cause) {
 		super(path, cause);
 	}
@@ -24,11 +20,6 @@ public final class MappingFailure extends AbstractGuardFailure {
 	@Override
 	public Throwable getCause() {
 		return cause;
-	}
-
-	@Override
-	public MappingFailure atPath(Path superPath) {
-		return new MappingFailure(path.atPath(superPath), cause);
 	}
 
 	@Override

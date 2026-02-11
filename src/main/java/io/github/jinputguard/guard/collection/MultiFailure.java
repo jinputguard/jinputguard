@@ -15,8 +15,8 @@ public final class MultiFailure extends AbstractGuardFailure {
 
 	private final @Nonnull List<GuardFailure> failures;
 
-	public MultiFailure(List<GuardFailure> failures) {
-		this(failures, Path.root(), null);
+	public MultiFailure(List<GuardFailure> failures, Path path) {
+		this(failures, path, null);
 	}
 
 	protected MultiFailure(List<GuardFailure> failures, Path path, Throwable cause) {
@@ -32,12 +32,6 @@ public final class MultiFailure extends AbstractGuardFailure {
 	public String getMessage() {
 		return "Multiple failures while processing " + path.format() + ":\n"
 			+ failures.stream().map(GuardFailure::getMessage).map(msg -> ("- " + msg).indent(2)).collect(Collectors.joining());
-	}
-
-	@Override
-	public MultiFailure atPath(Path superPath) {
-		var newFailures = failures.stream().map(failure -> failure.atPath(superPath)).toList();
-		return new MultiFailure(newFailures, path.atPath(superPath), cause);
 	}
 
 	@Override

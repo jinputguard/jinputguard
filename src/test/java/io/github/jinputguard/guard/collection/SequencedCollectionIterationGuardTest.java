@@ -3,7 +3,6 @@ package io.github.jinputguard.guard.collection;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.guard.collection.SequencedCollectionIterationGuard;
 import io.github.jinputguard.util.Predicates;
 import java.util.List;
 import java.util.function.Predicate;
@@ -45,7 +44,7 @@ class SequencedCollectionIterationGuardTest {
 		@Test
 		void nominal() {
 			Predicate<Object> filter = Predicates.alwaysTrue();
-			InputGuard<Object, Object> elementGuard = value -> GuardResult.success(value);
+			InputGuard<Object, Object> elementGuard = (value, path) -> GuardResult.success(value);
 			Collector<Object, ?, List<Object>> collector = Collectors.toList();
 			var guard = new SequencedCollectionIterationGuard<>(filter, elementGuard, collector);
 

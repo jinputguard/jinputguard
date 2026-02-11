@@ -15,7 +15,4 @@ public interface GuardFailure {
 	@Nullable
 	Throwable getCause();
 
-	@Nonnull
-	GuardFailure atPath(Path superPath);
-
 }

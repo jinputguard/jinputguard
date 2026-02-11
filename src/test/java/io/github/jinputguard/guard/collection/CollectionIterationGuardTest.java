@@ -38,7 +38,7 @@ class CollectionIterationGuardTest {
 		@Test
 		void nominal() {
 			Predicate<Object> filter = Predicates.alwaysTrue();
-			InputGuard<Object, Object> elementGuard = value -> GuardResult.success(value);
+			InputGuard<Object, Object> elementGuard = (value,path) -> GuardResult.success(value);
 			Collector<Object, ?, Set<Object>> collector = Collectors.toSet();
 			var guard = new CollectionIterationGuard<>(filter, elementGuard, collector);
 

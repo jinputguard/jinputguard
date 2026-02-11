@@ -24,18 +24,17 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 	}
 
 	@Override
-	public GuardResult<C_OUT> process(C_IN value) {
+	public GuardResult<C_OUT> process(C_IN value, @Nonnull Path path) {
 		var resultMap = value.stream()
 			.filter(elementFilter)
-			.map(elementGuard::process)
+			.map(elem -> elementGuard.process(elem, path.atUndefinedIndex()))
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of()).stream()
-			.map(result -> result.atPath(Path.createElementPath()))
 			.map(GuardResult::getFailure)
 			.toList();
 		if (!failures.isEmpty()) {
-			return GuardResult.failure(new MultiFailure(failures));
+			return GuardResult.failure(new MultiFailure(failures, path));
 		}
 
 		var newCollection = resultMap.getOrDefault(true, List.of()).stream()

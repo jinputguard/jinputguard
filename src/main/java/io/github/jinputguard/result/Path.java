@@ -1,6 +1,5 @@
 package io.github.jinputguard.result;
 
-import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
 public sealed interface Path {
@@ -21,40 +20,27 @@ public sealed interface Path {
 		return new RootPath();
 	}
 
-	static Path createPropertyPath(String property) {
-		return new PropertyPath(root(), property);
+	static Path create(String property) {
+		return root().in(property);
 	}
 
-	static Path createIndexPath(int index) {
-		return new IndexPath(root(), index);
-	}
-
-	static Path createElementPath() {
-		return new ElementPath(root());
-	}
-
-	default Path atProperty(String property) {
-		return atPath(createPropertyPath(property));
+	default Path in(String property) {
+		return new PropertyPath(this, property);
 	}
 
 	default Path atIndex(int index) {
-		return atPath(createIndexPath(index));
+		return new IndexPath(this, index);
 	}
 
-	@Nonnull
-	Path atPath(@Nonnull Path superPath);
+	default Path atUndefinedIndex() {
+		return new IndexPath(this, -1);
+	}
 
 	record RootPath() implements Path {
 
 		@Override
 		public String format() {
 			return "value";
-		}
-
-		@Override
-		public Path atPath(Path superPath) {
-			Objects.requireNonNull(superPath, "Path cannot be null");
-			return superPath;
 		}
 
 	}
@@ -74,58 +60,25 @@ public sealed interface Path {
 			return parent.format() + "." + property;
 		}
 
-		@Override
-		public Path atPath(Path superPath) {
-			Objects.requireNonNull(superPath, "Path cannot be null");
-			return new PropertyPath(parent.atPath(superPath), property);
-		}
-
 	}
 
 	record IndexPath(Path parent, int index) implements Path {
 
 		public IndexPath(Path parent, int index) {
 			this.parent = Objects.requireNonNull(parent, "parent path cannot be null");
-			if (index < 0) {
-				throw new IllegalArgumentException("index path cannot be negative: " + index);
-			}
 			this.index = index;
 		}
 
 		@Override
 		public String format() {
 			if (parent instanceof RootPath) {
-				return "index [" + index + "]";
+				return getIndexPrint();
 			}
-			return parent.format() + "[" + index + "]";
+			return parent.format() + getIndexPrint();
 		}
 
-		@Override
-		public Path atPath(Path superPath) {
-			Objects.requireNonNull(superPath, "Path cannot be null");
-			return new IndexPath(parent.atPath(superPath), index);
-		}
-
-	}
-
-	record ElementPath(Path parent) implements Path {
-
-		public ElementPath(Path parent) {
-			this.parent = Objects.requireNonNull(parent, "parent path cannot be null");
-		}
-
-		@Override
-		public String format() {
-			if (parent instanceof RootPath) {
-				return "element";
-			}
-			return parent.format() + "[?]";
-		}
-
-		@Override
-		public Path atPath(Path superPath) {
-			Objects.requireNonNull(superPath, "Path cannot be null");
-			return new ElementPath(parent.atPath(superPath));
+		private final String getIndexPrint() {
+			return index < 0 ? "[?]" : "[" + index + "]";
 		}
 
 	}

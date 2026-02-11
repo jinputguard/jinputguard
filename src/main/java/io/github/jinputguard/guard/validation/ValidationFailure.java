@@ -9,11 +9,11 @@ public final class ValidationFailure extends AbstractGuardFailure {
 
 	private final @Nonnull ValidationError error;
 
-	public ValidationFailure(@Nonnull ValidationError error) {
-		this(error, Path.root(), null);
+	public ValidationFailure(@Nonnull ValidationError error, Path path) {
+		this(error, path, null);
 	}
 
-	protected ValidationFailure(@Nonnull ValidationError error, Path path, Throwable cause) {
+	public ValidationFailure(@Nonnull ValidationError error, Path path, Throwable cause) {
 		super(path, cause);
 		this.error = Objects.requireNonNull(error, "Validation error cannot be null");
 	}
@@ -25,11 +25,6 @@ public final class ValidationFailure extends AbstractGuardFailure {
 	@Override
 	public String getMessage() {
 		return "Invalid " + path.format() + ": " + error.getConstraintMessage();
-	}
-
-	@Override
-	public ValidationFailure atPath(Path superPath) {
-		return new ValidationFailure(error, path.atPath(superPath), cause);
 	}
 
 	@Override

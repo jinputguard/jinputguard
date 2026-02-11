@@ -2,6 +2,8 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.result.Path;
+import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
 /**
@@ -12,7 +14,7 @@ import java.util.Objects;
 public class NoOpGuard<T> implements InputGuard<T, T> {
 
 	@Override
-	public GuardResult<T> process(T value) {
+	public GuardResult<T> process(T value, @Nonnull Path path) {
 		return GuardResult.success(value);
 	}
 

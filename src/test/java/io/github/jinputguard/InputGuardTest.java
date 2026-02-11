@@ -11,9 +11,9 @@ class InputGuardTest {
 
 		@Test
 		void andThen_instance() {
-			InputGuard<String, String> subGuard1 = value -> GuardResult.success(value + "-1");
-			InputGuard<String, String> subGuard2 = value -> GuardResult.success(value + "-2");
-			InputGuard<String, String> subGuard3 = value -> GuardResult.success(value + "-3");
+			InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.success(value + "-1");
+			InputGuard<String, String> subGuard2 = (value, path) -> GuardResult.success(value + "-2");
+			InputGuard<String, String> subGuard3 = (value, path) -> GuardResult.success(value + "-3");
 
 			var guard = subGuard1.andThen(subGuard2).andThen(subGuard3);
 
@@ -27,9 +27,9 @@ class InputGuardTest {
 
 		@Test
 		void compose_instance() {
-			InputGuard<String, String> subGuard1 = value -> GuardResult.success(value + "-1");
-			InputGuard<String, String> subGuard2 = value -> GuardResult.success(value + "-2");
-			InputGuard<String, String> subGuard3 = value -> GuardResult.success(value + "-3");
+			InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.success(value + "-1");
+			InputGuard<String, String> subGuard2 = (value, path) -> GuardResult.success(value + "-2");
+			InputGuard<String, String> subGuard3 = (value, path) -> GuardResult.success(value + "-3");
 
 			var guard = subGuard1.compose(subGuard2).compose(subGuard3);
 
