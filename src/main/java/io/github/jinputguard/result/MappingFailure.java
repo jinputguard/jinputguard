@@ -4,7 +4,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
 
-public final class MappingFailure extends GuardFailure {
+public final class MappingFailure extends DefaultGuardFailure {
 
 	public MappingFailure(@Nullable Throwable cause) {
 		this(Path.root(), cause);
@@ -19,6 +19,7 @@ public final class MappingFailure extends GuardFailure {
 		return "Mapping failed for " + path.format();
 	}
 
+	@Override
 	public Throwable getCause() {
 		return cause;
 	}

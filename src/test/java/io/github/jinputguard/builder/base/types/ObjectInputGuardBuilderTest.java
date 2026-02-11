@@ -1,9 +1,9 @@
 package io.github.jinputguard.builder.base.types;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.GuardResultAssert;
-import io.github.jinputguard.result.InputGuardFailureExceptionAssert;
-import io.github.jinputguard.result.Path;
 import java.util.Objects;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -259,8 +259,7 @@ class ObjectInputGuardBuilderTest {
 					.isValidationFailure()
 					.errorAssert(assertor -> assertor.isGenericError("object is not null"));
 
-				InputGuardFailureExceptionAssert.assertThat(actualResult.getFailure().toException())
-					.hasMessage(Path.root(), "object is not null");
+				assertThat(actualResult.getFailure().getCause()).isNull();
 			}
 
 		}

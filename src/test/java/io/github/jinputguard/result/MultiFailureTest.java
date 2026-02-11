@@ -27,23 +27,6 @@ class MultiFailureTest {
 	}
 
 	@Nested
-	class ToException {
-
-		@Test
-		void nominal() {
-			var failure = new MultiFailure(List.of());
-
-			var actual = failure.toException();
-
-			InputGuardFailureExceptionAssert.assertThat(actual)
-				.hasMessage(failure.getMessage())
-				.hasPath(Path.root())
-				.hasNoCause();
-		}
-
-	}
-
-	@Nested
 	class Equality {
 
 		@Test

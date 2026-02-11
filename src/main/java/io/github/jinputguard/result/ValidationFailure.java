@@ -3,7 +3,7 @@ package io.github.jinputguard.result;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
-public final class ValidationFailure extends GuardFailure {
+public final class ValidationFailure extends DefaultGuardFailure {
 
 	private final @Nonnull ValidationError error;
 

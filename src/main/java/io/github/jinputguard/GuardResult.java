@@ -1,7 +1,6 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.result.DefaultGuardResult;
-import io.github.jinputguard.result.GuardFailure;
 import io.github.jinputguard.result.InputGuardFailureException;
 import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;

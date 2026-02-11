@@ -1,5 +1,6 @@
 package io.github.jinputguard.result;
 
+import io.github.jinputguard.GuardFailure;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.io.Serializable;
@@ -8,27 +9,31 @@ import java.util.Objects;
 /**
  * A class representing the failure of a guard.
  */
-public sealed abstract class GuardFailure implements Serializable
+public sealed abstract class DefaultGuardFailure implements GuardFailure, Serializable
 	permits ValidationFailure, MultiFailure, MappingFailure {
 
 	protected final Path path;
 	protected final Throwable cause;
 
-	protected GuardFailure(@Nonnull Path path, @Nullable Throwable cause) {
+	protected DefaultGuardFailure(@Nonnull Path path, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
 		this.cause = cause;
 	}
 
+	@Override
 	public Path getPath() {
 		return path;
 	}
 
-	public InputGuardFailureException toException() {
-		return new InputGuardFailureException(this, cause);
+	@Override
+	public Throwable getCause() {
+		return cause;
 	}
 
+	@Override
 	public abstract String getMessage();
 
+	@Override
 	public abstract GuardFailure atPath(Path superPath);
 
 	@Override

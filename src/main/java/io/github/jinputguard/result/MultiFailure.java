@@ -1,5 +1,6 @@
 package io.github.jinputguard.result;
 
+import io.github.jinputguard.GuardFailure;
 import jakarta.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * A failure that regroups multiple other failures (collection, etc.).
  */
-public final class MultiFailure extends GuardFailure {
+public final class MultiFailure extends DefaultGuardFailure {
 
 	private final @Nonnull List<GuardFailure> failures;
 

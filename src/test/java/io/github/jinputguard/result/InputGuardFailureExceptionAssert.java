@@ -10,7 +10,7 @@ public class InputGuardFailureExceptionAssert extends AbstractThrowableAssert<In
 		super(actual, InputGuardFailureExceptionAssert.class);
 	}
 
-	public static InputGuardFailureExceptionAssert assertThat(RuntimeException actual) {
+	public static InputGuardFailureExceptionAssert assertThat(Throwable actual) {
 		Assertions.assertThat(actual).isInstanceOf(InputGuardFailureException.class);
 		return new InputGuardFailureExceptionAssert((InputGuardFailureException) actual);
 	}

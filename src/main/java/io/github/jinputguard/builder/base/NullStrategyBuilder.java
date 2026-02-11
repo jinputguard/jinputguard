@@ -1,11 +1,11 @@
 package io.github.jinputguard.builder.base;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
 import io.github.jinputguard.builder.InputGuardBuilder;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
-import io.github.jinputguard.result.GuardFailure;
 
 public class NullStrategyBuilder<IN, OUT, B extends InputGuardBuilder<IN, OUT, B>>
 	extends AbstractIntermediateBuilder<IN, OUT, B, NullStrategyBuilder<IN, OUT, B>> {

@@ -1,5 +1,6 @@
 package io.github.jinputguard.result;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import jakarta.annotation.Nonnull;
@@ -102,7 +103,7 @@ public class DefaultGuardResult<T> implements GuardResult<T> {
 	@Override
 	@Nonnull
 	public T getOrThrow() {
-		return getOrThrow(failure -> failure.toException());
+		return getOrThrow(failure -> new InputGuardFailureException(failure));
 	}
 
 	/**
@@ -151,6 +152,7 @@ public class DefaultGuardResult<T> implements GuardResult<T> {
 	 * 
 	 * @see Path
 	 */
+	@Override
 	@Nonnull
 	public GuardResult<T> atPath(@Nonnull Path path) {
 		Objects.requireNonNull(path, "path cannot be null");

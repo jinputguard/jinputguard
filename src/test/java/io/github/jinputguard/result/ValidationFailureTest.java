@@ -8,23 +8,6 @@ import org.junit.jupiter.api.Test;
 class ValidationFailureTest {
 
 	@Nested
-	class ToException {
-
-		@Test
-		void nominal() {
-			var failure = new ValidationFailure(new ValidationError.ObjectIsNull());
-
-			var actual = failure.toException();
-
-			InputGuardFailureExceptionAssert.assertThat(actual)
-				.hasMessage(failure.getMessage())
-				.hasPath(Path.root())
-				.hasNoCause();
-		}
-
-	}
-
-	@Nested
 	class Equality {
 
 		@Test

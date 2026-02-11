@@ -22,24 +22,6 @@ class MappingFailureTest {
 	}
 
 	@Nested
-	class ToException {
-
-		@Test
-		void nominal() {
-			var cause = new Exception("cause");
-			var failure = new MappingFailure(cause);
-
-			var actual = failure.toException();
-
-			InputGuardFailureExceptionAssert.assertThat(actual)
-				.hasMessage(failure.getMessage())
-				.hasPath(Path.root())
-				.hasCause(cause);
-		}
-
-	}
-
-	@Nested
 	class Equality {
 
 		@Test
