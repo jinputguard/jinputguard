@@ -30,7 +30,7 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 	@Override
 	public GuardResult<OUT> process(IN value, @Nonnull Path path) {
 		return switch (strategy) {
-			case Process<IN> str -> nextGuard.process(value);
+			case Process<IN> str -> nextGuard.process(value, path);
 			case SkipProcess<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
 			case Fail<IN> str -> value == null ? GuardResult.failure(new ValidationFailure(new ObjectIsNull(), path)) : nextGuard.process(value, path);
 			case UseDefault<IN>(var defaultValue) -> value == null ? nextGuard.process(defaultValue, path) : nextGuard.process(value, path);

@@ -73,7 +73,7 @@ class ChainedGuardTest {
 			var chainedGuard1and2 = new ChainedGuard<>(subGuard1, subGuard2);
 			var guard = chainedGuard1and2.andThen(subGuard3);
 
-			var actualResult = guard.process("0");
+			var actualResult = guard.process("0", "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2-3");
 		}
@@ -92,7 +92,7 @@ class ChainedGuardTest {
 			var subGuard1and2 = new ChainedGuard<>(subGuard1, subGuard2);
 			var guard = subGuard1and2.compose(subGuard3);
 
-			var actualResult = guard.process("0");
+			var actualResult = guard.process("0", "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-3-1-2");
 		}

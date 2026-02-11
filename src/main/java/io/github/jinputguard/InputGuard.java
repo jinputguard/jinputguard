@@ -44,11 +44,6 @@ public interface InputGuard<IN, OUT> {
 	@Nonnull
 	GuardResult<OUT> process(@Nullable IN value, @Nonnull Path path);
 
-	@Deprecated
-	default GuardResult<OUT> process(@Nullable IN value) {
-		return process(value, Path.root());
-	}
-
 	/**
 	 * 
 	 * @param value

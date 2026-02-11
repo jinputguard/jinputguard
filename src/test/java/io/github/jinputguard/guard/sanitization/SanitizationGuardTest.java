@@ -1,7 +1,6 @@
 package io.github.jinputguard.guard.sanitization;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.guard.sanitization.SanitizationGuard;
 import io.github.jinputguard.result.GuardResultAssert;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;
@@ -19,7 +18,7 @@ class SanitizationGuardTest {
 	void nominal() {
 		InputGuard<String, String> guard = new SanitizationGuard<>(String::strip);
 
-		var actualResult = guard.process(" plop ");
+		var actualResult = guard.process(" plop ", "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("plop");
 	}
@@ -28,7 +27,7 @@ class SanitizationGuardTest {
 	void can_return_null() {
 		InputGuard<String, String> guard = new SanitizationGuard<>(value -> null);
 
-		var actualResult = guard.process(" plop ");
+		var actualResult = guard.process(" plop ", "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
 	}
@@ -41,7 +40,7 @@ class SanitizationGuardTest {
 		});
 
 		Assertions.assertThatIllegalStateException()
-			.isThrownBy(() -> guard.process("plop"))
+			.isThrownBy(() -> guard.process("plop", "myVal"))
 			.withMessage("cause");
 	}
 
