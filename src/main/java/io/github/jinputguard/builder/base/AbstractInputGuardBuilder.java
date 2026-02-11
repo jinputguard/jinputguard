@@ -4,7 +4,7 @@ import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
 import io.github.jinputguard.builder.InputGuardBuilder;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
-import io.github.jinputguard.result.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationError;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;

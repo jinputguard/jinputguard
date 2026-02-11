@@ -1,10 +1,10 @@
 package io.github.jinputguard.builder.base;
 
 import io.github.jinputguard.builder.InputGuardBuilder;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationError.ObjectIsNull;
-import io.github.jinputguard.result.ValidationError.ObjectMustBeEqualTo;
-import io.github.jinputguard.result.ValidationError.ObjectMustBeInstanceOf;
+import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationError.ObjectIsNull;
+import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeInstanceOf;
 import java.util.Objects;
 
 public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuilder<IN, T, B>, SELF extends AbstractValidationBuilder<IN, T, B, SELF>>

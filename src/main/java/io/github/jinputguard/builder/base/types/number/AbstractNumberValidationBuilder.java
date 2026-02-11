@@ -2,13 +2,13 @@ package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.builder.InputGuardBuilder;
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationError.NumberMustBeBetween;
-import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterOrEqualTo;
-import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterThan;
-import io.github.jinputguard.result.ValidationError.NumberMustBeLowerOrEqualTo;
-import io.github.jinputguard.result.ValidationError.NumberMustBeLowerThan;
-import io.github.jinputguard.result.ValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeBetween;
+import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeGreaterOrEqualTo;
+import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeGreaterThan;
+import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeLowerOrEqualTo;
+import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeLowerThan;
+import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeEqualTo;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 

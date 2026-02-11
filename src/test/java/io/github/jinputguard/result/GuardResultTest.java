@@ -2,6 +2,8 @@ package io.github.jinputguard.result;
 
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
+import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationFailure;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

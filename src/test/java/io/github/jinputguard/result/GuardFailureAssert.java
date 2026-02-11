@@ -1,6 +1,12 @@
 package io.github.jinputguard.result;
 
 import io.github.jinputguard.GuardFailure;
+import io.github.jinputguard.guard.collection.MultiFailure;
+import io.github.jinputguard.guard.collection.MultiFailureAssert;
+import io.github.jinputguard.guard.mapping.MappingFailure;
+import io.github.jinputguard.guard.mapping.MappingFailureAssert;
+import io.github.jinputguard.guard.validation.ValidationFailure;
+import io.github.jinputguard.guard.validation.ValidationFailureAssert;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;

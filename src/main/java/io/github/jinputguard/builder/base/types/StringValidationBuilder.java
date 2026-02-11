@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
-import io.github.jinputguard.result.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationError;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

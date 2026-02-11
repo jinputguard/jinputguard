@@ -2,9 +2,9 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationFailure;
 import io.github.jinputguard.result.GuardResultAssert;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationFailure;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;

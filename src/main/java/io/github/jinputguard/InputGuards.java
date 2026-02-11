@@ -1,14 +1,14 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.guard.ChainedGuard;
-import io.github.jinputguard.guard.MappingGuard;
 import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
-import io.github.jinputguard.guard.SanitizationGuard;
-import io.github.jinputguard.guard.ValidationGuard;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationFailure;
+import io.github.jinputguard.guard.mapping.MappingGuard;
+import io.github.jinputguard.guard.sanitization.SanitizationGuard;
+import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.guard.validation.ValidationFailure;
+import io.github.jinputguard.guard.validation.ValidationGuard;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
 
