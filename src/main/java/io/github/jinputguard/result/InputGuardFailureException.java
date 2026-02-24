@@ -7,15 +7,15 @@ import java.util.Objects;
 public class InputGuardFailureException extends IllegalArgumentException {
 
 	@Nonnull
-	private final Path path;
+	private final GuardFailure failure;
 
 	public InputGuardFailureException(@Nonnull GuardFailure failure) {
 		super(Objects.requireNonNull(failure, "failure cannot be null").getMessage(), failure.getCause());
-		this.path = Objects.requireNonNull(failure, "failure cannot be null").getPath();
+		this.failure = failure;
 	}
 
-	public Path getPath() {
-		return path;
+	public GuardFailure getFailure() {
+		return failure;
 	}
 
 }
