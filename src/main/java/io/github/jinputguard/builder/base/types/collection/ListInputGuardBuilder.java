@@ -2,7 +2,6 @@ package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.util.Predicates;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -34,11 +33,11 @@ public class ListInputGuardBuilder<IN, T> extends AbstractSequencedCollectionInp
 	}
 
 	public <OUT> ListInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard) {
-		return filterAndProcessEach(Predicates.alwaysTrue(), elementGuard, Collectors.toUnmodifiableList());
+		return filterAndProcessEach(value -> true, elementGuard, Collectors.toUnmodifiableList());
 	}
 
 	public <OUT> ListInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard, Collector<OUT, ?, List<OUT>> collector) {
-		return filterAndProcessEach(Predicates.alwaysTrue(), elementGuard, collector, ListInputGuardBuilder::new);
+		return filterAndProcessEach(value -> true, elementGuard, collector, ListInputGuardBuilder::new);
 	}
 
 	public <OUT> ListInputGuardBuilder<IN, OUT> filterAndProcessEach(Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard) {

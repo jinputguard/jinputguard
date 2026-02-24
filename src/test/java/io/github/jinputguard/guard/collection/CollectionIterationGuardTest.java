@@ -3,8 +3,6 @@ package io.github.jinputguard.guard.collection;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.guard.collection.CollectionIterationGuard;
-import io.github.jinputguard.util.Predicates;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -18,7 +16,7 @@ class CollectionIterationGuardTest {
 
 	@Test
 	void itemGuard_cannot_be_null() {
-		Predicate<Object> filter = Predicates.alwaysTrue();
+		Predicate<Object> filter = obj -> true;
 		InputGuard<Object, Object> elementGuard = null;
 		Collector<Object, ?, List<Object>> collector = Collectors.toList();
 		Assertions.assertThatNullPointerException().isThrownBy(() -> new CollectionIterationGuard<>(filter, elementGuard, collector));
@@ -26,7 +24,7 @@ class CollectionIterationGuardTest {
 
 	@Test
 	void collector_cannot_be_null() {
-		Predicate<Object> filter = Predicates.alwaysTrue();
+		Predicate<Object> filter = obj -> true;
 		InputGuard<Object, Object> elementGuard = InputGuards.noOpGuard();
 		Collector<Object, ?, List<Object>> collector = null;
 		Assertions.assertThatNullPointerException().isThrownBy(() -> new CollectionIterationGuard<>(filter, elementGuard, collector));
@@ -37,8 +35,8 @@ class CollectionIterationGuardTest {
 
 		@Test
 		void nominal() {
-			Predicate<Object> filter = Predicates.alwaysTrue();
-			InputGuard<Object, Object> elementGuard = (value,path) -> GuardResult.success(value);
+			Predicate<Object> filter = obj -> true;
+			InputGuard<Object, Object> elementGuard = (value, path) -> GuardResult.success(value);
 			Collector<Object, ?, Set<Object>> collector = Collectors.toSet();
 			var guard = new CollectionIterationGuard<>(filter, elementGuard, collector);
 
