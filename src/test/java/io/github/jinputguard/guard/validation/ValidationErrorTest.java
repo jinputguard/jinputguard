@@ -27,7 +27,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new ObjectIsNull();
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must not be null");
 		}
 
@@ -39,14 +39,14 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage_nullCurrentClass() {
 			var constraint = new ObjectMustBeInstanceOf(null, String.class);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("is not an instance of java.lang.String, but is null");
 		}
 
 		@Test
 		void getConstraintMessage() {
 			var constraint = new ObjectMustBeInstanceOf(Object.class, String.class);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("is not an instance of java.lang.String, but is instance of java.lang.Object");
 		}
 
@@ -59,7 +59,7 @@ class ValidationErrorTest {
 		void getConstraintMessage() {
 			var expected = new Object();
 			var constraint = new ObjectMustBeEqualTo(expected);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("is not equals to " + expected.toString());
 		}
 
@@ -74,7 +74,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new StringIsEmpty();
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must not be empty");
 		}
 
@@ -86,7 +86,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new StringIsTooLong(6, 5);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be 5 chars max, but is 6");
 		}
 
@@ -98,7 +98,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new StringMustBeParseableToInteger();
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("is not parseable to Integer");
 		}
 
@@ -113,7 +113,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new NumberMustBeGreaterThan(5, 4);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be > 4");
 		}
 
@@ -125,7 +125,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new NumberMustBeGreaterOrEqualTo(5, 4);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be >= 4");
 		}
 
@@ -137,7 +137,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new NumberMustBeLowerThan(5, 4);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be < 4");
 		}
 
@@ -149,7 +149,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new NumberMustBeLowerOrEqualTo(5, 4);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be <= 4");
 		}
 
@@ -161,7 +161,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new NumberMustBeBetween(5, 3, 4);
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("must be between 3 and 4");
 		}
 
@@ -176,7 +176,7 @@ class ValidationErrorTest {
 		@Test
 		void getConstraintMessage() {
 			var constraint = new CollectionIsEmpty();
-			Assertions.assertThat(constraint.getConstraintMessage())
+			Assertions.assertThat(constraint.getMessage())
 				.isEqualTo("is empty");
 		}
 

@@ -1,7 +1,6 @@
 package io.github.jinputguard.guard.validation;
 
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationGuard;
+import io.github.jinputguard.result.ErrorMessage;
 import java.util.function.Function;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -19,7 +18,7 @@ class ValidationGuardTest {
 
 		@Test
 		void nominal() {
-			Function<String, ValidationError> function = t -> null;
+			Function<String, ErrorMessage> function = t -> null;
 			var guard = new ValidationGuard<>(function);
 
 			var actual = guard.toString();

@@ -2,7 +2,7 @@ package io.github.jinputguard.guard.collection;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
+import io.github.jinputguard.builder.InputGuards;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;

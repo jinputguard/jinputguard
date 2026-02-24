@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base.types.number;
 
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
 import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeBetween;

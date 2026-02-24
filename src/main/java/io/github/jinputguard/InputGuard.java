@@ -1,6 +1,6 @@
 package io.github.jinputguard;
 
-import io.github.jinputguard.builder.Builder;
+import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -52,7 +52,7 @@ public interface InputGuard<IN, OUT> {
 	 */
 	@Nonnull
 	default GuardResult<OUT> process(@Nullable IN value, @Nonnull String property) {
-		return process(value, Path.root().in(property));
+		return process(value, Path.create(property));
 	}
 
 	// ===========================================================================================================
@@ -88,8 +88,8 @@ public interface InputGuard<IN, OUT> {
 	 * @return
 	 */
 	@Nonnull
-	static Builder builder() {
-		return Builder.INSTANCE;
+	static BuilderFactory builder() {
+		return BuilderFactory.INSTANCE;
 	}
 
 }

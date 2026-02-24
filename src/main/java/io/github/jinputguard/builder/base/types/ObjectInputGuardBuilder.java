@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
+import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.AbstractInputGuardBuilder;
 
 public class ObjectInputGuardBuilder<IN, OUT> extends AbstractInputGuardBuilder<IN, OUT, ObjectInputGuardBuilder<IN, OUT>> {

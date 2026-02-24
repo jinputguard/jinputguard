@@ -1,6 +1,5 @@
 package io.github.jinputguard.guard.validation;
 
-import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.guard.validation.ValidationError.CollectionIsEmpty;
 import io.github.jinputguard.guard.validation.ValidationError.CustomValidationError;
 import io.github.jinputguard.guard.validation.ValidationError.GenericValidationError;
@@ -16,11 +15,12 @@ import io.github.jinputguard.guard.validation.ValidationError.StringIsEmpty;
 import io.github.jinputguard.guard.validation.ValidationError.StringIsTooLong;
 import io.github.jinputguard.guard.validation.ValidationError.StringMustBeParseableToInteger;
 import io.github.jinputguard.guard.validation.ValidationError.StringMustMatchPattern;
+import io.github.jinputguard.result.ErrorMessage;
 import java.util.regex.Pattern;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 
-public class AbstractValidationErrorAssert<SELF extends AbstractValidationErrorAssert<SELF, T>, T extends ValidationError> extends AbstractObjectAssert<SELF, T> {
+public class AbstractValidationErrorAssert<SELF extends AbstractValidationErrorAssert<SELF, T>, T extends ErrorMessage> extends AbstractObjectAssert<SELF, T> {
 
 	public AbstractValidationErrorAssert(T actual, Class<?> selfType) {
 		super(actual, selfType);

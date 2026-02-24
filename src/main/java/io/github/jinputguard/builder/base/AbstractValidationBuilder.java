@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base;
 
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.guard.validation.ValidationError.ObjectIsNull;
 import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeEqualTo;

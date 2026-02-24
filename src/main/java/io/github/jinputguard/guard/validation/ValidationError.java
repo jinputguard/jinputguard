@@ -1,5 +1,6 @@
 package io.github.jinputguard.guard.validation;
 
+import io.github.jinputguard.result.ErrorMessage;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.regex.Pattern;
@@ -10,9 +11,10 @@ import java.util.regex.Pattern;
  * 
  * @see ValidationGuard
  */
-public sealed interface ValidationError {
+public sealed interface ValidationError extends ErrorMessage {
 
-	String getConstraintMessage();
+	@Override
+	String getMessage();
 
 	// ===========================================================================
 	// CUSTOM
@@ -34,7 +36,7 @@ public sealed interface ValidationError {
 	record GenericValidationError(String message) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return message;
 		}
 
@@ -46,7 +48,7 @@ public sealed interface ValidationError {
 	record ObjectIsNull() implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must not be null";
 		}
 
@@ -55,7 +57,7 @@ public sealed interface ValidationError {
 	record ObjectMustBeInstanceOf(@Nullable Class<?> currentClass, @Nonnull Class<?> expectedClass) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return currentClass == null
 				? "is not an instance of " + expectedClass.getName() + ", but is null"
 				: "is not an instance of " + expectedClass.getName() + ", but is instance of " + currentClass.getName();
@@ -66,7 +68,7 @@ public sealed interface ValidationError {
 	record ObjectMustBeEqualTo(Object expected) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "is not equals to " + expected;
 		}
 
@@ -78,7 +80,7 @@ public sealed interface ValidationError {
 	record StringIsEmpty() implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must not be empty";
 		}
 
@@ -87,7 +89,7 @@ public sealed interface ValidationError {
 	record StringIsTooLong(int currentLength, int maxLength) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be " + maxLength + " chars max, but is " + currentLength;
 		}
 
@@ -96,7 +98,7 @@ public sealed interface ValidationError {
 	record StringMustBeParseableToInteger() implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "is not parseable to Integer";
 		}
 
@@ -105,7 +107,7 @@ public sealed interface ValidationError {
 	record StringMustMatchPattern(Pattern pattern) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must match pattern " + pattern.pattern();
 		}
 
@@ -117,7 +119,7 @@ public sealed interface ValidationError {
 	record NumberMustBeGreaterThan(Number value, Number ref) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be > " + ref;
 		}
 
@@ -126,7 +128,7 @@ public sealed interface ValidationError {
 	record NumberMustBeGreaterOrEqualTo(Number value, Number ref) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be >= " + ref;
 		}
 
@@ -135,7 +137,7 @@ public sealed interface ValidationError {
 	record NumberMustBeLowerThan(Number value, Number ref) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be < " + ref;
 		}
 
@@ -144,7 +146,7 @@ public sealed interface ValidationError {
 	record NumberMustBeLowerOrEqualTo(Number value, Number ref) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be <= " + ref;
 		}
 
@@ -153,7 +155,7 @@ public sealed interface ValidationError {
 	record NumberMustBeBetween(Number value, Number min, Number max) implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "must be between " + min + " and " + max;
 		}
 
@@ -165,7 +167,7 @@ public sealed interface ValidationError {
 	record CollectionIsEmpty() implements ValidationError {
 
 		@Override
-		public String getConstraintMessage() {
+		public String getMessage() {
 			return "is empty";
 		}
 

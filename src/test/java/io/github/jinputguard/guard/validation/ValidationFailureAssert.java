@@ -1,7 +1,6 @@
 package io.github.jinputguard.guard.validation;
 
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationFailure;
+import io.github.jinputguard.result.ErrorMessage;
 import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.Path;
 import java.util.function.Consumer;
@@ -21,10 +20,6 @@ public class ValidationFailureAssert extends GuardFailureAssert<ValidationFailur
 		return new ValidationFailureAssert(actual);
 	}
 
-	public ValidationFailureAssert hasValidationMessage(String validationErrorMsg) {
-		return this.hasValidationMessage(Path.root(), validationErrorMsg);
-	}
-
 	public ValidationFailureAssert hasValidationMessage(Path path, String validationErrorMsg) {
 		return messageAssert(assertor -> assertor.isEqualTo("Invalid " + path.format() + ": " + validationErrorMsg));
 	}
@@ -32,7 +27,7 @@ public class ValidationFailureAssert extends GuardFailureAssert<ValidationFailur
 	// -------------------------------------------------------------------------------------------
 	// ERROR
 
-	public ValidationFailureAssert errorSatisfies(Consumer<ValidationError> consumer) {
+	public ValidationFailureAssert errorSatisfies(Consumer<ErrorMessage> consumer) {
 		consumer.accept(actual.getError());
 		return myself;
 	}

@@ -1,10 +1,11 @@
 package io.github.jinputguard.builder.base;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
+import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.result.ErrorMessage;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
@@ -21,18 +22,29 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	protected abstract SELF newInstance(InputGuard<IN, OUT> guard);
 
 	@Override
+	public InputGuard<IN, OUT> build() {
+		return guard;
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public NullStrategyBuilder<IN, OUT, SELF> ifNullThen() {
 		return new NullStrategyBuilder<>((SELF) this);
 	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// SANITIZATION
 
 	@Override
 	public SELF sanitize(Function<OUT, OUT> sanitizationFunction) {
 		return apply(InputGuards.sanitizationGuard(sanitizationFunction));
 	}
 
+	// ------------------------------------------------------------------------------------------------------------
+	// VALIDATION
+
 	@Override
-	public SELF validate(@Nonnull Function<OUT, ValidationError> validationFunction) {
+	public SELF validate(@Nonnull Function<OUT, ErrorMessage> validationFunction) {
 		return apply(InputGuards.validationGuard(validationFunction));
 	}
 
@@ -46,10 +58,8 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 		return this.validate(validationPredicate, value -> errorMessage);
 	}
 
-	@Override
-	public SELF apply(InputGuard<OUT, OUT> guard) {
-		return newInstance(this.build().andThen(guard));
-	}
+	// ------------------------------------------------------------------------------------------------------------
+	// MAPPING
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -66,9 +76,12 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction));
 	}
 
+	// ------------------------------------------------------------------------------------------------------------
+	// SUB-GUARD
+
 	@Override
-	public InputGuard<IN, OUT> build() {
-		return guard;
+	public SELF apply(InputGuard<OUT, OUT> guard) {
+		return newInstance(this.build().andThen(guard));
 	}
 
 }

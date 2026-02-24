@@ -1,6 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.result.Path.RootPath;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AbstractStringAssert;
@@ -14,11 +13,6 @@ public class PathAssert extends AbstractObjectAssert<PathAssert, Path> {
 
 	public static PathAssert assertThat(Path actual) {
 		return new PathAssert(actual);
-	}
-
-	public PathAssert isRoot() {
-		Assertions.assertThat(actual).isInstanceOf(RootPath.class);
-		return myself;
 	}
 
 	public PathAssert formatTextSatisfies(Consumer<String> formatTextConsumer) {

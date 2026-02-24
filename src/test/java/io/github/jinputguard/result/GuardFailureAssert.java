@@ -66,10 +66,6 @@ public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T exte
 		return pathAssert(assertor -> assertor.isEqualTo(expected));
 	}
 
-	public SELF hasRootPath() {
-		return pathAssert(assertor -> assertor.isRoot());
-	}
-
 	// -------------------------------------------------------------------------------------------
 	// SPECIFIC SUBTYPES
 

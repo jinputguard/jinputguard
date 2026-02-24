@@ -3,8 +3,8 @@ package io.github.jinputguard.builder.base;
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
+import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 
 public class NullStrategyBuilder<IN, OUT, B extends InputGuardBuilder<IN, OUT, B>>

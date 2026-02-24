@@ -1,14 +1,15 @@
-package io.github.jinputguard;
+package io.github.jinputguard.builder;
 
+import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.ChainedGuard;
 import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.guard.mapping.MappingGuard;
 import io.github.jinputguard.guard.sanitization.SanitizationGuard;
-import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.guard.validation.ValidationFailure;
 import io.github.jinputguard.guard.validation.ValidationGuard;
+import io.github.jinputguard.result.ErrorMessage;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
 
@@ -71,7 +72,7 @@ public final class InputGuards {
 	 * 
 	 * @see ValidationGuard
 	 */
-	public static <T> InputGuard<T, T> validationGuard(@Nonnull Function<T, ValidationError> validationFunction) {
+	public static <T> InputGuard<T, T> validationGuard(@Nonnull Function<T, ErrorMessage> validationFunction) {
 		return new ValidationGuard<>(validationFunction);
 	}
 

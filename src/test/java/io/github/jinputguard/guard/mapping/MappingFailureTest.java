@@ -16,7 +16,7 @@ class MappingFailureTest {
 		@Test
 		void nominal() {
 			var cause = new Exception("cause");
-			var failure = new MappingFailure(Path.root().in("myVal"), cause);
+			var failure = new MappingFailure(Path.create("myVal"), cause);
 
 			MultiFailureAssert.assertThat(failure)
 				.hasMessage("Mapping failed for myVal");
@@ -29,19 +29,19 @@ class MappingFailureTest {
 
 		@Test
 		void test_equals_and_hash_code_onNull() {
-			var failure = new MappingFailure(Path.root(), new Exception("cause"));
+			var failure = new MappingFailure(Path.create("myVal"), new Exception("cause"));
 			Assertions.assertThat(failure).isNotEqualTo(null);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onOtherObjectType() {
-			var failure = new MappingFailure(Path.root(), new Exception("cause"));
-			Assertions.assertThat(failure).isNotEqualTo(new MultiFailure(List.of(), Path.root()));
+			var failure = new MappingFailure(Path.create("myVal"), new Exception("cause"));
+			Assertions.assertThat(failure).isNotEqualTo(new MultiFailure(List.of(), Path.create("myVal")));
 		}
 
 		@Test
 		void test_equals_and_hash_code_onSameObject() {
-			var failure = new MappingFailure(Path.root(), new Exception("cause"));
+			var failure = new MappingFailure(Path.create("myVal"), new Exception("cause"));
 			Assertions.assertThat(failure).hasSameHashCodeAs(failure);
 			Assertions.assertThat(failure).isEqualTo(failure);
 		}
@@ -49,8 +49,8 @@ class MappingFailureTest {
 		@Test
 		void test_equals_and_hash_code_onIdenticalObject() {
 			var cause = new Exception("cause");
-			var failure = new MappingFailure(Path.root(), cause);
-			var otherFailure = new MappingFailure(Path.root(), cause);
+			var failure = new MappingFailure(Path.create("myVal"), cause);
+			var otherFailure = new MappingFailure(Path.create("myVal"), cause);
 			Assertions.assertThat(failure).hasSameHashCodeAs(otherFailure);
 			Assertions.assertThat(failure).isEqualTo(otherFailure);
 		}
@@ -58,23 +58,23 @@ class MappingFailureTest {
 		@Test
 		void test_equals_and_hash_code_onNotSameValue() {
 			var cause = new Exception("cause");
-			var failure = new MappingFailure(Path.root(), new Exception("cause"));
-			var otherFailure = new MappingFailure(Path.root(), new Exception("cause"));
+			var failure = new MappingFailure(Path.create("myVal"), new Exception("cause"));
+			var otherFailure = new MappingFailure(Path.create("myVal"), new Exception("cause"));
 			Assertions.assertThat(failure).isNotEqualTo(otherFailure);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onNotSameCause() {
-			var failure = new MappingFailure(Path.root(), new Exception("cause1"));
-			var otherFailure = new MappingFailure(Path.root(), new Exception("cause2"));
+			var failure = new MappingFailure(Path.create("myVal"), new Exception("cause1"));
+			var otherFailure = new MappingFailure(Path.create("myVal"), new Exception("cause2"));
 			Assertions.assertThat(failure).isNotEqualTo(otherFailure);
 		}
 
 		@Test
 		void test_equals_and_hash_code_onNotSamePath() {
 			var exception = new Exception("cause");
-			var failure1 = new MappingFailure(Path.root().in("f1"), exception);
-			var failure2 = new MappingFailure(Path.root().in("f2"), exception);
+			var failure1 = new MappingFailure(Path.create("myVal").in("f1"), exception);
+			var failure2 = new MappingFailure(Path.create("myVal").in("f2"), exception);
 			Assertions.assertThat(failure1).isNotEqualTo(failure2);
 		}
 

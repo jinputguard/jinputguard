@@ -11,10 +11,10 @@ import java.util.Objects;
 public class DefaultGuardFailure implements GuardFailure {
 
 	private final Path path;
-	private final String message;
+	private final ErrorMessage message;
 	private final Throwable cause;
 
-	protected DefaultGuardFailure(@Nonnull Path path, @Nonnull String message, @Nullable Throwable cause) {
+	protected DefaultGuardFailure(@Nonnull Path path, @Nonnull ErrorMessage message, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
 		this.message = Objects.requireNonNull(message, "message cannot be null");
 		this.cause = cause;
@@ -32,7 +32,7 @@ public class DefaultGuardFailure implements GuardFailure {
 
 	@Override
 	public String getMessage() {
-		return message;
+		return message.getMessage();
 	}
 
 	@Override

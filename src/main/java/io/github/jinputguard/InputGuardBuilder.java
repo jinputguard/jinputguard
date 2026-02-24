@@ -1,10 +1,10 @@
-package io.github.jinputguard.builder;
+package io.github.jinputguard;
 
-import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
 import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationFailure;
 import io.github.jinputguard.guard.validation.ValidationError.GenericValidationError;
+import io.github.jinputguard.result.ErrorMessage;
+import io.github.jinputguard.guard.validation.ValidationFailure;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -30,6 +30,9 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 */
 	NullStrategyBuilder<IN, OUT, SELF> ifNullThen();
 
+	// ------------------------------------------------------------------------------------------------------------
+	// SANITIZATION
+
 	/**
 	 * Sanitize the value: any transformation function can be applied.
 	 * 
@@ -39,6 +42,9 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 */
 	@Nonnull
 	SELF sanitize(@Nonnull Function<OUT, OUT> sanitizationFunction);
+
+	// ------------------------------------------------------------------------------------------------------------
+	// VALIDATION
 
 	/**
 	 * Validate the value using the given validation function.
@@ -51,7 +57,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see	ValidationError
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Function<OUT, ValidationError> validationFunction);
+	SELF validate(@Nonnull Function<OUT, ErrorMessage> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.
@@ -83,15 +89,8 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	@Nonnull
 	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<OUT, String> errorMessageFunction);
 
-	/**
-	 * Apply the given guard, i.e. include it into the current one.
-	 * 
-	 * @param guard	The guard to apply to the value.
-	 * 
-	 * @return	a new builder
-	 */
-	@Nonnull
-	SELF apply(@Nonnull InputGuard<OUT, OUT> guard);
+	// ------------------------------------------------------------------------------------------------------------
+	// MAPPING
 
 	/**
 	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type.
@@ -123,5 +122,18 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
 		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	);
+
+	// ------------------------------------------------------------------------------------------------------------
+	// SUB-GUARD
+
+	/**
+	 * Apply the given guard, i.e. include it into the current one.
+	 * 
+	 * @param guard	The guard to apply to the value.
+	 * 
+	 * @return	a new builder
+	 */
+	@Nonnull
+	SELF apply(@Nonnull InputGuard<OUT, OUT> guard);
 
 }

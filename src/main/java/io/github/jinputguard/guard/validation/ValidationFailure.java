@@ -1,30 +1,31 @@
 package io.github.jinputguard.guard.validation;
 
 import io.github.jinputguard.result.AbstractGuardFailure;
+import io.github.jinputguard.result.ErrorMessage;
 import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
 public final class ValidationFailure extends AbstractGuardFailure {
 
-	private final @Nonnull ValidationError error;
+	private final @Nonnull ErrorMessage error;
 
-	public ValidationFailure(@Nonnull ValidationError error, Path path) {
+	public ValidationFailure(@Nonnull ErrorMessage error, Path path) {
 		this(error, path, null);
 	}
 
-	public ValidationFailure(@Nonnull ValidationError error, Path path, Throwable cause) {
+	public ValidationFailure(@Nonnull ErrorMessage error, Path path, Throwable cause) {
 		super(path, cause);
 		this.error = Objects.requireNonNull(error, "Validation error cannot be null");
 	}
 
-	public ValidationError getError() {
+	public ErrorMessage getError() {
 		return error;
 	}
 
 	@Override
 	public String getMessage() {
-		return "Invalid " + path.format() + ": " + error.getConstraintMessage();
+		return "Invalid " + path.format() + ": " + error.getMessage();
 	}
 
 	@Override

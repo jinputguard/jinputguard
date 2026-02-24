@@ -1,4 +1,4 @@
-package io.github.jinputguard.builder;
+package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.StringInputGuardBuilder;
@@ -11,13 +11,16 @@ import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import java.util.List;
 import java.util.Set;
 
-public final class Builder {
+public final class BuilderFactory {
 
-	public static final Builder INSTANCE = new Builder();
+	public static final BuilderFactory INSTANCE = new BuilderFactory();
 
-	private Builder() {
+	private BuilderFactory() {
 		// 
 	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// OBJECTS
 
 	@SuppressWarnings("unused")
 	public <T> ObjectInputGuardBuilder<T, T> forClass(Class<T> clazz) {
@@ -27,6 +30,9 @@ public final class Builder {
 	public StringInputGuardBuilder<String> forString() {
 		return StringInputGuardBuilder.newInstance();
 	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// NUMBERS
 
 	public IntegerInputGuardBuilder<Integer> forInteger() {
 		return IntegerInputGuardBuilder.newInstance();
@@ -43,6 +49,9 @@ public final class Builder {
 	public FloatInputGuardBuilder<Float> forFloat() {
 		return FloatInputGuardBuilder.newInstance();
 	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// COLLECTIONS
 
 	@SuppressWarnings("unused")
 	public <T> ListInputGuardBuilder<List<T>, T> forList(Class<T> elementClass) {

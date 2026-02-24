@@ -2,6 +2,7 @@ package io.github.jinputguard.guard.validation;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.result.ErrorMessage;
 import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -10,10 +11,10 @@ import java.util.function.Function;
 public class ValidationGuard<T> implements InputGuard<T, T> {
 
 	@Nonnull
-	private final Function<T, ValidationError> validationFailureFunction;
+	private final Function<T, ErrorMessage> validationFailureFunction;
 
 	public ValidationGuard(
-		@Nonnull Function<T, ValidationError> validationFailureFunction
+		@Nonnull Function<T, ErrorMessage> validationFailureFunction
 	) {
 		this.validationFailureFunction = Objects.requireNonNull(validationFailureFunction, "Validation failure function cannot be null");
 	}
