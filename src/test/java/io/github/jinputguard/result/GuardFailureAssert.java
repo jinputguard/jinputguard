@@ -5,8 +5,6 @@ import io.github.jinputguard.guard.collection.MultiFailure;
 import io.github.jinputguard.guard.collection.MultiFailureAssert;
 import io.github.jinputguard.guard.mapping.MappingFailure;
 import io.github.jinputguard.guard.mapping.MappingFailureAssert;
-import io.github.jinputguard.guard.validation.ValidationFailure;
-import io.github.jinputguard.guard.validation.ValidationFailureAssert;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
@@ -81,13 +79,6 @@ public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T exte
 			return MultiFailureAssert.assertThat(fail);
 		}
 		return Assertions.fail("Failure expected to be " + MultiFailure.class + ", but is " + actual.getClass() + ":\n" + actual);
-	}
-
-	public ValidationFailureAssert isValidationFailure() {
-		if (actual instanceof ValidationFailure fail) {
-			return ValidationFailureAssert.assertThat(fail);
-		}
-		return Assertions.fail("Failure expected to be " + ValidationFailure.class + ", but is " + actual.getClass() + ":\n" + actual);
 	}
 
 }

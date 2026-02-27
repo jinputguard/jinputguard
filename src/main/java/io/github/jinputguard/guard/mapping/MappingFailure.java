@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public final class MappingFailure extends AbstractGuardFailure {
 
-	protected MappingFailure(@Nonnull Path path, @Nullable Throwable cause) {
+	public MappingFailure(@Nonnull Path path, @Nullable Throwable cause) {
 		super(path, cause);
 	}
 

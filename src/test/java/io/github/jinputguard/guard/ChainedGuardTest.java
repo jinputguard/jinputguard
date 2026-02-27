@@ -2,8 +2,8 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationFailure;
+import io.github.jinputguard.builder.base.types.ObjectValidationError;
+import io.github.jinputguard.result.DefaultGuardFailure;
 import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,8 +43,8 @@ class ChainedGuardTest {
 	void when_error_in_first_then_second_is_not_processed() {
 
 		var basePath = Path.create("myVal");
-		var validationError = new ValidationError.ObjectIsNull();
-		var validationFailure = new ValidationFailure(validationError, basePath);
+		var validationError = new ObjectValidationError.ObjectIsNull();
+		var validationFailure = new DefaultGuardFailure(validationError, basePath);
 		InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.failure(validationFailure);
 
 		var secondGuardIsCalled = new AtomicBoolean(false);

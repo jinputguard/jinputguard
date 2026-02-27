@@ -1,7 +1,8 @@
 package io.github.jinputguard.guard.collection;
 
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationFailure;
+import io.github.jinputguard.builder.base.types.ObjectValidationError;
+import io.github.jinputguard.builder.base.types.StringValidationError;
+import io.github.jinputguard.result.DefaultGuardFailure;
 import io.github.jinputguard.result.Path;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -16,15 +17,15 @@ class MultiFailureTest {
 		@Test
 		void nominal() {
 			var path = Path.create("myVal");
-			var subFailure1 = new ValidationFailure(new ValidationError.ObjectIsNull(), path.in("subVal1"));
-			var subFailure2 = new ValidationFailure(new ValidationError.StringIsEmpty(), path.in("subVal2"));
+			var subFailure1 = new DefaultGuardFailure(new ObjectValidationError.ObjectIsNull(), path.in("subVal1"));
+			var subFailure2 = new DefaultGuardFailure(new StringValidationError.StringIsEmpty(), path.in("subVal2"));
 			var failure = new MultiFailure(List.of(subFailure1, subFailure2), path);
 
 			MultiFailureAssert.assertThat(failure)
 				.hasMessage(
-					"Multiple failures while processing myVal:\n"
-						+ "  - Invalid myVal.subVal1: must not be null\n"
-						+ "  - Invalid myVal.subVal2: must not be empty\n"
+					"multiple failures:\n"
+						+ "  - myVal.subVal1 -> must not be null\n"
+						+ "  - myVal.subVal2 -> must not be empty\n"
 				);
 		}
 
@@ -42,7 +43,7 @@ class MultiFailureTest {
 		@Test
 		void test_equals_and_hash_code_onOtherObjectType() {
 			var failure = new MultiFailure(List.of(), Path.create("myVal"));
-			Assertions.assertThat(failure).isNotEqualTo(new ValidationFailure(new ValidationError.ObjectIsNull(), Path.create("myVal")));
+			Assertions.assertThat(failure).isNotEqualTo(new DefaultGuardFailure(Path.create("myVal"), new ObjectValidationError.ObjectIsNull()));
 		}
 
 		@Test
@@ -64,7 +65,7 @@ class MultiFailureTest {
 		void test_equals_and_hash_code_onNotSameValidationError() {
 			var failure = new MultiFailure(List.of(), Path.create("myVal"));
 			var otherFailure = new MultiFailure(
-				List.of(new ValidationFailure(new ValidationError.ObjectIsNull(), Path.create("myVal"))),
+				List.of(new DefaultGuardFailure(new ObjectValidationError.ObjectIsNull(), Path.create("myVal"))),
 				Path.create("myVal")
 			);
 			Assertions.assertThat(failure).isNotEqualTo(otherFailure);

@@ -30,8 +30,8 @@ public final class MultiFailure extends AbstractGuardFailure {
 
 	@Override
 	public String getMessage() {
-		return "Multiple failures while processing " + path.format() + ":\n"
-			+ failures.stream().map(GuardFailure::getMessage).map(msg -> ("- " + msg).indent(2)).collect(Collectors.joining());
+		return "multiple failures:\n"
+			+ failures.stream().map(fail -> fail.getPath() + " -> " + fail.getMessage()).map(msg -> ("- " + msg).indent(2)).collect(Collectors.joining());
 	}
 
 	@Override

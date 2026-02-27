@@ -1,7 +1,6 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.base.types.number.AbstractNumberInputGuardBuilder;
 import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -403,8 +402,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterThan(" + ref + ") = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeGreaterThan(value, ref));
+						.hasMessage("must be > " + ref);
 				}
 			}
 
@@ -465,8 +463,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterOrEqualTo(" + ref + ") = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeGreaterOrEqualTo(value, ref));
+						.hasMessage("must be >= " + ref);
 				}
 			}
 
@@ -527,8 +524,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerThan(" + ref + ") = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeLowerThan(value, ref));
+						.hasMessage("must be < " + ref);
 				}
 			}
 
@@ -589,8 +585,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerOrEqualTo(" + ref + ") = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeLowerOrEqualTo(value, ref));
+						.hasMessage("must be <= " + ref);
 				}
 			}
 
@@ -627,8 +622,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositive() = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeGreaterThan(value, getZero()));
+						.hasMessage("must be > " + getZero());
 				}
 			}
 
@@ -665,8 +659,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositiveOrNul() = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeGreaterOrEqualTo(value, getZero()));
+						.hasMessage("must be >= " + getZero());
 				}
 			}
 
@@ -703,8 +696,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isZero() = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo(getZero()));
+						.hasMessage("is not equals to " + getZero());
 				}
 			}
 
@@ -741,8 +733,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegative() = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeLowerThan(value, getZero()));
+						.hasMessage("must be < " + getZero());
 				}
 			}
 
@@ -779,8 +770,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegativeOrNul() = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeLowerOrEqualTo(value, getZero()));
+						.hasMessage("must be <= " + getZero());
 				}
 			}
 
@@ -909,8 +899,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isBetween(" + minRef + ", " + maxRef + ") = FAIL")
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isNumberMustBeBetween(value, minRef, maxRef));
+						.hasMessage("must be between " + minRef + " and " + maxRef);
 				}
 			}
 

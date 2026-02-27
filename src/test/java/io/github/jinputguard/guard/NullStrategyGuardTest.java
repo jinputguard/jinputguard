@@ -103,8 +103,7 @@ class NullStrategyGuardTest {
 
 			GuardResultAssert.assertThat(actual)
 				.isFailure()
-				.isValidationFailure()
-				.errorAssert(errorAssert -> errorAssert.isObjectIsNull());
+				.hasMessage("must not be null");
 		}
 
 		@Test

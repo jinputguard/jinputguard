@@ -11,10 +11,19 @@ import java.util.Objects;
 public class DefaultGuardFailure implements GuardFailure {
 
 	private final Path path;
-	private final ErrorMessage message;
+	private final ErrorDetails message;
 	private final Throwable cause;
 
-	protected DefaultGuardFailure(@Nonnull Path path, @Nonnull ErrorMessage message, @Nullable Throwable cause) {
+	@Deprecated
+	public DefaultGuardFailure(@Nonnull ErrorDetails message, @Nonnull Path path) {
+		this(path, message, null);
+	}
+
+	public DefaultGuardFailure(@Nonnull Path path, @Nonnull ErrorDetails message) {
+		this(path, message, null);
+	}
+
+	public DefaultGuardFailure(@Nonnull Path path, @Nonnull ErrorDetails message, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
 		this.message = Objects.requireNonNull(message, "message cannot be null");
 		this.cause = cause;

@@ -1,26 +1,26 @@
 package io.github.jinputguard.guard.validation;
 
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectIsNull;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectMustBeInstanceOf;
+import io.github.jinputguard.builder.base.types.StringValidationError.StringIsEmpty;
+import io.github.jinputguard.builder.base.types.StringValidationError.StringIsTooLong;
+import io.github.jinputguard.builder.base.types.StringValidationError.StringMustBeParseableToInteger;
+import io.github.jinputguard.builder.base.types.StringValidationError.StringMustMatchPattern;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeBetween;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterOrEqualTo;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterThan;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerOrEqualTo;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerThan;
 import io.github.jinputguard.guard.validation.ValidationError.CollectionIsEmpty;
 import io.github.jinputguard.guard.validation.ValidationError.CustomValidationError;
 import io.github.jinputguard.guard.validation.ValidationError.GenericValidationError;
-import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeBetween;
-import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeGreaterOrEqualTo;
-import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeGreaterThan;
-import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeLowerOrEqualTo;
-import io.github.jinputguard.guard.validation.ValidationError.NumberMustBeLowerThan;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectIsNull;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeEqualTo;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeInstanceOf;
-import io.github.jinputguard.guard.validation.ValidationError.StringIsEmpty;
-import io.github.jinputguard.guard.validation.ValidationError.StringIsTooLong;
-import io.github.jinputguard.guard.validation.ValidationError.StringMustBeParseableToInteger;
-import io.github.jinputguard.guard.validation.ValidationError.StringMustMatchPattern;
-import io.github.jinputguard.result.ErrorMessage;
+import io.github.jinputguard.result.ErrorDetails;
 import java.util.regex.Pattern;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 
-public class AbstractValidationErrorAssert<SELF extends AbstractValidationErrorAssert<SELF, T>, T extends ErrorMessage> extends AbstractObjectAssert<SELF, T> {
+public class AbstractValidationErrorAssert<SELF extends AbstractValidationErrorAssert<SELF, T>, T extends ErrorDetails> extends AbstractObjectAssert<SELF, T> {
 
 	public AbstractValidationErrorAssert(T actual, Class<?> selfType) {
 		super(actual, selfType);

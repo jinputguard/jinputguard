@@ -334,8 +334,7 @@ class StringInputGuardBuilderTest {
 			void when_longer_then_failure() {
 				var actual = GUARD.process("123456", "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isStringIsTooLong(6, 5));
+					.hasMessage("must be 5 chars max, but is 6");
 			}
 
 		}
@@ -384,9 +383,7 @@ class StringInputGuardBuilderTest {
 				var path = Path.create("myVal");
 				var actual = GUARD.process(value, path);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isStringMustBeParseableToInteger())
-					.hasValidationMessage(path, "is not parseable to Integer");
+					.hasMessage("is not parseable to Integer");
 			}
 
 		}
@@ -427,9 +424,7 @@ class StringInputGuardBuilderTest {
 				var path = Path.create("myVal");
 				var actual = GUARD.process("zabc9z", path);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isStringMustMatchPattern(REGEX))
-					.hasValidationMessage(path, "must match pattern " + REGEX);
+					.hasMessage("must match pattern " + REGEX);
 			}
 
 		}
@@ -463,9 +458,7 @@ class StringInputGuardBuilderTest {
 				var path = Path.create("myVal");
 				var actual = GUARD.process("zabc9z", path);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isStringMustMatchPattern(PATTERN))
-					.hasValidationMessage(path, "must match pattern " + PATTERN.pattern());
+					.hasMessage("must match pattern " + PATTERN.pattern());
 			}
 
 		}

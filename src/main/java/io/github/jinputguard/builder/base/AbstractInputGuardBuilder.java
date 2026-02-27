@@ -5,7 +5,7 @@ import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.result.ErrorMessage;
+import io.github.jinputguard.result.ErrorDetails;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.Function;
@@ -44,7 +44,7 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	// VALIDATION
 
 	@Override
-	public SELF validate(@Nonnull Function<OUT, ErrorMessage> validationFunction) {
+	public SELF validate(@Nonnull Function<OUT, ErrorDetails> validationFunction) {
 		return apply(InputGuards.validationGuard(validationFunction));
 	}
 

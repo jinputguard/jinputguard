@@ -63,8 +63,7 @@ class ListInputGuardBuilderTest {
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.isValidationFailure()
-				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
+				.hasMessage("is empty");
 		}
 
 	}
@@ -258,17 +257,14 @@ class ListInputGuardBuilderTest {
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
 							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.hasPathEqualTo(BASE_PATH.atIndex(0))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
+								.hasMessage("must not be empty")
+								.hasPathEqualTo(BASE_PATH.atIndex(0)),
 							fail2 -> GuardFailureAssert.assertThat(fail2)
-								.isValidationFailure()
-								.hasPathEqualTo(BASE_PATH.atIndex(2))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
+								.hasMessage("must not be empty")
+								.hasPathEqualTo(BASE_PATH.atIndex(2)),
 							fail3 -> GuardFailureAssert.assertThat(fail3)
-								.isValidationFailure()
+								.hasMessage("must not be empty")
 								.hasPathEqualTo(BASE_PATH.atIndex(4))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
 						)
 					);
 			}

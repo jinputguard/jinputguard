@@ -1,10 +1,10 @@
 package io.github.jinputguard.builder.base;
 
 import io.github.jinputguard.InputGuardBuilder;
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectIsNull;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeEqualTo;
-import io.github.jinputguard.guard.validation.ValidationError.ObjectMustBeInstanceOf;
+import io.github.jinputguard.builder.base.types.ObjectValidationError;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectIsNull;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectMustBeInstanceOf;
 import java.util.Objects;
 
 public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuilder<IN, T, B>, SELF extends AbstractValidationBuilder<IN, T, B, SELF>>
@@ -21,7 +21,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	public final SELF isNotNull() {
 		builder = builder.validate(
 			value -> value == null
-				? new ValidationError.ObjectIsNull()
+				? new ObjectValidationError.ObjectIsNull()
 				: null
 		);
 		return cast();
@@ -37,7 +37,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 		Objects.requireNonNull(clazz, "Expected class cannot be null");
 		builder = builder.validate(
 			value -> !clazz.isInstance(value)
-				? new ValidationError.ObjectMustBeInstanceOf(value == null ? null : value.getClass(), clazz)
+				? new ObjectValidationError.ObjectMustBeInstanceOf(value == null ? null : value.getClass(), clazz)
 				: null
 		);
 		return cast();
@@ -52,7 +52,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	public final SELF isEqualTo(T other) {
 		builder = builder.validate(
 			value -> !Objects.equals(value, other)
-				? new ValidationError.ObjectMustBeEqualTo(other)
+				? new ObjectValidationError.ObjectMustBeEqualTo(other)
 				: null
 		);
 		return cast();

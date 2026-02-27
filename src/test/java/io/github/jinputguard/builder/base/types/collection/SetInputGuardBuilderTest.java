@@ -60,8 +60,7 @@ class SetInputGuardBuilderTest {
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.isValidationFailure()
-				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
+				.hasMessage("is empty");
 		}
 
 	}
@@ -245,8 +244,7 @@ class SetInputGuardBuilderTest {
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactly(
 							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
+								.hasMessage("must not be empty")
 						)
 					);
 			}
@@ -268,13 +266,11 @@ class SetInputGuardBuilderTest {
 					.failuresAssert(
 						assertor -> assertor.satisfiesExactlyInAnyOrder(
 							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.hasPathEqualTo(BASE_PATH.atUndefinedIndex())
-								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2)),
+								.hasMessage("must be 2 chars max, but is 3")
+								.hasPathEqualTo(BASE_PATH.atUndefinedIndex()),
 							fail2 -> GuardFailureAssert.assertThat(fail2)
-								.isValidationFailure()
+								.hasMessage("must be 2 chars max, but is 3")
 								.hasPathEqualTo(BASE_PATH.atUndefinedIndex())
-								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2))
 						)
 					);
 			}

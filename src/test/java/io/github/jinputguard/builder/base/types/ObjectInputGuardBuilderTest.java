@@ -56,7 +56,7 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isFailure().isValidationFailure();
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isFailure();
 			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
 		}
 
@@ -223,10 +223,8 @@ class ObjectInputGuardBuilderTest {
 			void failure() {
 				var actualResult = GUARD.process("plop", "myVal");
 
-				GuardResultAssert.assertThat(actualResult)
-					.isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isGenericError("object is not null: plop"));
+				GuardResultAssert.assertThat(actualResult).isFailure()
+					.hasMessage("object is not null: plop");
 			}
 
 		}
@@ -256,8 +254,7 @@ class ObjectInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.isValidationFailure()
-					.errorAssert(assertor -> assertor.isGenericError("object is not null"));
+					.hasMessage("object is not null");
 
 				assertThat(actualResult.getFailure().getCause()).isNull();
 			}
@@ -286,8 +283,7 @@ class ObjectInputGuardBuilderTest {
 				var actual = GUARD.process(null, "myVal");
 				GuardResultAssert.assertThat(actual)
 					.isFailure()
-					.isValidationFailure()
-					.errorAssert(errorAssert -> errorAssert.isObjectIsNull());
+					.hasMessage("must not be null");
 			}
 
 			@Test
@@ -319,8 +315,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(null, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(null, Integer.class));
+						.hasMessage("is not an instance of " + Integer.class.getName() + ", but is null");
 				}
 
 				@Test
@@ -346,8 +341,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(longValue, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isObjectMustBeInstanceOf(Long.class, Integer.class));
+						.hasMessage("is not an instance of " + Integer.class.getName() + ", but is instance of " + Long.class.getName());
 				}
 
 			}
@@ -368,16 +362,14 @@ class ObjectInputGuardBuilderTest {
 				void when_null_then_failure() {
 					var actual = GUARD_FOR_STRING.process(null, "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
+						.hasMessage("is not equals to expected");
 				}
 
 				@Test
 				void when_notEqualValue_then_failure() {
 					var actual = GUARD_FOR_STRING.process("other", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.isValidationFailure()
-						.errorAssert(errorAssert -> errorAssert.isObjectMustBeEqualTo("expected"));
+						.hasMessage("is not equals to expected");
 				}
 
 				@Test

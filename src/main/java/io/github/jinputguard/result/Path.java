@@ -48,6 +48,11 @@ public sealed interface Path {
 			return parent.format() + "." + property;
 		}
 
+		@Override
+		public final String toString() {
+			return format();
+		}
+
 	}
 
 	record IndexPath(Path parent, int index) implements Path {
@@ -64,6 +69,11 @@ public sealed interface Path {
 
 		private final String getIndexPrint() {
 			return index < 0 ? "[?]" : "[" + index + "]";
+		}
+
+		@Override
+		public final String toString() {
+			return format();
 		}
 
 	}
