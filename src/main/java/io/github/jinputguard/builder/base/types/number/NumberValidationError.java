@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base.types.number;
 
-import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.result.errors.ValidationError;
 
 public interface NumberValidationError extends ValidationError {
 

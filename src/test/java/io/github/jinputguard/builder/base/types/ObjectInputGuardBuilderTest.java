@@ -400,7 +400,7 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.isMappingFailure()
+				.hasMessage("invalid value")
 				.hasSameCause(exception);
 		}
 

@@ -4,7 +4,7 @@ import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.builder.base.types.ObjectValidationError;
 import io.github.jinputguard.builder.base.types.StringValidationError;
-import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.result.errors.ValidationError;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class GuardResultTest {
 	private static final GuardResult<Object> SUCCESS_WITH_ANY = GuardResult.success(OBJECT);
 
 	private static final ValidationError ERROR = new ObjectValidationError.ObjectIsNull();
-	private static final GuardFailure FAILURE = new DefaultGuardFailure(ERROR, BASE_PATH);
+	private static final GuardFailure FAILURE = new DefaultGuardFailure(BASE_PATH, ERROR);
 	private static final GuardResult<Object> FAILURE_WITH_ANY = GuardResult.failure(FAILURE);
 
 	@Nested
@@ -32,7 +32,7 @@ class GuardResultTest {
 		@Test
 		void failure() {
 			var error = new ObjectValidationError.ObjectIsNull();
-			var failure = new DefaultGuardFailure(error, BASE_PATH);
+			var failure = new DefaultGuardFailure(BASE_PATH, error);
 			GuardResultAssert.assertThat(GuardResult.failure(failure))
 				.isFailure(failure);
 		}
@@ -224,7 +224,7 @@ class GuardResultTest {
 
 		@Test
 		void test_equals_and_hash_code_onNotSameFailure_() {
-			var otherDifferent = GuardResult.failure(new DefaultGuardFailure(new StringValidationError.StringIsEmpty(), BASE_PATH));
+			var otherDifferent = GuardResult.failure(new DefaultGuardFailure(BASE_PATH, new StringValidationError.StringIsEmpty()));
 			Assertions.assertThat(FAILURE_WITH_ANY).isNotEqualTo(otherDifferent);
 		}
 

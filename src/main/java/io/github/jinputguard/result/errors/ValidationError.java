@@ -1,6 +1,4 @@
-package io.github.jinputguard.guard.validation;
-
-import io.github.jinputguard.result.ErrorDetails;
+package io.github.jinputguard.result.errors;
 
 /**
  * A failure because of a validation issue. 
@@ -9,9 +7,6 @@ import io.github.jinputguard.result.ErrorDetails;
  * @see ValidationGuard
  */
 public interface ValidationError extends ErrorDetails {
-
-	@Override
-	String getMessage();
 
 	// ===========================================================================
 	// CUSTOM

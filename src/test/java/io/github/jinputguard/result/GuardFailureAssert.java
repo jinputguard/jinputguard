@@ -3,11 +3,10 @@ package io.github.jinputguard.result;
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.guard.collection.MultiFailure;
 import io.github.jinputguard.guard.collection.MultiFailureAssert;
-import io.github.jinputguard.guard.mapping.MappingFailure;
-import io.github.jinputguard.guard.mapping.MappingFailureAssert;
 import java.util.function.Consumer;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
+import org.assertj.core.api.AbstractThrowableAssert;
 import org.assertj.core.api.Assertions;
 
 public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T extends GuardFailure> extends AbstractAssert<SELF, T> {
@@ -65,14 +64,27 @@ public class GuardFailureAssert<SELF extends GuardFailureAssert<SELF, T>, T exte
 	}
 
 	// -------------------------------------------------------------------------------------------
-	// SPECIFIC SUBTYPES
+	// CAUSE
 
-	public MappingFailureAssert isMappingFailure() {
-		if (actual instanceof MappingFailure fail) {
-			return MappingFailureAssert.assertThat(fail);
-		}
-		return Assertions.fail("Failure expected to be " + MappingFailure.class + ", but is " + actual.getClass() + ":\n" + actual);
+	public SELF causeSatisfies(Consumer<Throwable> consumer) {
+		consumer.accept(actual.getCause());
+		return myself;
 	}
+
+	public SELF causeAssert(Consumer<AbstractThrowableAssert<?, ?>> consumer) {
+		return causeSatisfies(value -> consumer.accept(Assertions.assertThat(value)));
+	}
+
+	public SELF hasSameCause(Throwable expected) {
+		return causeAssert(assertor -> assertor.isSameAs(expected));
+	}
+
+	public <X extends Throwable> SELF hasCauseInstanceOf(Class<X> expected) {
+		return causeAssert(assertor -> assertor.isInstanceOf(expected));
+	}
+
+	// -------------------------------------------------------------------------------------------
+	// SPECIFIC SUBTYPES
 
 	public MultiFailureAssert isMultiFailure() {
 		if (actual instanceof MultiFailure fail) {

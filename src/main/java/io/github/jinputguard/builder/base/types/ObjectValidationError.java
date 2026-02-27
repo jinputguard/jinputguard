@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base.types;
 
-import io.github.jinputguard.guard.validation.ValidationError;
+import io.github.jinputguard.result.errors.ValidationError;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 

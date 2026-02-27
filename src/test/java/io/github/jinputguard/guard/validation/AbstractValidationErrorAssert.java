@@ -12,10 +12,10 @@ import io.github.jinputguard.builder.base.types.number.NumberValidationError.Num
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterThan;
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerOrEqualTo;
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerThan;
-import io.github.jinputguard.guard.validation.ValidationError.CollectionIsEmpty;
-import io.github.jinputguard.guard.validation.ValidationError.CustomValidationError;
-import io.github.jinputguard.guard.validation.ValidationError.GenericValidationError;
-import io.github.jinputguard.result.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.ValidationError.CollectionIsEmpty;
+import io.github.jinputguard.result.errors.ValidationError.CustomValidationError;
+import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import java.util.regex.Pattern;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;

@@ -519,7 +519,6 @@ class StringInputGuardBuilderTest {
 				var actual = GUARD.process("-2147483649", "myVal"); // Integer.MIN_VALUE - 1 (64 bits)
 
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isMappingFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
@@ -528,7 +527,6 @@ class StringInputGuardBuilderTest {
 				var actual = GUARD.process("2147483648", "myVal"); // Integer.MAX_VALUE + 1 (64 bits)
 
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isMappingFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
@@ -585,7 +583,6 @@ class StringInputGuardBuilderTest {
 				var actual = GUARD.process("-9223372036854775809", "myVal"); // Long.MIN_VALUE - 1 (64 bits)
 
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isMappingFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
@@ -594,7 +591,6 @@ class StringInputGuardBuilderTest {
 				var actual = GUARD.process("9223372036854775808", "myVal"); // Long.MAX_VALUE + 1 (64 bits)
 
 				GuardResultAssert.assertThat(actual).isFailure()
-					.isMappingFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 

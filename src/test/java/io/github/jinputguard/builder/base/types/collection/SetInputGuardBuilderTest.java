@@ -1,10 +1,10 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.guard.validation.ValidationError;
 import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.Path;
+import io.github.jinputguard.result.errors.ValidationError;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package io.github.jinputguard.result;
+package io.github.jinputguard.result.errors;
 
 public interface ErrorDetails {
 

@@ -1,6 +1,6 @@
 package io.github.jinputguard.guard.validation;
 
-import io.github.jinputguard.result.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorDetails;
 
 public class ValidationErrorAssert extends AbstractValidationErrorAssert<ValidationErrorAssert, ErrorDetails> {
 

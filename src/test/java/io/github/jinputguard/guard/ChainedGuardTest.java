@@ -44,7 +44,7 @@ class ChainedGuardTest {
 
 		var basePath = Path.create("myVal");
 		var validationError = new ObjectValidationError.ObjectIsNull();
-		var validationFailure = new DefaultGuardFailure(validationError, basePath);
+		var validationFailure = new DefaultGuardFailure(basePath, validationError);
 		InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.failure(validationFailure);
 
 		var secondGuardIsCalled = new AtomicBoolean(false);

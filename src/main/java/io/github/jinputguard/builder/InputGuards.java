@@ -7,10 +7,10 @@ import io.github.jinputguard.guard.ChainedGuard;
 import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
-import io.github.jinputguard.guard.mapping.MappingFailure;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.ErrorDetails;
 import io.github.jinputguard.result.Path;
+import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.MappingError.MappingExceptionError;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -118,7 +118,7 @@ public final class InputGuards {
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
 		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
 	) {
-		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, ex));
+		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new DefaultGuardFailure(path, new MappingExceptionError(ex)));
 	}
 
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(

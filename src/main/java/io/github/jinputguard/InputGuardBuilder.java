@@ -1,9 +1,9 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
-import io.github.jinputguard.guard.validation.ValidationError;
-import io.github.jinputguard.guard.validation.ValidationError.GenericValidationError;
-import io.github.jinputguard.result.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.ValidationError;
+import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import jakarta.annotation.Nonnull;
 import java.util.function.Function;
 import java.util.function.Predicate;

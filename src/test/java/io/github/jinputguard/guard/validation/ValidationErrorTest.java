@@ -11,7 +11,7 @@ import io.github.jinputguard.builder.base.types.number.NumberValidationError.Num
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterThan;
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerOrEqualTo;
 import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerThan;
-import io.github.jinputguard.guard.validation.ValidationError.CollectionIsEmpty;
+import io.github.jinputguard.result.errors.ValidationError.CollectionIsEmpty;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

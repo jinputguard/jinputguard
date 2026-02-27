@@ -17,8 +17,8 @@ class MultiFailureTest {
 		@Test
 		void nominal() {
 			var path = Path.create("myVal");
-			var subFailure1 = new DefaultGuardFailure(new ObjectValidationError.ObjectIsNull(), path.in("subVal1"));
-			var subFailure2 = new DefaultGuardFailure(new StringValidationError.StringIsEmpty(), path.in("subVal2"));
+			var subFailure1 = new DefaultGuardFailure(path.in("subVal1"), new ObjectValidationError.ObjectIsNull());
+			var subFailure2 = new DefaultGuardFailure(path.in("subVal2"), new StringValidationError.StringIsEmpty());
 			var failure = new MultiFailure(List.of(subFailure1, subFailure2), path);
 
 			MultiFailureAssert.assertThat(failure)
@@ -65,7 +65,7 @@ class MultiFailureTest {
 		void test_equals_and_hash_code_onNotSameValidationError() {
 			var failure = new MultiFailure(List.of(), Path.create("myVal"));
 			var otherFailure = new MultiFailure(
-				List.of(new DefaultGuardFailure(new ObjectValidationError.ObjectIsNull(), Path.create("myVal"))),
+				List.of(new DefaultGuardFailure(Path.create("myVal"), new ObjectValidationError.ObjectIsNull())),
 				Path.create("myVal")
 			);
 			Assertions.assertThat(failure).isNotEqualTo(otherFailure);
