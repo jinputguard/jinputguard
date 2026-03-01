@@ -34,16 +34,4 @@ public interface ValidationError extends ErrorDetails {
 
 	}
 
-	// ===========================================================================
-	// COLLECTION
-
-	record CollectionIsEmpty() implements ValidationError {
-
-		@Override
-		public String getMessage() {
-			return "is empty";
-		}
-
-	}
-
 }

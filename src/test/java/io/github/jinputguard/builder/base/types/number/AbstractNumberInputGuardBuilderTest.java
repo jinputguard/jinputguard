@@ -36,151 +36,151 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 			@Test
 			void clamp_MIN_MIN() {
 				var guard = initiateGuard().sanitize().clamp(getMinValue(), getMinValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, MIN) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, MIN) & -1 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, MIN) & 0 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, MIN) & 1 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, MIN) & MAX = MIN").isSuccessWithValue(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, MIN) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, MIN) & -1 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, MIN) & 0 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, MIN) & 1 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, MIN) & MAX = MIN").isSuccess(getMinValue());
 			}
 
 			@Test
 			void clamp_MIN_MinusOne() {
 				var guard = initiateGuard().sanitize().clamp(getMinValue(), getMinusOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, -1) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, -1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, -1) & 0 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, -1) & 1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, -1) & MAX = -1").isSuccessWithValue(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, -1) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, -1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, -1) & 0 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, -1) & 1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, -1) & MAX = -1").isSuccess(getMinusOne());
 			}
 
 			@Test
 			void clamp_MIN_Zero() {
 				var guard = initiateGuard().sanitize().clamp(getMinValue(), getZero()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, 0) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, 0) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, 0) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, 0) & 1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, 0) & MAX = 0").isSuccessWithValue(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, 0) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, 0) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, 0) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, 0) & 1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, 0) & MAX = 0").isSuccess(getZero());
 			}
 
 			@Test
 			void clamp_MIN_One() {
 				var guard = initiateGuard().sanitize().clamp(getMinValue(), getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, 1) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, 1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, 1) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, 1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, 1) & MAX = 1").isSuccessWithValue(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, 1) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, 1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, 1) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, 1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, 1) & MAX = 1").isSuccess(getOne());
 			}
 
 			@Test
 			void clamp_MIN_MAX() {
 				var guard = initiateGuard().sanitize().clamp(getMinValue(), getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, MAX) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, MAX) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, MAX) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, MAX) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MIN, MAX) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MIN, MAX) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MIN, MAX) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MIN, MAX) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MIN, MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clamp_MinusOne_MinusOne() {
 				var guard = initiateGuard().sanitize().clamp(getMinusOne(), getMinusOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, -1) & MIN = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, -1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, -1) & 0 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, -1) & 1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, -1) & MAX = -1").isSuccessWithValue(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, -1) & MIN = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, -1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, -1) & 0 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, -1) & 1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, -1) & MAX = -1").isSuccess(getMinusOne());
 			}
 
 			@Test
 			void clamp_MinusOne_Zero() {
 				var guard = initiateGuard().sanitize().clamp(getMinusOne(), getZero()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, 0) & MIN = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, 0) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, 0) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, 0) & 1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, 0) & MAX = 0").isSuccessWithValue(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, 0) & MIN = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, 0) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, 0) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, 0) & 1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, 0) & MAX = 0").isSuccess(getZero());
 			}
 
 			@Test
 			void clamp_MinusOne_One() {
 				var guard = initiateGuard().sanitize().clamp(getMinusOne(), getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, 1) & MIN = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, 1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, 1) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, 1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, 1) & MAX = 1").isSuccessWithValue(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, 1) & MIN = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, 1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, 1) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, 1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, 1) & MAX = 1").isSuccess(getOne());
 			}
 
 			@Test
 			void clamp_MinusOne_MAX() {
 				var guard = initiateGuard().sanitize().clamp(getMinusOne(), getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, MAX) & MIN = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, MAX) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, MAX) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, MAX) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(-1, MAX) & MIN = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(-1, MAX) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(-1, MAX) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(-1, MAX) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(-1, MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clamp_Zero_Zero() {
 				var guard = initiateGuard().sanitize().clamp(getZero(), getZero()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, 0) & MIN = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, 0) & -1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, 0) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, 0) & 1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, 0) & MAX = 0").isSuccessWithValue(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, 0) & MIN = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, 0) & -1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, 0) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, 0) & 1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, 0) & MAX = 0").isSuccess(getZero());
 			}
 
 			@Test
 			void clamp_Zero_One() {
 				var guard = initiateGuard().sanitize().clamp(getZero(), getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, 1) & MIN = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, 1) & -1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, 1) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, 1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, 1) & MAX = 1").isSuccessWithValue(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, 1) & MIN = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, 1) & -1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, 1) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, 1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, 1) & MAX = 1").isSuccess(getOne());
 			}
 
 			@Test
 			void clamp_Zero_MAX() {
 				var guard = initiateGuard().sanitize().clamp(getZero(), getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, MAX) & MIN = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, MAX) & -1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, MAX) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, MAX) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(0, MAX) & MIN = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(0, MAX) & -1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(0, MAX) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(0, MAX) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(0, MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clamp_One_One() {
 				var guard = initiateGuard().sanitize().clamp(getOne(), getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(1, 1) & MIN = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(1, 1) & -1 = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(1, 1) & 0 = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(1, 1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(1, 1) & MAX = 1").isSuccessWithValue(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(1, 1) & MIN = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(1, 1) & -1 = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(1, 1) & 0 = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(1, 1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(1, 1) & MAX = 1").isSuccess(getOne());
 			}
 
 			@Test
 			void clamp_One_MAX() {
 				var guard = initiateGuard().sanitize().clamp(getOne(), getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(1, MAX) & MIN = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(1, MAX) & -1 = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(1, MAX) & 0 = 0").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(1, MAX) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(1, MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(1, MAX) & MIN = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(1, MAX) & -1 = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(1, MAX) & 0 = 0").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(1, MAX) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(1, MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clamp_MAX_MAX() {
 				var guard = initiateGuard().sanitize().clamp(getMaxValue(), getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MAX, MAX) & MIN = 0").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MAX, MAX) & -1 = 0").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MAX, MAX) & 0 = 0").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MAX, MAX) & 1 = 1").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MAX, MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clamp(MAX, MAX) & MIN = 0").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clamp(MAX, MAX) & -1 = 0").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clamp(MAX, MAX) & 0 = 0").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clamp(MAX, MAX) & 1 = 1").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clamp(MAX, MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
@@ -212,51 +212,51 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 			@Test
 			void clampMin_MIN() {
 				var guard = initiateGuard().sanitize().clampMin(getMinValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(MIN) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(MIN) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(MIN) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(MIN) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(MIN) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(MIN) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(MIN) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(MIN) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(MIN) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(MIN) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clampMin_MinusOne() {
 				var guard = initiateGuard().sanitize().clampMin(getMinusOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(-1) & MIN = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(-1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(-1) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(-1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(-1) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(-1) & MIN = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(-1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(-1) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(-1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(-1) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clampMin_Zero() {
 				var guard = initiateGuard().sanitize().clampMin(getZero()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(0) & MIN = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(0) & -1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(0) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(0) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(0) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(0) & MIN = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(0) & -1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(0) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(0) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(0) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clampMin_One() {
 				var guard = initiateGuard().sanitize().clampMin(getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(1) & MIN = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(1) & -1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(1) & 0 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(1) & MAX = 1").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(1) & MIN = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(1) & -1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(1) & 0 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(1) & MAX = 1").isSuccess(getMaxValue());
 			}
 
 			@Test
 			void clampMin_MAX() {
 				var guard = initiateGuard().sanitize().clampMin(getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(MAX) & MIN = MAX").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(MAX) & -1 = MAX").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(MAX) & 0 = MAX").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(MAX) & 1 = MAX").isSuccessWithValue(getMaxValue());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMin(MAX) & MIN = MAX").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMin(MAX) & -1 = MAX").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMin(MAX) & 0 = MAX").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMin(MAX) & 1 = MAX").isSuccess(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMin(MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
@@ -275,51 +275,51 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 			@Test
 			void clampMax_MIN() {
 				var guard = initiateGuard().sanitize().clampMax(getMinValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(MIN) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(MIN) & -1 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(MIN) & 0 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(MIN) & 1 = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(MIN) & MAX = MIN").isSuccessWithValue(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(MIN) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(MIN) & -1 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(MIN) & 0 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(MIN) & 1 = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(MIN) & MAX = MIN").isSuccess(getMinValue());
 			}
 
 			@Test
 			void clampMax_MinusOne() {
 				var guard = initiateGuard().sanitize().clampMax(getMinusOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(-1) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(-1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(-1) & 0 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(-1) & 1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(-1) & MAX = -1").isSuccessWithValue(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(-1) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(-1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(-1) & 0 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(-1) & 1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(-1) & MAX = -1").isSuccess(getMinusOne());
 			}
 
 			@Test
 			void clampMax_Zero() {
 				var guard = initiateGuard().sanitize().clampMax(getZero()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(0) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(0) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(0) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(0) & 1 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(0) & MAX = 0").isSuccessWithValue(getZero());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(0) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(0) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(0) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(0) & 1 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(0) & MAX = 0").isSuccess(getZero());
 			}
 
 			@Test
 			void clampMax_One() {
 				var guard = initiateGuard().sanitize().clampMax(getOne()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(1) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(1) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(1) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(1) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(1) & MAX = 1").isSuccessWithValue(getOne());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(1) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(1) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(1) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(1) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(1) & MAX = 1").isSuccess(getOne());
 			}
 
 			@Test
 			void clampMax_MAX() {
 				var guard = initiateGuard().sanitize().clampMax(getMaxValue()).then().build();
-				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(MAX) & MIN = MIN").isSuccessWithValue(getMinValue());
-				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(MAX) & -1 = -1").isSuccessWithValue(getMinusOne());
-				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(MAX) & 0 = 0").isSuccessWithValue(getZero());
-				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(MAX) & 1 = 1").isSuccessWithValue(getOne());
-				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(MAX) & MAX = MAX").isSuccessWithValue(getMaxValue());
+				GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("clampMax(MAX) & MIN = MIN").isSuccess(getMinValue());
+				GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("clampMax(MAX) & -1 = -1").isSuccess(getMinusOne());
+				GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("clampMax(MAX) & 0 = 0").isSuccess(getZero());
+				GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("clampMax(MAX) & 1 = 1").isSuccess(getOne());
+				GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("clampMax(MAX) & MAX = MAX").isSuccess(getMaxValue());
 			}
 
 			@Test
@@ -335,11 +335,11 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 		@Test
 		void abs() {
 			var guard = initiateGuard().sanitize().abs().then().build();
-			GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("abs() & MIN = -MIN").isSuccessWithValue(getAbsMinValue());
-			GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("abs() & -1 = 1").isSuccessWithValue(getOne());
-			GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("abs() & 0 = 0").isSuccessWithValue(getZero());
-			GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("abs() & 1 = 1").isSuccessWithValue(getOne());
-			GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("abs() & MAX = MAX").isSuccessWithValue(getMaxValue());
+			GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("abs() & MIN = -MIN").isSuccess(getAbsMinValue());
+			GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("abs() & -1 = 1").isSuccess(getOne());
+			GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("abs() & 0 = 0").isSuccess(getZero());
+			GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("abs() & 1 = 1").isSuccess(getOne());
+			GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("abs() & MAX = MAX").isSuccess(getMaxValue());
 		}
 
 	}
@@ -397,7 +397,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterThan(" + ref + ") = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterThan(" + ref + ") = FAIL")
@@ -458,7 +458,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterOrEqualTo(" + ref + ") = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterOrEqualTo(" + ref + ") = FAIL")
@@ -519,7 +519,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerThan(" + ref + ") = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerThan(" + ref + ") = FAIL")
@@ -580,7 +580,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerOrEqualTo(" + ref + ") = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerOrEqualTo(" + ref + ") = FAIL")
@@ -617,7 +617,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositive() = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositive() = FAIL")
@@ -654,7 +654,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositiveOrNul() = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositiveOrNul() = FAIL")
@@ -691,7 +691,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isZero() = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isZero() = FAIL")
@@ -728,7 +728,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegative() = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegative() = FAIL")
@@ -765,7 +765,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegativeOrNul() = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegativeOrNul() = FAIL")
@@ -894,7 +894,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 				if (isSuccess) {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isBetween(" + minRef + ", " + maxRef + ") = SUCCESS")
-						.isSuccessWithValue(value);
+						.isSuccess(value);
 				} else {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isBetween(" + minRef + ", " + maxRef + ") = FAIL")

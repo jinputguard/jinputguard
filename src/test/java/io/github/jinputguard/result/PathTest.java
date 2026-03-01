@@ -1,183 +1,84 @@
 package io.github.jinputguard.result;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
 class PathTest {
 
-//	@Nested
-//	class StaticFactories {
-//
-//		@Test
-//		void instances() {
-//			Assertions.assertThat(Path.root())
-//				.isInstanceOf(RootPath.class);
-//			Assertions.assertThat(Path.root().in("plop"))
-//				.isInstanceOf(PropertyPath.class);
-//			Assertions.assertThat(Path.root().atIndex(0))
-//				.isInstanceOf(IndexPath.class);
-//		}
-//
-//	}
-//
-//	@Test
-//	void path_multiple() {
-//		var path = Path.root().in("val1").in("val2").in("val3");
-//		Assertions.assertThat(path.format()).isEqualTo("val3.val2.val1");
-//	}
-//
-//	@Nested
-//	class RootPathTest {
-//
-//		private static final Path ROOT_PATH = Path.root();
-//
-//		@Test
-//		void staticFactory() {
-//			Assertions.assertThat(ROOT_PATH)
-//				.isInstanceOf(RootPath.class);
-//		}
-//
-//		@Test
-//		void format_withNoParent() {
-//			Assertions.assertThat(ROOT_PATH.format()).isEqualTo("value");
-//		}
-//
-//		@Test
-//		void when_atPath_with_anyRootPath_return_anyPath() {
-//			var anyPath = Path.root();
-//			Assertions.assertThat(ROOT_PATH.atPath(anyPath)).isSameAs(anyPath);
-//		}
-//
-//		@Test
-//		void when_atPath_with_anyPropertyPath_return_anyPath() {
-//			var anyPath = Path.createPropertyPath("plop");
-//			Assertions.assertThat(ROOT_PATH.atPath(anyPath)).isSameAs(anyPath);
-//		}
-//
-//		@Test
-//		void when_atPath_with_anyIndexPath_return_anyPath() {
-//			var anyPath = Path.createIndexPath(0);
-//			Assertions.assertThat(ROOT_PATH.atPath(anyPath)).isSameAs(anyPath);
-//		}
-//
-//	}
-//
-//	@Nested
-//	class PropertyPathTest {
-//
-//		private static final Path PROPERTY_PATH = Path.root().in("plop");
-//
-//		@Test
-//		void staticFactory() {
-//			Assertions.assertThat(PROPERTY_PATH).isInstanceOf(PropertyPath.class);
-//			Assertions.assertThat((PropertyPath) PROPERTY_PATH)
-//				.extracting(PropertyPath::parent, PropertyPath::property)
-//				.satisfiesExactly(
-//					parent -> Assertions.assertThat(parent).isInstanceOf(RootPath.class),
-//					property -> Assertions.assertThat(property).isEqualTo("plop")
-//				);
-//		}
-//
-//		@Test
-//		void nullParent_forbidden() {
-//			Assertions.assertThatNullPointerException()
-//				.isThrownBy(() -> new PropertyPath(null, "plop"))
-//				.withMessage("parent path cannot be null");
-//		}
-//
-//		@Test
-//		void nullProperty_forbidden() {
-//			Assertions.assertThatNullPointerException()
-//				.isThrownBy(() -> new PropertyPath(Path.root(), null))
-//				.withMessage("property path cannot be null");
-//		}
-//
-//		@Test
-//		void format_withNoParent() {
-//			Assertions.assertThat(PROPERTY_PATH.format()).isEqualTo("plop");
-//		}
-//
-//		@Test
-//		void format_withParent() {
-//			var newPath = PROPERTY_PATH.in("midProp").in("topProp");
-//			Assertions.assertThat(newPath.format()).isEqualTo("topProp.midProp.plop");
-//		}
-//
-//	}
-//
-//	@Nested
-//	class IndexPathTest {
-//
-//		private static final Path INDEX_PATH = Path.root().atIndex(123);
-//
-//		@Test
-//		void staticFactory() {
-//			Assertions.assertThat(INDEX_PATH).isInstanceOf(IndexPath.class);
-//			Assertions.assertThat((IndexPath) INDEX_PATH)
-//				.extracting(IndexPath::parent, IndexPath::index)
-//				.satisfiesExactly(
-//					parent -> Assertions.assertThat(parent).isInstanceOf(RootPath.class),
-//					index -> Assertions.assertThat(index).isEqualTo(123)
-//				);
-//		}
-//
-//		@Test
-//		void nullParent_forbidden() {
-//			Assertions.assertThatNullPointerException()
-//				.isThrownBy(() -> new IndexPath(null, 0))
-//				.withMessage("parent path cannot be null");
-//		}
-//
-//		@Test
-//		void negativeIndex_forbidden() {
-//			Assertions.assertThatIllegalArgumentException()
-//				.isThrownBy(() -> new IndexPath(Path.root(), -1))
-//				.withMessage("index path cannot be negative: -1");
-//		}
-//
-//		@Test
-//		void format_withNoParent() {
-//			Assertions.assertThat(INDEX_PATH.format()).isEqualTo("index [123]");
-//		}
-//
-//		@Test
-//		void format_withParent() {
-//			var newPath = INDEX_PATH.atIndex(456).atIndex(789);
-//			Assertions.assertThat(newPath.format()).isEqualTo("index [789][456][123]");
-//		}
-//
-//	}
-//
-//	@Nested
-//	class ElementPathTest {
-//
-//		private static final Path ELEMENT_PATH = Path.root().atUndefinedIndex();
-//
-//		@Test
-//		void staticFactory() {
-//			Assertions.assertThat(ELEMENT_PATH).isInstanceOf(IndexPath.class);
-//			Assertions.assertThat((IndexPath) INDEX_PATH)
-//				.extracting(ElementPath::parent)
-//				.satisfies(
-//					parent -> Assertions.assertThat(parent).isInstanceOf(RootPath.class)
-//				);
-//		}
-//
-//		@Test
-//		void nullParent_forbidden() {
-//			Assertions.assertThatNullPointerException()
-//				.isThrownBy(() -> new ElementPath(null))
-//				.withMessage("parent path cannot be null");
-//		}
-//
-//		@Test
-//		void format_withNoParent() {
-//			Assertions.assertThat(ELEMENT_PATH.format()).isEqualTo("element");
-//		}
-//
-//		@Test
-//		void format_withParent() {
-//			var newPath = ELEMENT_PATH.atIndex(789).in("myVal");
-//			Assertions.assertThat(newPath.format()).isEqualTo("myVal[789][?]");
-//		}
-//
-//	}
+	@Test
+	void create_shouldCreateRootPropertyPath() {
+		Path path = Path.create("lastName");
+
+		assertEquals("lastName", path.format());
+		assertEquals("lastName", path.toString());
+	}
+
+	@Test
+	void in_shouldAppendNestedProperty() {
+		Path path = Path.create("user")
+			.in("address")
+			.in("street");
+
+		assertEquals("user.address.street", path.format());
+		assertEquals("user.address.street", path.toString());
+	}
+
+	@Test
+	void atIndex_shouldAppendIndex() {
+		Path path = Path.create("myList")
+			.atIndex(0);
+
+		assertEquals("myList[0]", path.format());
+		assertEquals("myList[0]", path.toString());
+	}
+
+	@Test
+	void atIndex_shouldWorkOnNestedProperty() {
+		Path path = Path.create("user")
+			.in("addresses")
+			.atIndex(2)
+			.in("street");
+
+		assertEquals("user.addresses[2].street", path.format());
+		assertEquals("user.addresses[2].street", path.toString());
+	}
+
+	@Test
+	void atUndefinedIndex_shouldPrintQuestionMark() {
+		Path path = Path.create("items")
+			.atUndefinedIndex();
+
+		assertEquals("items[?]", path.format());
+		assertEquals("items[?]", path.toString());
+	}
+
+	@Test
+	void atUndefinedIndex_shouldWorkInsideNestedStructure() {
+		Path path = Path.create("order")
+			.in("positions")
+			.atUndefinedIndex()
+			.in("price");
+
+		assertEquals("order.positions[?].price", path.format());
+	}
+
+	@Test
+	void chainingMixedOperations_shouldProduceCorrectFormat() {
+		Path path = Path.create("root")
+			.in("level1")
+			.atIndex(5)
+			.in("level2")
+			.atUndefinedIndex()
+			.in("value");
+
+		assertEquals("root.level1[5].level2[?].value", path.format());
+	}
+
+	@Test
+	void create_withNullProperty_shouldThrowException() {
+		assertThrows(NullPointerException.class, () -> Path.create(null));
+	}
 
 }

@@ -3,7 +3,7 @@ package io.github.jinputguard.builder.base.types;
 import io.github.jinputguard.result.errors.ValidationError;
 import java.util.regex.Pattern;
 
-public interface StringValidationError extends ValidationError {
+public sealed interface StringValidationError extends ValidationError {
 
 	record StringIsEmpty() implements StringValidationError {
 

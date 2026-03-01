@@ -15,7 +15,7 @@ class NoOpGuardTest {
 
 		var actualResult = noOpGuard.process("OK", "myVal");
 
-		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("OK");
+		GuardResultAssert.assertThat(actualResult).isSuccess("OK");
 	}
 
 	@Nested
@@ -28,8 +28,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.andThen(afterGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccessWithValue(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccessWithValue("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}
@@ -44,8 +44,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.compose(beforeGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccessWithValue(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccessWithValue("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}

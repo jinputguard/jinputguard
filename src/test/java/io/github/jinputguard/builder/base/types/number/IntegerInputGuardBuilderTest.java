@@ -50,11 +50,11 @@ class IntegerInputGuardBuilderTest extends AbstractNumberInputGuardBuilderTest<I
 		@Test
 		void mapToLong() {
 			var guard = initiateGuard().mapToLong().build();
-			GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("mapToLong(MIN)").isSuccessWithValue(getMinValue().longValue());
-			GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("mapToLong(-1)").isSuccessWithValue(getMinusOne().longValue());
-			GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("mapToLong(0)").isSuccessWithValue(getZero().longValue());
-			GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("mapToLong(1)").isSuccessWithValue(getOne().longValue());
-			GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("mapToLong(MAX)").isSuccessWithValue(getMaxValue().longValue());
+			GuardResultAssert.assertThat(guard.process(getMinValue(), "myVal")).as("mapToLong(MIN)").isSuccess(getMinValue().longValue());
+			GuardResultAssert.assertThat(guard.process(getMinusOne(), "myVal")).as("mapToLong(-1)").isSuccess(getMinusOne().longValue());
+			GuardResultAssert.assertThat(guard.process(getZero(), "myVal")).as("mapToLong(0)").isSuccess(getZero().longValue());
+			GuardResultAssert.assertThat(guard.process(getOne(), "myVal")).as("mapToLong(1)").isSuccess(getOne().longValue());
+			GuardResultAssert.assertThat(guard.process(getMaxValue(), "myVal")).as("mapToLong(MAX)").isSuccess(getMaxValue().longValue());
 		}
 
 	}

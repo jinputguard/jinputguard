@@ -2,9 +2,9 @@ package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.result.errors.ValidationError;
 
-public interface NumberValidationError extends ValidationError {
+public sealed interface NumberValidationError extends ValidationError {
 
-	record NumberMustBeGreaterThan(Number value, Number ref) implements ValidationError {
+	record NumberMustBeGreaterThan(Number value, Number ref) implements NumberValidationError {
 
 		@Override
 		public String getMessage() {
@@ -13,7 +13,7 @@ public interface NumberValidationError extends ValidationError {
 
 	}
 
-	record NumberMustBeGreaterOrEqualTo(Number value, Number ref) implements ValidationError {
+	record NumberMustBeGreaterOrEqualTo(Number value, Number ref) implements NumberValidationError {
 
 		@Override
 		public String getMessage() {
@@ -22,7 +22,7 @@ public interface NumberValidationError extends ValidationError {
 
 	}
 
-	record NumberMustBeLowerThan(Number value, Number ref) implements ValidationError {
+	record NumberMustBeLowerThan(Number value, Number ref) implements NumberValidationError {
 
 		@Override
 		public String getMessage() {
@@ -31,7 +31,7 @@ public interface NumberValidationError extends ValidationError {
 
 	}
 
-	record NumberMustBeLowerOrEqualTo(Number value, Number ref) implements ValidationError {
+	record NumberMustBeLowerOrEqualTo(Number value, Number ref) implements NumberValidationError {
 
 		@Override
 		public String getMessage() {
@@ -40,7 +40,7 @@ public interface NumberValidationError extends ValidationError {
 
 	}
 
-	record NumberMustBeBetween(Number value, Number min, Number max) implements ValidationError {
+	record NumberMustBeBetween(Number value, Number min, Number max) implements NumberValidationError {
 
 		@Override
 		public String getMessage() {

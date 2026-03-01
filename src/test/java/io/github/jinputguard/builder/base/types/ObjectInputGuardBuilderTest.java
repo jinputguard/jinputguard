@@ -24,7 +24,7 @@ class ObjectInputGuardBuilderTest {
 
 			var actualResult = guard.process(null, "myVal");
 
-			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("null-1");
+			GuardResultAssert.assertThat(actualResult).isSuccess("null-1");
 		}
 
 		@Test
@@ -34,8 +34,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue("null-1");
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("null-1");
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -45,8 +45,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue(null);
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess(null);
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -57,7 +57,7 @@ class ObjectInputGuardBuilderTest {
 				.build();
 
 			GuardResultAssert.assertThat(guard.process(null, "myVal")).isFailure();
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -67,8 +67,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue("default-1");
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("default-1");
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -90,8 +90,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue(null);
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess(null);
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -105,8 +105,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-1")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue("plop-1");
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("plop-1");
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
 		}
 
 		@Test
@@ -124,8 +124,8 @@ class ObjectInputGuardBuilderTest {
 				.sanitize(value -> value + "-5")
 				.build();
 
-			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccessWithValue("null-2-3-4-5");
-			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccessWithValue("val-1-2-3-4-5");
+			GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("null-2-3-4-5");
+			GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1-2-3-4-5");
 		}
 
 	}
@@ -162,14 +162,14 @@ class ObjectInputGuardBuilderTest {
 			@Test
 			void when_applyWithNull_then_function_is_called() {
 				var actualResult = GUARD.process(null, "myVal");
-				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
+				GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
 			}
 
 			@Test
 			void when_apply_then_function_is_called() {
 				var nonNullObject = new Object();
 				var actualResult = GUARD.process(nonNullObject, "myVal");
-				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(NEW_OBJECT);
+				GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
 			}
 
 		}
@@ -216,7 +216,7 @@ class ObjectInputGuardBuilderTest {
 			void success() {
 				var actualResult = GUARD.process(null, "myVal");
 
-				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
+				GuardResultAssert.assertThat(actualResult).isSuccess(null);
 			}
 
 			@Test
@@ -245,7 +245,7 @@ class ObjectInputGuardBuilderTest {
 			void success() {
 				var actualResult = GUARD.process(null, "myVal");
 
-				GuardResultAssert.assertThat(actualResult).isSuccessWithValue(null);
+				GuardResultAssert.assertThat(actualResult).isSuccess(null);
 			}
 
 			@Test
@@ -290,7 +290,7 @@ class ObjectInputGuardBuilderTest {
 			void when_nonNull_then_success() {
 				final var nonNullObject = new Object();
 				var actual = GUARD.process(nonNullObject, "myVal");
-				GuardResultAssert.assertThat(actual).isSuccessWithValue(nonNullObject);
+				GuardResultAssert.assertThat(actual).isSuccess(nonNullObject);
 			}
 
 			@Nested
@@ -323,7 +323,7 @@ class ObjectInputGuardBuilderTest {
 					// Integer is instance of Integer
 					final var intValue = Integer.valueOf(3);
 					var actual = GUARD_FOR_INTEGER.process(intValue, "myVal");
-					GuardResultAssert.assertThat(actual).isSuccessWithValue(intValue);
+					GuardResultAssert.assertThat(actual).isSuccess(intValue);
 				}
 
 				@Test
@@ -331,7 +331,7 @@ class ObjectInputGuardBuilderTest {
 					// Integer is instance of Number
 					final var intValue = Integer.valueOf(3);
 					var actual = GUARD_FOR_NUMBER.process(intValue, "myVal");
-					GuardResultAssert.assertThat(actual).isSuccessWithValue(intValue);
+					GuardResultAssert.assertThat(actual).isSuccess(intValue);
 				}
 
 				@Test
@@ -375,7 +375,7 @@ class ObjectInputGuardBuilderTest {
 				@Test
 				void when_equalValue_then_failure() {
 					var actual = GUARD_FOR_STRING.process("expected", "myVal");
-					GuardResultAssert.assertThat(actual).isSuccessWithValue("expected");
+					GuardResultAssert.assertThat(actual).isSuccess("expected");
 				}
 
 			}
@@ -414,7 +414,7 @@ class ObjectInputGuardBuilderTest {
 
 			var actual = guard.process(inputValue, "myVal");
 
-			GuardResultAssert.assertThat(actual).isSuccessWithValue(outputValue);
+			GuardResultAssert.assertThat(actual).isSuccess(outputValue);
 		}
 
 	}

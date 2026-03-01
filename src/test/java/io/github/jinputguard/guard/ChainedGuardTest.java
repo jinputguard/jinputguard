@@ -36,7 +36,7 @@ class ChainedGuardTest {
 		var guard = new ChainedGuard<>(subGuard1, subGuard2);
 		var actualResult = guard.process("0", basePath);
 
-		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2");
+		GuardResultAssert.assertThat(actualResult).isSuccess("0-1-2");
 	}
 
 	@Test
@@ -75,7 +75,7 @@ class ChainedGuardTest {
 
 			var actualResult = guard.process("0", "myVal");
 
-			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-1-2-3");
+			GuardResultAssert.assertThat(actualResult).isSuccess("0-1-2-3");
 		}
 
 	}
@@ -94,7 +94,7 @@ class ChainedGuardTest {
 
 			var actualResult = guard.process("0", "myVal");
 
-			GuardResultAssert.assertThat(actualResult).isSuccessWithValue("0-3-1-2");
+			GuardResultAssert.assertThat(actualResult).isSuccess("0-3-1-2");
 		}
 
 	}

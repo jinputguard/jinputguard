@@ -38,8 +38,8 @@ public class DefaultGuardFailure implements GuardFailure {
 	}
 
 	@Override
-	public Path getPath() {
-		return path;
+	public String getPath() {
+		return path.format();
 	}
 
 	@Override
@@ -54,9 +54,9 @@ public class DefaultGuardFailure implements GuardFailure {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + ":\n"
-			+ "  - Path: " + path + "\n"
-			+ "  - Message: " + message + "\n"
+		return "GuardFailure:\n"
+			+ "  - Path: " + getPath() + "\n"
+			+ "  - Message: " + getMessage() + "\n"
 			+ "  - Cause: " + (cause == null ? "" : cause.getMessage());
 	}
 

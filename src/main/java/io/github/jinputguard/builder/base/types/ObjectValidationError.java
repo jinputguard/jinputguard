@@ -4,9 +4,9 @@ import io.github.jinputguard.result.errors.ValidationError;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
-public interface ObjectValidationError extends ValidationError {
+public sealed interface ObjectValidationError extends ValidationError {
 
-	record ObjectIsNull() implements ValidationError {
+	record ObjectIsNull() implements ObjectValidationError {
 
 		@Override
 		public String getMessage() {
@@ -15,7 +15,7 @@ public interface ObjectValidationError extends ValidationError {
 
 	}
 
-	record ObjectMustBeInstanceOf(@Nullable Class<?> currentClass, @Nonnull Class<?> expectedClass) implements ValidationError {
+	record ObjectMustBeInstanceOf(@Nullable Class<?> currentClass, @Nonnull Class<?> expectedClass) implements ObjectValidationError {
 
 		@Override
 		public String getMessage() {
@@ -26,7 +26,7 @@ public interface ObjectValidationError extends ValidationError {
 
 	}
 
-	record ObjectMustBeEqualTo(Object expected) implements ValidationError {
+	record ObjectMustBeEqualTo(Object expected) implements ObjectValidationError {
 
 		@Override
 		public String getMessage() {
