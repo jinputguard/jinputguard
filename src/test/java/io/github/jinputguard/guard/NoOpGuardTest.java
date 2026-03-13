@@ -1,8 +1,7 @@
 package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.guard.NoOpGuard;
+import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -14,9 +13,9 @@ class NoOpGuardTest {
 	void nominal() {
 		InputGuard<String, String> noOpGuard = new NoOpGuard<>();
 
-		var actualResult = noOpGuard.process("OK");
+		var actualResult = noOpGuard.process("OK", "myVal");
 
-		GuardResultAssert.assertThat(actualResult).isSuccessWithValue("OK");
+		GuardResultAssert.assertThat(actualResult).isSuccess("OK");
 	}
 
 	@Nested
@@ -29,8 +28,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.andThen(afterGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ")).isSuccessWithValue(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ")).isSuccessWithValue("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}
@@ -45,8 +44,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.compose(beforeGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ")).isSuccessWithValue(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ")).isSuccessWithValue("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}

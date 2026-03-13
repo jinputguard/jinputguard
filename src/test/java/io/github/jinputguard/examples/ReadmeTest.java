@@ -1,7 +1,7 @@
 package io.github.jinputguard.examples;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.InputGuardFailureException;
+import io.github.jinputguard.InputGuardFailureException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,10 +23,10 @@ public class ReadmeTest {
 				.map(Integer::parseInt)
 				.build();
 
-			Assertions.assertThat(myGuard.process(" 123.0 ").getOrThrow()).isEqualTo(123); // 123
+			Assertions.assertThat(myGuard.process(" 123.0 ", "myVal").getOrThrow()).isEqualTo(123); // 123
 
 			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
-				.isThrownBy(() -> myGuard.process(" abc ").getOrThrow()); // throw InputGuardFailureException (extends IllegalArgumentException)
+				.isThrownBy(() -> myGuard.process(" abc ", "myVal").getOrThrow()); // throw InputGuardFailureException (extends IllegalArgumentException)
 		}
 
 		@Test
@@ -37,10 +37,10 @@ public class ReadmeTest {
 				.mapToInteger()
 				.build();
 
-			Assertions.assertThat(myGuard.process(" 123.0 ").getOrThrow()).isEqualTo(123); // 123
+			Assertions.assertThat(myGuard.process(" 123.0 ", "myVal").getOrThrow()).isEqualTo(123); // 123
 
 			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
-				.isThrownBy(() -> myGuard.process(" abc ").getOrThrow()); // throw InputGuardFailureException (extends IllegalArgumentException)
+				.isThrownBy(() -> myGuard.process(" abc ", "myVal").getOrThrow()); // throw InputGuardFailureException (extends IllegalArgumentException)
 		}
 
 	}

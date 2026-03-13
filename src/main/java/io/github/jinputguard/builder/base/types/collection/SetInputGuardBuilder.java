@@ -1,8 +1,7 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
-import io.github.jinputguard.util.Predicates;
+import io.github.jinputguard.builder.InputGuards;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -34,11 +33,11 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 	}
 
 	public <OUT> SetInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard) {
-		return filterAndProcessEach(Predicates.alwaysTrue(), elementGuard, Collectors.toUnmodifiableSet());
+		return filterAndProcessEach(value -> true, elementGuard, Collectors.toUnmodifiableSet());
 	}
 
 	public <OUT> SetInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard, Collector<OUT, ?, Set<OUT>> collector) {
-		return filterAndProcessEach(Predicates.alwaysTrue(), elementGuard, collector, SetInputGuardBuilder::new);
+		return filterAndProcessEach(value -> true, elementGuard, collector, SetInputGuardBuilder::new);
 	}
 
 	public <OUT> SetInputGuardBuilder<IN, OUT> filterAndProcessEach(Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard) {

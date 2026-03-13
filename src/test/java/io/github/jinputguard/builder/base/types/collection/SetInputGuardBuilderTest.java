@@ -1,10 +1,7 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.GuardResultAssert;
-import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.ValidationError;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 class SetInputGuardBuilderTest {
 
+	private static final String BASE_PATH = "myVal";
+
 	@Nested
 	class Sanitization {
 
@@ -25,10 +24,10 @@ class SetInputGuardBuilderTest {
 				.sanitize(set -> set.stream().filter(str -> str.length() >= 2).collect(Collectors.toSet()))
 				.build();
 
-			var actualResult = setGuard.process(Set.of("a", "bb", "ccc", "d", "eeee", "f", ""));
+			var actualResult = setGuard.process(Set.of("a", "bb", "ccc", "d", "eeee", "f", ""), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(Set.of("bb", "ccc", "eeee"));
+				.isSuccess(Set.of("bb", "ccc", "eeee"));
 		}
 
 	}
@@ -39,27 +38,26 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate(set -> set.isEmpty() ? new ValidationError.CollectionIsEmpty() : null)
+				.validate(set -> set.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
-			var actualResult = setGuard.process(Set.of("a"));
+			var actualResult = setGuard.process(Set.of("a"), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(Set.of("a"));
+				.isSuccess(Set.of("a"));
 		}
 
 		@Test
 		void nominal_failure() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate(set -> set.isEmpty() ? new ValidationError.CollectionIsEmpty() : null)
+				.validate(set -> set.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
-			var actualResult = setGuard.process(Set.of());
+			var actualResult = setGuard.process(Set.of(), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.isValidationFailure()
-				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
+				.hasMessage("is empty");
 		}
 
 	}
@@ -73,10 +71,10 @@ class SetInputGuardBuilderTest {
 				.map(set -> set.stream().map(Integer::parseInt).collect(Collectors.toSet()))
 				.build();
 
-			var actualResult = setGuard.process(Set.of("0", "1", "2"));
+			var actualResult = setGuard.process(Set.of("0", "1", "2"), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(Set.of(0, 1, 2));
+				.isSuccess(Set.of(0, 1, 2));
 		}
 
 	}
@@ -91,10 +89,10 @@ class SetInputGuardBuilderTest {
 				.filter(filter)
 				.build();
 
-			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(Set.of(" ", " a", "b ", " c "));
+				.isSuccess(Set.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
 				.isUnmodifiable();
@@ -107,10 +105,10 @@ class SetInputGuardBuilderTest {
 				.filter(filter, Collectors.toCollection(() -> new HashSet<>()))
 				.build();
 
-			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(Set.of(" ", " a", "b ", " c "));
+				.isSuccess(Set.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
 				.isExactlyInstanceOf(HashSet.class);
@@ -131,10 +129,10 @@ class SetInputGuardBuilderTest {
 					.processEach(elementGuardGuard)
 					.build();
 
-				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", "a", "b", "c"));
+					.isSuccess(Set.of("", "a", "b", "c"));
 			}
 
 			@Test
@@ -150,10 +148,10 @@ class SetInputGuardBuilderTest {
 
 				var listWithNull = new HashSet<>(List.of("", " ", " a", "b ", " c "));
 				listWithNull.add(null);
-				var actualResult = setGuard.process(listWithNull);
+				var actualResult = setGuard.process(listWithNull, BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", "a", "b", "c", "!"));
+					.isSuccess(Set.of("", "a", "b", "c", "!"));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -167,10 +165,10 @@ class SetInputGuardBuilderTest {
 					.filterAndProcessEach(filter, elementGuard)
 					.build();
 
-				var actualResult = listGuard.process(Set.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", "a", "b", "c"));
+					.isSuccess(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -183,10 +181,10 @@ class SetInputGuardBuilderTest {
 					.processEach(elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
 					.build();
 
-				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", "a", "b", "c"));
+					.isSuccess(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isExactlyInstanceOf(HashSet.class);
@@ -200,10 +198,10 @@ class SetInputGuardBuilderTest {
 					.filterAndProcessEach(filter, elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
 					.build();
 
-				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", "a", "b", "c"));
+					.isSuccess(Set.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isExactlyInstanceOf(HashSet.class);
@@ -221,10 +219,10 @@ class SetInputGuardBuilderTest {
 					.processEach(elementGuardGuard)
 					.build();
 
-				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "));
+				var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of("", " ", " a", "b ", " c "));
+					.isSuccess(Set.of("", " ", " a", "b ", " c "));
 			}
 
 			@Test
@@ -235,18 +233,15 @@ class SetInputGuardBuilderTest {
 					.build();
 
 				var value = Set.of("", "abc", "123");
-				var actualResult = setGuard.process(value);
+				var actualResult = setGuard.process(value, BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.isMultiFailure()
-					.failuresAssert(
-						assertor -> assertor.satisfiesExactly(
-							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
-						)
-					);
+					.hasPathEqualTo("myVal")
+					.hasMessage("""
+						multiple errors:
+						  - myVal[?] -> must not be empty
+						""");
 			}
 
 			@Test
@@ -257,26 +252,17 @@ class SetInputGuardBuilderTest {
 					.build();
 
 				var value = Set.of("", "abc", "0", "123");
-				var actualResult = setGuard.process(value).atPath(Path.createPropertyPath("mySet"));
+				var actualResult = setGuard.process(value, BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.isMultiFailure()
-					.hasPathEqualTo("mySet")
-					.failuresAssert(
-						assertor -> assertor.satisfiesExactlyInAnyOrder(
-							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
-								.hasValueEqualTo("abc")
-								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2)),
-							fail2 -> GuardFailureAssert.assertThat(fail2)
-								.isValidationFailure()
-								.hasPathEqualTo(Path.createElementPath().atProperty("mySet"))
-								.hasValueEqualTo("123")
-								.errorAssert(subAssertor -> subAssertor.isStringIsTooLong(3, 2))
-						)
-					);
+					.hasPathEqualTo("myVal")
+					.hasMessage("""
+						multiple errors:
+						  - myVal[?] -> must be 2 chars max, but is 3
+						  - myVal[?] -> must be 2 chars max, but is 3
+						""");
+				;
 			}
 
 		}
@@ -291,10 +277,10 @@ class SetInputGuardBuilderTest {
 					.processEach(elementGuardGuard)
 					.build();
 
-				var actualResult = setGuard.process(Set.of("0", "1", "2"));
+				var actualResult = setGuard.process(Set.of("0", "1", "2"), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(Set.of(0, 1, 2));
+					.isSuccess(Set.of(0, 1, 2));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();

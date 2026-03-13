@@ -1,10 +1,7 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.Path;
-import io.github.jinputguard.result.GuardFailureAssert;
 import io.github.jinputguard.result.GuardResultAssert;
-import io.github.jinputguard.result.ValidationError;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 class ListInputGuardBuilderTest {
 
+	private static final String BASE_PATH = "myVal";
+
 	@Nested
 	class Sanitization {
 
@@ -25,10 +24,10 @@ class ListInputGuardBuilderTest {
 				.sanitize(list -> list.stream().filter(str -> str.length() >= 2).toList())
 				.build();
 
-			var actualResult = listGuard.process(List.of("a", "bb", "ccc", "d", "eeee", "f", ""));
+			var actualResult = listGuard.process(List.of("a", "bb", "ccc", "d", "eeee", "f", ""), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(List.of("bb", "ccc", "eeee"));
+				.isSuccess(List.of("bb", "ccc", "eeee"));
 		}
 
 	}
@@ -39,13 +38,13 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate(list -> list.isEmpty() ? new ValidationError.CollectionIsEmpty() : null)
+				.validate(list -> list.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
-			var actualResult = listGuard.process(List.of("a"));
+			var actualResult = listGuard.process(List.of("a"), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(List.of("a"));
+				.isSuccess(List.of("a"));
 
 			Assertions.assertThat(actualResult.get())
 				.isUnmodifiable();
@@ -54,15 +53,14 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate(list -> list.isEmpty() ? new ValidationError.CollectionIsEmpty() : null)
+				.validate(list -> list.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
-			var actualResult = listGuard.process(List.of());
+			var actualResult = listGuard.process(List.of(), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.isValidationFailure()
-				.errorAssert(errorAssert -> errorAssert.isCollectionIsEmpty());
+				.hasMessage("is empty");
 		}
 
 	}
@@ -76,10 +74,10 @@ class ListInputGuardBuilderTest {
 				.map(list -> list.stream().map(Integer::parseInt).toList())
 				.build();
 
-			var actualResult = listGuard.process(List.of("0", "1", "2"));
+			var actualResult = listGuard.process(List.of("0", "1", "2"), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(List.of(0, 1, 2));
+				.isSuccess(List.of(0, 1, 2));
 
 			Assertions.assertThat(actualResult.get())
 				.isUnmodifiable();
@@ -97,10 +95,10 @@ class ListInputGuardBuilderTest {
 				.filter(filter)
 				.build();
 
-			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(List.of(" ", " a", "b ", " c "));
+				.isSuccess(List.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
 				.isUnmodifiable();
@@ -113,10 +111,10 @@ class ListInputGuardBuilderTest {
 				.filter(filter, Collectors.toCollection(() -> new LinkedList<>()))
 				.build();
 
-			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccessWithValue(List.of(" ", " a", "b ", " c "));
+				.isSuccess(List.of(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
 				.isExactlyInstanceOf(LinkedList.class);
@@ -137,10 +135,10 @@ class ListInputGuardBuilderTest {
 					.processEach(elementGuard)
 					.build();
 
-				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", "", "a", "b", "c"));
+					.isSuccess(List.of("", "", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -159,10 +157,10 @@ class ListInputGuardBuilderTest {
 
 				var listWithNull = new ArrayList<>(List.of("", " ", " a", "b ", " c "));
 				listWithNull.add(null);
-				var actualResult = listGuard.process(listWithNull);
+				var actualResult = listGuard.process(listWithNull, BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", "", "a", "b", "c", "!"));
+					.isSuccess(List.of("", "", "a", "b", "c", "!"));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -176,10 +174,10 @@ class ListInputGuardBuilderTest {
 					.filterAndProcessEach(filter, elementGuard)
 					.build();
 
-				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", "a", "b", "c"));
+					.isSuccess(List.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -192,10 +190,10 @@ class ListInputGuardBuilderTest {
 					.processEach(elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
 					.build();
 
-				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", "", "a", "b", "c"));
+					.isSuccess(List.of("", "", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isExactlyInstanceOf(LinkedList.class);
@@ -209,10 +207,10 @@ class ListInputGuardBuilderTest {
 					.filterAndProcessEach(filter, elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
 					.build();
 
-				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", "a", "b", "c"));
+					.isSuccess(List.of("", "a", "b", "c"));
 
 				Assertions.assertThat(actualResult.get())
 					.isExactlyInstanceOf(LinkedList.class);
@@ -230,10 +228,10 @@ class ListInputGuardBuilderTest {
 					.processEach(elementGuard)
 					.build();
 
-				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "));
+				var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of("", " ", " a", "b ", " c "));
+					.isSuccess(List.of("", " ", " a", "b ", " c "));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();
@@ -247,60 +245,17 @@ class ListInputGuardBuilderTest {
 					.build();
 
 				var value = List.of("", "abc", "", "123", "");
-				var actualResult = listGuard.process(value);
+				var actualResult = listGuard.process(value, BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.isMultiFailure()
-					.hasRootPath()
-					.failuresAssert(
-						assertor -> assertor.satisfiesExactly(
-							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.hasPathEqualTo(Path.createIndexPath(0))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail2 -> GuardFailureAssert.assertThat(fail2)
-								.isValidationFailure()
-								.hasPathEqualTo(Path.createIndexPath(2))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail3 -> GuardFailureAssert.assertThat(fail3)
-								.isValidationFailure()
-								.hasPathEqualTo(Path.createIndexPath(4))
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
-						)
-					);
-			}
-
-			@Test
-			void subGuardFailure_atPath() {
-				var elementGuard = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
-				var listGuard = InputGuard.builder().forList(String.class)
-					.processEach(elementGuard)
-					.build();
-
-				var value = List.of("", "abc", "", "123", "");
-				var actualResult = listGuard.process(value).atPath(Path.createPropertyPath("myList"));
-
-				GuardResultAssert.assertThat(actualResult)
-					.isFailure()
-					.isMultiFailure()
-					.hasPathEqualTo("myList")
-					.failuresAssert(
-						assertor -> assertor.satisfiesExactly(
-							fail1 -> GuardFailureAssert.assertThat(fail1)
-								.isValidationFailure()
-								.hasPathEqualTo("myList[0]")
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail2 -> GuardFailureAssert.assertThat(fail2)
-								.isValidationFailure()
-								.hasPathEqualTo("myList[2]")
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty()),
-							fail3 -> GuardFailureAssert.assertThat(fail3)
-								.isValidationFailure()
-								.hasPathEqualTo("myList[4]")
-								.errorAssert(subAssertor -> subAssertor.isStringIsEmpty())
-						)
-					);
+					.hasPathEqualTo("myVal")
+					.hasMessage("""
+						multiple errors:
+						  - myVal[0] -> must not be empty
+						  - myVal[2] -> must not be empty
+						  - myVal[4] -> must not be empty
+						""");
 			}
 
 		}
@@ -315,10 +270,10 @@ class ListInputGuardBuilderTest {
 					.processEach(elementGuard)
 					.build();
 
-				var actualResult = listGuard.process(List.of("0", "1", "2"));
+				var actualResult = listGuard.process(List.of("0", "1", "2"), BASE_PATH);
 
 				GuardResultAssert.assertThat(actualResult)
-					.isSuccessWithValue(List.of(0, 1, 2));
+					.isSuccess(List.of(0, 1, 2));
 
 				Assertions.assertThat(actualResult.get())
 					.isUnmodifiable();

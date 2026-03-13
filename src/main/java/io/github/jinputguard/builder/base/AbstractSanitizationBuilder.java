@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base;
 
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
 import java.util.function.Function;
 
 public abstract class AbstractSanitizationBuilder<IN, T, B extends InputGuardBuilder<IN, T, B>, SELF extends AbstractSanitizationBuilder<IN, T, B, SELF>>
