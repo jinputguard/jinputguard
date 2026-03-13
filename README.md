@@ -34,11 +34,12 @@
 * [Contact](#contact)
 
 # Quick Start
-Create input guards and use them at the beginning of any method to process input arguments, particularily when they come from user (e.g. in controller layer).
+Create input guards and use them at the beginning of any method to process input arguments, particularly when they come from user (e.g. in controller layer).
 
 * Add JInputGuard to your project's dependencies (see [installation](#installation))
 * Create your first guard using the discoverable and fluent builder API:
 ```java
+// A guard that takes a String as input, and outputs an Integer
 InputGuard<String, Integer> guard = InputGuard.builder()
     .forString()
     .sanitize().strip().replace(".0", "").then()
@@ -86,7 +87,7 @@ Processing an input argument consists basically in performing sequential operati
 See [usage](#usage) for more details about available operations.
 
 ## Why should I use it?
-JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. But even if you're not using Value Objects (you should consider it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-1019: Validate Inputs](https://cwe.mitre.org/data/definitions/1019.html): SQL/XML injections, CSRF, etc.
+JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. If you're not using Value Objects (you should consider it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-20: Improper Input Validation](https://cwe.mitre.org/data/definitions/20.html): SQL/XML injections, CSRF, etc.
 
 To facilitate adoption, JInputGuards is/has:
 * Discoverable API: Thanks to fluent methods, use your IDE auto-completion to easily create and use guards.
@@ -112,7 +113,7 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
 
 
 ## Specialized builders
-For a more practical and usefull approach, use others `InputGuard.builder().forXXX()` methods to get specialized builders, that helps you build guards in a more easy and efficient way: they expose various predefined and discoverable methods, saving you time and effort.
+For a more practical and useful approach, use others `InputGuard.builder().forXXX()` methods to get specialized builders, that helps you build guards in a more easy and efficient way: they expose various predefined and discoverable methods, saving you time and effort.
 
 Those predefined builders are directly accessible using appropriate `InputGuard.builder().forXXX()` methods.
 
@@ -128,7 +129,7 @@ var myGuard = InputGuard.builder()
 ## Sanitization
 Sanitization is the process of applying a transformation to data while preserving its type.
 It is mainly used for cleaning input data and making it safe to use in your code (e.g., removing illegal characters from a string, clamping numbers, etc.). 
-It can also be used to format values to adhere to certain standards (e.g., forcing capital letters for family names).
+It can also be used to format values to adhere to certain standards (e.g. forcing capital letters for family names).
 ```java
 // InputGuardBuilder.sanitize(Function<T, T>)
 InputGuard<String, String> myGuard = InputGuard.builder()
@@ -142,12 +143,12 @@ InputGuard<String, String> myGuard = InputGuard.builder()
 Specialized builders propose various built-in sanitization methods:
 ```java
 InputGuard<String, String> myGuard = InputGuard.builder()
-  .forString()
-  .sanitize()        // Enter sanitization extend point
+  .forString()       // Specialized String guard builder
+  .sanitize()        // Enter sanitization extension point
     .strip()
     .toUpperCase()
     .prefix("ID-")
-    .then()          // Exist sanitization extend point
+    .then()          // Exit sanitization extension point
   .build();
 
 // Input value " abc123 " becomes "ID-ABC123"
@@ -169,7 +170,7 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
 Specialized builders propose various built-in mapping methods:
 ```java
 InputGuard<String, Integer> myGuard = InputGuard.builder()
-  .forString()
+  .forString()       // Specialized String guard builder
   .mapToInteger()
   .build();
 // Input value "123" becomes 123 (Integer)
@@ -178,7 +179,10 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
 ## Validation
 Validation is the process of checking if a variable or data meets certain criteria or constraints. For example, validation can involve verifying that an email address is in the correct format, ensuring a number falls within a specified range, or confirming that required fields are not empty.
 
-The `validate` method takes a `Function<T, ValidationError>` as argument, returning `null` if the value is valid, or a `ValidationError` otherwise. `ValidationError` is a _sealed interface_, you can create your own errors by extending the `CustomValidationError`.
+The `validate` method takes a `Function<T, ErrorDetails>` as argument, returning `null` if the value is valid, or a non-null `ErrorDetails` otherwise.
+
+> [!NOTE]
+> For now `ErrorDetails` is basically an interface exposing a simple `String getMessage()` method. More methods could be added some day (e.g. `Map<String, String> getParameters()`, etc.).
 
 
 ```java
@@ -192,7 +196,7 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
 Specialized builders propose various built-in validation methods:
 ```java
 InputGuard<String, Integer> myGuard = InputGuard.builder()
-  .forString()
+  .forString()       // Specialized String guard builder
   .validateThat().isNotEmpty().then()
   .build();
 ```
@@ -214,6 +218,9 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .mapToInteger()
   .build();
 ```
+
+> [!WARNING]
+> This is not considered a definitive design or approach for the `null` handling problem. A more elegant version is suitable.
 
 ## Nesting guards
 It is possible to reuse guards by nesting one into another.
@@ -271,6 +278,10 @@ var i = result.getOrThrow(); // throws InputGuardFailureException
 
 # Customization
 
+> [!TIP]
+> Below paragraphs describe **totally optional** customization/extension points to tailor JInputGuard to your needs. Consider this as "advanced usage".
+
+
 ## Custom specialized builders
 In case the specialized builder for a specific type does not (yet) exists, or you require custom guard methods, you can create it by extending `AbstractInputGuardBuilder` (see `StringInputGuardBuilder` in code as an example):
 ```java
@@ -282,11 +293,10 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .build();
 ```
 
-
 ## Custom exception
 Input validation should not always throw the same exception everywhere in your code. This is particulary true if you're using value objects: when validating user input in the controller layer you probably want to throw some kind of "http bad request" exception, but fetching the same value from database is not caused by users so "http bad request" would not apply here - it should rather be an internal exception.
 
-You can then use the `GuardResult.getOrThrow(Function<GuardFailure, X>)` method to map the `GuardFailure` to your own exception of type `X` (must extends `RuntimeException`).
+You can then use the `GuardResult.getOrThrow(Function<GuardFailure, X>)` method to map the `GuardFailure` to your own throwable of type `X`.
 ```java
 GuardResult<Integer> result = myGuard.process("notAnInt");
 var i = result.getOrThrow(failure -> new MyCustomException(failure)); // throws MyCustomException

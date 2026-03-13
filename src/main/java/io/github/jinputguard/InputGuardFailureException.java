@@ -1,6 +1,5 @@
-package io.github.jinputguard.result;
+package io.github.jinputguard;
 
-import io.github.jinputguard.GuardFailure;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
