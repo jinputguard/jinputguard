@@ -30,7 +30,7 @@ jobs:
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-	needs: run-only-on-main-branch
+    needs: run-only-on-main-branch
     permissions:
       contents: write
 
