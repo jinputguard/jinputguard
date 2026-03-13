@@ -65,13 +65,13 @@ To include JInputGuard in your project, add the following dependency to your `po
 <dependency>
     <groupId>io.github.jinputguard</groupId>
     <artifactId>jinputguard</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
 For Gradle, add the following to your `build.gradle`:
 ```
-implementation 'io.github.jinputguard:jinputguard:0.0.1'
+implementation 'io.github.jinputguard:jinputguard:0.0.2'
 ```
 
 # Introduction
