@@ -1,14 +1,13 @@
 package io.github.jinputguard.builder.base.types.number;
 
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
-import io.github.jinputguard.result.ValidationError;
-import io.github.jinputguard.result.ValidationError.NumberMustBeBetween;
-import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterOrEqualTo;
-import io.github.jinputguard.result.ValidationError.NumberMustBeGreaterThan;
-import io.github.jinputguard.result.ValidationError.NumberMustBeLowerOrEqualTo;
-import io.github.jinputguard.result.ValidationError.NumberMustBeLowerThan;
-import io.github.jinputguard.result.ValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectMustBeEqualTo;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeBetween;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterOrEqualTo;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeGreaterThan;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerOrEqualTo;
+import io.github.jinputguard.builder.base.types.number.NumberValidationError.NumberMustBeLowerThan;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
@@ -42,7 +41,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	public SELF isGreaterThan(T ref) {
 		builder = builder.validate(
 			value -> !numberTester.isGreaterThan(value, ref)
-				? new ValidationError.NumberMustBeGreaterThan(value, ref)
+				? new NumberValidationError.NumberMustBeGreaterThan(value, ref)
 				: null
 		);
 		return cast();
@@ -57,7 +56,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	public SELF isGreaterOrEqualTo(T ref) {
 		builder = builder.validate(
 			value -> !numberTester.isGreaterOrEqualTo(value, ref)
-				? new ValidationError.NumberMustBeGreaterOrEqualTo(value, ref)
+				? new NumberValidationError.NumberMustBeGreaterOrEqualTo(value, ref)
 				: null
 		);
 		return cast();
@@ -72,7 +71,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	public SELF isLowerThan(T ref) {
 		builder = builder.validate(
 			value -> !numberTester.isLowerThan(value, ref)
-				? new ValidationError.NumberMustBeLowerThan(value, ref)
+				? new NumberValidationError.NumberMustBeLowerThan(value, ref)
 				: null
 		);
 		return cast();
@@ -87,7 +86,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	public SELF isLowerOrEqualTo(T ref) {
 		builder = builder.validate(
 			value -> !numberTester.isLowerOrEqualTo(value, ref)
-				? new ValidationError.NumberMustBeLowerOrEqualTo(value, ref)
+				? new NumberValidationError.NumberMustBeLowerOrEqualTo(value, ref)
 				: null
 		);
 		return cast();
@@ -150,7 +149,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 		}
 		builder = builder.validate(
 			value -> !numberTester.isBetween(value, minInclusive, maxInclusive)
-				? new ValidationError.NumberMustBeBetween(value, minInclusive, maxInclusive)
+				? new NumberValidationError.NumberMustBeBetween(value, minInclusive, maxInclusive)
 				: null
 		);
 		return cast();

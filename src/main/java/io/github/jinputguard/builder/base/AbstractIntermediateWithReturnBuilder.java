@@ -1,6 +1,6 @@
 package io.github.jinputguard.builder.base;
 
-import io.github.jinputguard.builder.InputGuardBuilder;
+import io.github.jinputguard.InputGuardBuilder;
 
 /**
  * 

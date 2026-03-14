@@ -1,7 +1,6 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
-import io.github.jinputguard.result.ValidationError;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +20,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 					var i = Integer.parseInt(value);
 					return null;
 				} catch (NumberFormatException e) {
-					return new ValidationError.StringMustBeParseableToInteger();
+					return new StringValidationError.StringMustBeParseableToInteger();
 				}
 			}
 		);
@@ -36,7 +35,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 	public StringValidationBuilder<IN> isNotEmpty() {
 		builder = builder.validate(
 			value -> value.isEmpty()
-				? new ValidationError.StringIsEmpty()
+				? new StringValidationError.StringIsEmpty()
 				: null
 		);
 		return cast();
@@ -57,7 +56,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		}
 		builder = builder.validate(
 			value -> value.length() > maxLength
-				? new ValidationError.StringIsTooLong(value.length(), maxLength)
+				? new StringValidationError.StringIsTooLong(value.length(), maxLength)
 				: null
 		);
 		return cast();
@@ -88,7 +87,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		Objects.requireNonNull(pattern, "pattern cannot be null");
 		builder = builder.validate(
 			value -> !pattern.matcher(value).matches()
-				? new ValidationError.StringMustMatchPattern(pattern)
+				? new StringValidationError.StringMustMatchPattern(pattern)
 				: null
 		);
 		return cast();

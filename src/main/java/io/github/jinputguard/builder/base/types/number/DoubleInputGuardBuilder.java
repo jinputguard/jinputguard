@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuards;
+import io.github.jinputguard.builder.InputGuards;
 
 public class DoubleInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Double, DoubleInputGuardBuilder<IN>> {
 
