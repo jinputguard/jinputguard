@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types.collection;
 
+import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardResultAssert;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

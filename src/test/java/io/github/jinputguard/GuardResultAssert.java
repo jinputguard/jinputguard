@@ -1,4 +1,4 @@
-package io.github.jinputguard.result;
+package io.github.jinputguard;
 
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;

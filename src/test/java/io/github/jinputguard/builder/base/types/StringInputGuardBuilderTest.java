@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types;
 
+import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.Path;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -352,7 +352,9 @@ class StringInputGuardBuilderTest {
 			@ParameterizedTest
 			@ValueSource(
 				strings = {
-					"-1", "0", "1", "+1"
+					"-1", "0", "1", "+1",
+					"-2147483648", // Integer.MIN_VALUE
+					"2147483647", // Integer.MAX_VALUE
 				}
 			)
 			void when_valid_then_success(String value) {
@@ -360,21 +362,11 @@ class StringInputGuardBuilderTest {
 				GuardResultAssert.assertThat(actual).isSuccess(value);
 			}
 
-			@Test
-			void when_minValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Integer.MIN_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(String.valueOf(Integer.MIN_VALUE));
-			}
-
-			@Test
-			void when_maxValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Integer.MAX_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(String.valueOf(Integer.MAX_VALUE));
-			}
-
 			@ParameterizedTest
 			@ValueSource(
 				strings = {
+					"plop",
+					"123 456",
 					"-21474836481", // Integer.MIN_VALUE - 1 (64 bits)
 					"2147483648", // Integer.MAX_VALUE + 1 (64 bits)
 				}
@@ -478,54 +470,30 @@ class StringInputGuardBuilderTest {
 				GUARD = InputGuard.builder().forString().mapToInteger().build();
 			}
 
-			@Test
-			void when_negative_then_success() {
-				var actual = GUARD.process("-1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(-1);
+			@ParameterizedTest
+			@ValueSource(
+				strings = {
+					"-1", "0", "1", "+1",
+					"-2147483648", // Integer.MIN_VALUE
+					"2147483647", // Integer.MAX_VALUE
+				}
+			)
+			void when_valid_then_success(String input) {
+				var actual = GUARD.process(input, "myVal");
+				GuardResultAssert.assertThat(actual).isSuccess(Integer.parseInt(input));
 			}
 
-			@Test
-			void when_zero_then_success() {
-				var actual = GUARD.process("0", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(0);
-			}
-
-			@Test
-			void when_positive_then_success() {
-				var actual = GUARD.process("1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(1);
-			}
-
-			@Test
-			void when_positiveWithSign_then_success() {
-				var actual = GUARD.process("+1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(1);
-			}
-
-			@Test
-			void when_minValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Integer.MIN_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(Integer.MIN_VALUE);
-			}
-
-			@Test
-			void when_maxValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Integer.MAX_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(Integer.MAX_VALUE);
-			}
-
-			@Test
-			void when_beforeMinValue_then_failure() {
-				var actual = GUARD.process("-2147483649", "myVal"); // Integer.MIN_VALUE - 1 (64 bits)
-
-				GuardResultAssert.assertThat(actual).isFailure()
-					.hasCauseInstanceOf(NumberFormatException.class);
-			}
-
-			@Test
-			void when_beyondMaxValue_then_failure() {
-				var actual = GUARD.process("2147483648", "myVal"); // Integer.MAX_VALUE + 1 (64 bits)
-
+			@ParameterizedTest
+			@ValueSource(
+				strings = {
+					"plop",
+					"123 456",
+					"-2147483649", // Integer.MIN_VALUE - 1
+					"2147483648", // Integer.MAX_VALUE + 1
+				}
+			)
+			void when_invalid_then_failure(String input) {
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
@@ -542,54 +510,30 @@ class StringInputGuardBuilderTest {
 				GUARD = InputGuard.builder().forString().mapToLong().build();
 			}
 
-			@Test
-			void when_negative_then_success() {
-				var actual = GUARD.process("-1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(-1L);
+			@ParameterizedTest
+			@ValueSource(
+				strings = {
+					"-1", "0", "1", "+1",
+					"-9223372036854775808", // Long.MIN_VALUE
+					"9223372036854775807", // Long.MAX_VALUE
+				}
+			)
+			void success(String input) {
+				var actual = GUARD.process(input, "myVal");
+				GuardResultAssert.assertThat(actual).isSuccess(Long.parseLong(input));
 			}
 
-			@Test
-			void when_zero_then_success() {
-				var actual = GUARD.process("0", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(0L);
-			}
-
-			@Test
-			void when_positive_then_success() {
-				var actual = GUARD.process("1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(1L);
-			}
-
-			@Test
-			void when_positiveWithSign_then_success() {
-				var actual = GUARD.process("+1", "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(1L);
-			}
-
-			@Test
-			void when_minValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Long.MIN_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(Long.MIN_VALUE);
-			}
-
-			@Test
-			void when_maxValue_then_success() {
-				var actual = GUARD.process(String.valueOf(Long.MAX_VALUE), "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(Long.MAX_VALUE);
-			}
-
-			@Test
-			void when_beforeMinValue_then_failure() {
-				var actual = GUARD.process("-9223372036854775809", "myVal"); // Long.MIN_VALUE - 1 (64 bits)
-
-				GuardResultAssert.assertThat(actual).isFailure()
-					.hasCauseInstanceOf(NumberFormatException.class);
-			}
-
-			@Test
-			void when_beyondMaxValue_then_failure() {
-				var actual = GUARD.process("9223372036854775808", "myVal"); // Long.MAX_VALUE + 1 (64 bits)
-
+			@ParameterizedTest
+			@ValueSource(
+				strings = {
+					"plop",
+					"123 456",
+					"-9223372036854775809", // Long.MIN_VALUE - 1
+					"9223372036854775808", // Long.MAX_VALUE + 1
+				}
+			)
+			void failure(String input) {
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
