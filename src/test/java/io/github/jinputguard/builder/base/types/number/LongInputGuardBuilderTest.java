@@ -1,7 +1,6 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import io.github.jinputguard.result.GuardResultAssert;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

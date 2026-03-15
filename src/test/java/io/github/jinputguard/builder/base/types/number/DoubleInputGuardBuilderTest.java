@@ -1,7 +1,6 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.base.types.number.DoubleInputGuardBuilder;
 
 class DoubleInputGuardBuilderTest extends AbstractNumberInputGuardBuilderTest<Double> {
 
