@@ -1,10 +1,10 @@
 package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
+import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.types.ObjectValidationError;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.GuardResultAssert;
 import io.github.jinputguard.result.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.assertj.core.api.Assertions;

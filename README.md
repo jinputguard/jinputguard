@@ -12,6 +12,9 @@
 
 **A Java library to sanitize, transform and validate inputs.**
 
+> [!NOTE]
+> The purpose of this library is to help you produce secure and domain-relevant code. Even if you don’t use it in your project, I hope it will at least make you more aware of the importance of input validation for code security (known as [CWE-20: Improper Input Validation](https://cwe.mitre.org/data/definitions/20.html) weakness) and creating a better domain model by using [Value Objects](https://en.wikipedia.org/wiki/Value_object).
+
 * [Quick Start](#quick-start)
 * [Installation](#installation)
 * [Introduction](#introduction)

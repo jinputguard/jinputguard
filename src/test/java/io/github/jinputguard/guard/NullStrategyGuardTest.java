@@ -1,9 +1,9 @@
 package io.github.jinputguard.guard;
 
+import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
-import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
