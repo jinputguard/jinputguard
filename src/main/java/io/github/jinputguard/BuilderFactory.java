@@ -11,12 +11,18 @@ import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Factory for builders of {@link InputGuard}.
+ * 
+ * This factory provides convenient methods to create builders for common types, such as strings, numbers and collections.
+ * For more specialized builders, use the generic {@link #forClass(Class)} method.
+ */
 public final class BuilderFactory {
 
 	static final BuilderFactory INSTANCE = new BuilderFactory();
 
 	private BuilderFactory() {
-		// 
+		// Helper class, no need to instantiate
 	}
 
 	// ------------------------------------------------------------------------------------------------------------

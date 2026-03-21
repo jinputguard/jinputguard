@@ -37,18 +37,22 @@ import java.util.Objects;
 public interface InputGuard<IN, OUT> {
 
 	/**
+	 * Process the given input value and return the result of the processing, which may be a success or a failure.
 	 * 
-	 * @param input
-	 * @return
+	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
+	 * @param path	the path to the value being processed, used for error reporting in case of failure
+	 * @return	the result of the processing, containing either the processed value or the failure details
 	 */
 	@Nonnull
 	GuardResult<OUT> process(@Nullable IN value, @Nonnull Path path);
 
 	/**
+	 * Process the given input value and return the result of the processing, which may be a success or a failure.
+	 * This is a convenience method that uses a simple property name as the path for error reporting.
 	 * 
-	 * @param value
-	 * @param property
-	 * @return
+	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
+	 * @param property	the property name to use as the path for error reporting in case of failure
+	 * @return	the result of the processing, containing either the processed value or the failure details
 	 */
 	@Nonnull
 	default GuardResult<OUT> process(@Nullable IN value, @Nonnull String property) {
@@ -58,10 +62,11 @@ public interface InputGuard<IN, OUT> {
 	// ===========================================================================================================
 
 	/**
+	 * Chain this guard with another guard that will be applied after this one, if this one succeeds.
 	 * 
-	 * @param <NEW_OUT>
-	 * @param after
-	 * @return
+	 * @param <NEW_OUT> the output type of the resulting chained guard, which is the output type of the "after" guard
+	 * @param after the guard to apply after this one, if this one succeeds
+	 * @return a new guard that represents the chaining of this guard and the "after" guard
 	 */
 	@Nonnull
 	default <NEW_OUT> InputGuard<IN, NEW_OUT> andThen(InputGuard<OUT, NEW_OUT> after) {
@@ -70,10 +75,11 @@ public interface InputGuard<IN, OUT> {
 	}
 
 	/**
+	 * Chain this guard with another guard that will be applied before this one, if the other one succeeds.
 	 * 
-	 * @param <NEW_IN>
-	 * @param before
-	 * @return
+	 * @param <NEW_IN> the input type of the resulting chained guard, which is the input type of the "before" guard
+	 * @param before the guard to apply before this one, if the other one succeeds
+	 * @return a new guard that represents the chaining of the "before" guard and this guard
 	 */
 	@Nonnull
 	default <NEW_IN> InputGuard<NEW_IN, OUT> compose(InputGuard<NEW_IN, IN> before) {
@@ -84,8 +90,9 @@ public interface InputGuard<IN, OUT> {
 	// ===========================================================================================================
 
 	/**
+	 * Create a new builder to define an input guard.
 	 * 
-	 * @return
+	 * @return	a new builder
 	 */
 	@Nonnull
 	static BuilderFactory builder() {
