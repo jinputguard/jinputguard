@@ -18,8 +18,8 @@ class PathTest {
 	@Test
 	void in_shouldAppendNestedProperty() {
 		Path path = Path.create("user")
-			.in("address")
-			.in("street");
+			.inProperty("address")
+			.inProperty("street");
 
 		assertEquals("user.address.street", path.format());
 		assertEquals("user.address.street", path.toString());
@@ -37,9 +37,9 @@ class PathTest {
 	@Test
 	void atIndex_shouldWorkOnNestedProperty() {
 		Path path = Path.create("user")
-			.in("addresses")
+			.inProperty("addresses")
 			.atIndex(2)
-			.in("street");
+			.inProperty("street");
 
 		assertEquals("user.addresses[2].street", path.format());
 		assertEquals("user.addresses[2].street", path.toString());
@@ -57,9 +57,9 @@ class PathTest {
 	@Test
 	void atUndefinedIndex_shouldWorkInsideNestedStructure() {
 		Path path = Path.create("order")
-			.in("positions")
+			.inProperty("positions")
 			.atUndefinedIndex()
-			.in("price");
+			.inProperty("price");
 
 		assertEquals("order.positions[?].price", path.format());
 	}
@@ -67,11 +67,11 @@ class PathTest {
 	@Test
 	void chainingMixedOperations_shouldProduceCorrectFormat() {
 		Path path = Path.create("root")
-			.in("level1")
+			.inProperty("level1")
 			.atIndex(5)
-			.in("level2")
+			.inProperty("level2")
 			.atUndefinedIndex()
-			.in("value");
+			.inProperty("value");
 
 		assertEquals("root.level1[5].level2[?].value", path.format());
 	}

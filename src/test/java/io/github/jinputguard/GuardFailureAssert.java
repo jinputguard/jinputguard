@@ -1,4 +1,4 @@
-package io.github.jinputguard.result;
+package io.github.jinputguard;
 
 import io.github.jinputguard.GuardFailure;
 import java.util.function.Consumer;
@@ -33,7 +33,7 @@ public class GuardFailureAssert extends AbstractAssert<GuardFailureAssert, Guard
 		return messageAssert(assertor -> assertor.isEqualTo(expected));
 	}
 
-	public GuardFailureAssert messageStartWith(String expected) {
+	public GuardFailureAssert messageStartsWith(String expected) {
 		return messageAssert(assertor -> assertor.startsWith(expected));
 	}
 

@@ -2,8 +2,8 @@ package io.github.jinputguard.builder.base.types;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.GuardResultAssert;
 import java.util.Objects;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,7 +17,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void when_no_nullStrategy_then_nullIsProcessed() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				// no null strategy
 				.sanitize(value -> value + "-1")
 				.build();
@@ -29,7 +29,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void process() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().process()
 				.sanitize(value -> value + "-1")
 				.build();
@@ -40,7 +40,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void skipProcess() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().skipProcess()
 				.sanitize(value -> value + "-1")
 				.build();
@@ -51,7 +51,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void fail() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().fail()
 				.sanitize(value -> value + "-1")
 				.build();
@@ -62,7 +62,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void useDefault() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().useDefault("default")
 				.sanitize(value -> value + "-1")
 				.build();
@@ -75,7 +75,7 @@ class ObjectInputGuardBuilderTest {
 		void when_useDefault_with_null_then_NPE() {
 			Assertions.assertThatNullPointerException()
 				.isThrownBy(
-					() -> InputGuard.builder().forString()
+					() -> InputGuard.builder().forClass(Object.class)
 						.ifNullThen().useDefault(null) // null default value is not allowed
 						.build()
 				);
@@ -83,7 +83,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void mixedStrategies_1() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().skipProcess()
 				.ifNullThen().process()
 				.ifNullThen().skipProcess()
@@ -96,7 +96,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void mixedStrategies_2() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().skipProcess()
 				.ifNullThen().process()
 				.ifNullThen().useDefault("plop")
@@ -111,7 +111,7 @@ class ObjectInputGuardBuilderTest {
 
 		@Test
 		void mixedStrategies_3() {
-			var guard = InputGuard.builder().forString()
+			var guard = InputGuard.builder().forClass(Object.class)
 				.ifNullThen().skipProcess()
 				.sanitize(value -> value + "-1")
 				.ifNullThen().process()
@@ -349,12 +349,13 @@ class ObjectInputGuardBuilderTest {
 			@Nested
 			class IsEqualTo {
 
-				private static InputGuard<String, String> GUARD_FOR_STRING;
+				private static InputGuard<Object, Object> GUARD_FOR_STRING;
+				private static Object expected = new Object();
 
 				@BeforeAll
 				static void setup() {
-					GUARD_FOR_STRING = InputGuard.builder().forString()
-						.validateThat().isEqualTo("expected").then()
+					GUARD_FOR_STRING = InputGuard.builder().forClass(Object.class)
+						.validateThat().isEqualTo(expected).then()
 						.build();
 				}
 
@@ -362,20 +363,20 @@ class ObjectInputGuardBuilderTest {
 				void when_null_then_failure() {
 					var actual = GUARD_FOR_STRING.process(null, "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.hasMessage("is not equals to expected");
+						.messageStartsWith("is not equals to");
 				}
 
 				@Test
 				void when_notEqualValue_then_failure() {
 					var actual = GUARD_FOR_STRING.process("other", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.hasMessage("is not equals to expected");
+						.messageStartsWith("is not equals to");
 				}
 
 				@Test
 				void when_equalValue_then_failure() {
-					var actual = GUARD_FOR_STRING.process("expected", "myVal");
-					GuardResultAssert.assertThat(actual).isSuccess("expected");
+					var actual = GUARD_FOR_STRING.process(expected, "myVal");
+					GuardResultAssert.assertThat(actual).isSuccess(expected);
 				}
 
 			}
