@@ -9,8 +9,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * @param <IN>
- * @param <OUT>
+ * Builder for {@link InputGuard}.
+ * 
+ * @param <IN>	The initial input value type
+ * @param <OUT>	The output value type, may be different than the input type if some mapping were applied
+ * @param <SELF>	The self type of this builder, used for fluent API
  */
 public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, OUT, SELF>> {
 
@@ -23,9 +26,9 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	InputGuard<IN, OUT> build();
 
 	/**
-	 * Defines a strategy to handle <code>null</code> value.
+	 * Define the strategy to apply when the value is <code>null</code>.
 	 * 
-	 * @return	a builder for <code>null</code> strategies
+	 * @return	a new builder to define the null handling strategy
 	 */
 	NullStrategyBuilder<IN, OUT, SELF> ifNullThen();
 
@@ -33,9 +36,9 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	// SANITIZATION
 
 	/**
-	 * Sanitize the value: any transformation function can be applied.
+	 * Sanitize the value using the given sanitization function.
 	 * 
-	 * @param sanitizationFunction	Any transformation function, to be applied to the value
+	 * @param sanitizationFunction	A function that takes the output value and returns a sanitized version of it.
 	 * 
 	 * @return	a new builder
 	 */
@@ -47,24 +50,24 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 
 	/**
 	 * Validate the value using the given validation function.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned error details.
 	 * 
-	 * @param validationFunction	A function that returns <code>null</code> if the value is valid, a {@link ValidationFailure} otherwise.
+	 * @param validationFunction	A function that takes the output value and returns an error details if validation fails, or <code>null</code> if validation succeeds.
 	 * 
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
-	 * @see	ValidationError
 	 */
 	@Nonnull
 	SELF validate(@Nonnull Function<OUT, ErrorDetails> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure}  containing a {@link ValidationError#GenericError} with the given error message.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing a {@link ValidationError#GenericError} with the given error message.
 	 * 
 	 * @param validationPredicate	The test to apply on the value
-	 * @param errorMessage			The error message
-	
+	 * @param errorMessage			The error message to use if validation fails
+	 * 
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
@@ -75,11 +78,11 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 
 	/**
 	 * Validate the value using the given predicate.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure}  containing a {@link ValidationError#GenericError} with the given error message.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing a {@link ValidationError#GenericError} with the error message returned by the given function.
 	 * 
 	 * @param validationPredicate	The test to apply on the value
-	 * @param errorMessageFunction	The error message function
-	
+	 * @param errorMessageFunction	The function to get the error message to use if validation fails, it takes the value as input
+	 * 
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
@@ -92,14 +95,16 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	// MAPPING
 
 	/**
-	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type.
+	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type,
+	 * using the provided function.
+	 * The new builder will be of the same type as this one, i.e. it will have the same behavior and available methods.
 	 * 
 	 * @param <NEW_OUT>	The new output value type
+	 * @param <B>		The new guard builder type
 	 * 
-	 * @param targetClass		The target class to map to
 	 * @param mappingFunction	The mapping function to apply to this guard's output value
 	 * 
-	 * @return	a new builder
+	 * @return	a new builder of type B
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
@@ -109,13 +114,16 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	/**
 	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type,
 	 * using the provided function.
+	 * The new builder will be created by the given builder function, which takes as input the new guard that would be created by applying the mapping function to this guard.
+	 * This allows to create a new builder of a different type than this one, with different behavior and available methods if needed.
 	 * 
 	 * @param <NEW_OUT>	The new output value type
 	 * @param <B>		The new guard builder type
 	 * 
 	 * @param mappingFunction	The mapping function to apply to this guard's output value
-	 * @param builderFunction	The function to create a new guard builder from the created guard
-	 * @return
+	 * @param builderFunction	The function to create the new builder, it takes as input the new guard that would be created by applying the mapping function to this guard
+	 * 
+	 * @return	a new builder of type B
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
@@ -126,9 +134,10 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	// SUB-GUARD
 
 	/**
-	 * Apply the given guard, i.e. include it into the current one.
+	 * Apply another guard on the output value of this guard, and return a new builder for this guard.
+	 * The new builder will be of the same type as this one, i.e. it will have the same behavior and available methods.
 	 * 
-	 * @param guard	The guard to apply to the value.
+	 * @param guard	The guard to apply on the output value of this guard
 	 * 
 	 * @return	a new builder
 	 */

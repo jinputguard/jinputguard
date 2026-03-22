@@ -1,7 +1,6 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.GuardResultAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
