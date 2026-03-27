@@ -3,12 +3,13 @@ package io.github.jinputguard.guard.collection;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.errors.MultiError;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -26,10 +27,10 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 	}
 
 	@Override
-	public GuardResult<C_OUT> process(C_IN value, @Nonnull Path path) {
+	public GuardResult<C_OUT> process(C_IN value, @Nullable String path) {
 		var resultMap = value.stream()
 			.filter(elementFilter)
-			.map(elem -> elementGuard.process(elem, path.atUndefinedIndex()))
+			.map(elem -> elementGuard.process(elem, Optional.ofNullable(path).orElse("") + "[?]"))
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of()).stream()

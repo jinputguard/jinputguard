@@ -4,8 +4,8 @@ import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectIsNull;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Objects;
 
 public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
@@ -28,7 +28,7 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 	}
 
 	@Override
-	public GuardResult<OUT> process(IN value, @Nonnull Path path) {
+	public GuardResult<OUT> process(IN value, @Nullable String path) {
 		return switch (strategy) {
 			case Process<IN> str -> nextGuard.process(value, path);
 			case SkipProcess<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);

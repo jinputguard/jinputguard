@@ -21,16 +21,14 @@
   * [Definition](#definition)
   * [Why should I use it?](#why-should-i-use-it)
 * [Usage](#usage)
-  * [Base builder](#base-builder)
-  * [Specialized builders](#specialized-builders)
+  * [Builder](#builder)
   * [Sanitization](#sanitization)
   * [Mapping](#mapping)
   * [Validation](#validation)
+  * [Guard result](#guard-result)
+* [Advanced usage](#advanced-usage)
   * [Handling null](#handling-null)
   * [Nesting guards](#nesting-guards)
-  * [Testing result](#testing-result)
-  * [Getting the value or the failure](#getting-the-value-or-the-failure)
-* [Customization](#customization)
   * [Custom specialized builders](#custom-specialized-builders)
   * [Custom exception](#custom-exception)
 * [License](#license)
@@ -42,27 +40,37 @@ Create input guards and use them at the beginning of any method to process input
 * Add JInputGuard to your project's dependencies (see [installation](#installation))
 * Create your first guard using the discoverable and fluent builder API:
 ```java
-// A guard that takes a String as input, and outputs an Integer
-InputGuard<String, Integer> guard = InputGuard.builder()
-    .forString()
-    .sanitize().strip().replace(".0", "").then()
-    .validateThat().isMaxLength(3).then()
-    .mapToInteger()
-    .validateThat().isPositive().then()
-    .sanitize().clamp(10, 100).then()
+// A guard that takes a String as input, and outputs a String that is sanitized and validated.
+InputGuard<String, String> guard = InputGuard.builder().forString()
+    .sanitize()
+      .strip()
+      .toLowerCase()
+      .replace("a", "e")
+      .then()
+    .validateThat()
+      .isMaxLength(3)
+      .then()
     .build();
 ```
 * Process some input value and get the result, or throw an exception in case of failure:
 ```java
-Integer resultOK1 = guard.process("  42  ").getOrThrow(); // result = 42
-Integer resultOK2 = guard.process("8 ").getOrThrow();     // result = 10
-Integer resultOK3 = guard.process(" 150.0").getOrThrow(); // result = 100
-Integer resultKO4 = guard.process("12345 ").getOrThrow(); // throw InputGuardFailureException "value is too long"
-Integer resultKO5 = guard.process("-8").getOrThrow();     // throw InputGuardFailureException "value must be positive"
-Integer resultKO6 = guard.process("abc").getOrThrow();    // throw InputGuardFailureException - NumberFormatException
+String barValueOK = guard.process("  BAR  ").getOrThrow(); // "ber"
+String barValueKO = guard.process("BAAAAR").getOrThrow(); // throw InputGuardFailureException "value is too long"
+
+// Or, for a better control of the process result:
+GuardResult<String> result = guard.process(...);
+if(result.isSuccess()) { // also exists "isFailure()"
+  String newValue = result.get();
+  // Do something with newValue
+} else {
+  GuardFailure failure = result.getFailure();
+  System.out.println("Invalid value: " + failure.getMessage());
+}
 ```
 
 # Installation
+Java 21 is required.
+
 To include JInputGuard in your project, add the following dependency to your `pom.xml` if you are using Maven (be sure to use the latest version):
 ```xml
 <dependency>
@@ -99,7 +107,7 @@ To facilitate adoption, JInputGuards is/has:
 
 # Usage
 
-## Base builder
+## Builder
 Base guard builder is obtained by calling the `InputGuard.builder().forClass(Class<T>)` method, which returns a `InputGuardBuilder`. From there you can call generic sanitization, validation and mapping methods to configure guard process steps. These methods usualy take lambdas as arguments.
 Finish the creation by calling the `build()` method to get an instance of `InputGuard`.
 
@@ -114,9 +122,7 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
     .build();
 ```
 
-
-## Specialized builders
-For a more practical and useful approach, use others `InputGuard.builder().forXXX()` methods to get specialized builders, that helps you build guards in a more easy and efficient way: they expose various predefined and discoverable methods, saving you time and effort.
+For a more practical and useful approach, use others `InputGuard.builder().forXXX()` methods to get **specialized builders**, that helps you build guards in a more easy and efficient way: they expose various predefined and discoverable methods, saving you time and effort.
 
 Those predefined builders are directly accessible using appropriate `InputGuard.builder().forXXX()` methods.
 
@@ -204,6 +210,37 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .build();
 ```
 
+## Guard result
+Guard process result is a `GuardResult`, containing either an output value or a failure. Testing the result is done with the `isSuccess()` and `isFailure()` methods.
+
+In case of success, the output value can be retrieved using the `GuardResult.get()` method.  
+In case of failure, the failure is retrieved with the `GuardResult.getFailure()` method. This object is of type `GuardFailure` and contains details about the failure. 
+
+Important note: calling one of these methods when the result is in the opposite state (e.g. calling `get()` when `isFailure()` returns `true`) throws an `IllegalStateException`.
+
+```java
+GuardResult<Integer> result = myGuard.process(...);
+if (result.isSuccess()) {
+    System.out.println("Guard OK: " + result.get());
+    // Calling result.getFailure() here would throw an IllegalStateException
+} else {
+    System.err.println("Guard KO: " + result.getFailure());
+    // Calling result.get() here would throw an IllegalStateException
+}
+```
+
+You can also directly get the output value by calling the `getOrThrow()` method, without testing first. In case of failure, an `InputGuardFailureException` is thrown (extends `IllegalArgumentException`), containing the `GuardFailure`.
+```java
+GuardResult<Integer> result = myGuard.process("notAnInt");
+var i = result.getOrThrow(); // throws InputGuardFailureException
+```
+
+# Advanced usage
+
+> [!TIP]
+> Below paragraphs describe **totally optional** customization/extension points to tailor JInputGuard to your needs.
+
+
 ## Handling null
 By default, `null` values are processed by guards, meaning it can lead to NullPointerException.
 To tackle that, you can declare a _null strategy_ when building your guard. This strategy will be effective from the point you declare it until the rest of the guard or until you declare another _null strategy_.
@@ -240,50 +277,6 @@ var outerGuard = InputGuard.builder()
     .validateThat().isMaxLength(3).then()
     .build();
 ```
-
-## Testing result
-Guard process result is a `GuardResult`, containing either an output value or a failure. Testing the result is done with the `isSuccess()` and `isFailure()` methods.
-
-```java
-InputGuard<String, Integer> myGuard = ...;
-    
-GuardResult<Integer> result = myGuard.process(" 123.0 ");
-
-if (result.isSuccess()) { // or "isFailure()"
-    System.out.println("Guard OK :)");
-} else {
-    System.err.println("Guard KO :(");
-}
-```
-
-## Getting the value or the failure
-In case of success, the output value can be retrieved using the `GuardResult.get()` method.
-In case of failure, the failure is retrieved with the `GuardResult.getFailure()` method. This object is of type `GuardFailure` and contains details about the failure. 
-
-Important note: calling one of these methods when the result is in the opposite state (e.g. calling `get()` when `isFailure()` returns `true`) throws an `IllegalStateException`.
-
-```java
-GuardResult<Integer> result = ...;
-if (result.isSuccess()) {
-    System.out.println("Guard OK: " + result.get());
-    // Calling result.getFailure() here would throw an IllegalStateException
-} else {
-    System.err.println("Guard KO: " + result.getFailure());
-    // Calling result.get() here would throw an IllegalStateException
-}
-```
-
-You can also directly get the output value by calling the `getOrThrow()` method, without testing first. In case of failure, an `InputGuardFailureException` is thrown (extends `IllegalArgumentException`), containing the `GuardFailure`.
-```java
-GuardResult<Integer> result = myGuard.process("notAnInt");
-var i = result.getOrThrow(); // throws InputGuardFailureException
-```
-
-# Customization
-
-> [!TIP]
-> Below paragraphs describe **totally optional** customization/extension points to tailor JInputGuard to your needs. Consider this as "advanced usage".
-
 
 ## Custom specialized builders
 In case the specialized builder for a specific type does not (yet) exists, or you require custom guard methods, you can create it by extending `AbstractInputGuardBuilder` (see `StringInputGuardBuilder` in code as an example):

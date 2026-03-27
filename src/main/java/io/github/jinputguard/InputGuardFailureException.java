@@ -35,7 +35,10 @@ public class InputGuardFailureException extends IllegalArgumentException {
 
 	private static String buildExceptionMessage(@Nonnull GuardFailure failure) {
 		Objects.requireNonNull(failure, "failure cannot be null");
-		return failure.getPath().toString() + ": " + failure.getMessage();
+		var path = failure.getPath();
+		return path != null
+			? path + ": " + failure.getMessage()
+			: failure.getMessage();
 	}
 
 }

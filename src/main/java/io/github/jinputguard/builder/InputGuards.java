@@ -8,7 +8,6 @@ import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.MappingError.MappingExceptionError;
 import jakarta.annotation.Nonnull;
@@ -122,7 +121,7 @@ public final class InputGuards {
 	}
 
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull BiFunction<Path, Throwable, GuardFailure> failureFunction
+		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull BiFunction<String, Throwable, GuardFailure> failureFunction
 	) {
 
 		Objects.requireNonNull(mappingFunction, "Mapping function cannot be null");

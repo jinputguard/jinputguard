@@ -1,6 +1,6 @@
 package io.github.jinputguard.result.errors;
 
-public interface WithCause {
+public interface WithEmbeddedCause {
 
 	Throwable cause();
 

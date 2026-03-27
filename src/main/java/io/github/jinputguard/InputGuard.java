@@ -1,7 +1,6 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.InputGuards;
-import io.github.jinputguard.result.Path;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
@@ -36,28 +35,27 @@ import java.util.Objects;
 @FunctionalInterface
 public interface InputGuard<IN, OUT> {
 
-	/**
+	/** 
 	 * Process the given input value and return the result of the processing, which may be a success or a failure.
+	 * This is a convenience method that calls {@link #process(Object, String)} with a <code>null</code> property name.
 	 * 
 	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
-	 * @param path	the path to the value being processed, used for error reporting in case of failure
 	 * @return	the result of the processing, containing either the processed value or the failure details
 	 */
 	@Nonnull
-	GuardResult<OUT> process(@Nullable IN value, @Nonnull Path path);
+	default GuardResult<OUT> process(@Nullable IN value) {
+		return process(value, null);
+	}
 
 	/**
 	 * Process the given input value and return the result of the processing, which may be a success or a failure.
-	 * This is a convenience method that uses a simple property name as the path for error reporting.
 	 * 
 	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
-	 * @param property	the property name to use as the path for error reporting in case of failure
+	 * @param property an optional property name to include in error reporting, can be <code>null</code>
 	 * @return	the result of the processing, containing either the processed value or the failure details
 	 */
 	@Nonnull
-	default GuardResult<OUT> process(@Nullable IN value, @Nonnull String property) {
-		return process(value, Path.create(property));
-	}
+	GuardResult<OUT> process(@Nullable IN value, @Nullable String property);
 
 	// ===========================================================================================================
 
