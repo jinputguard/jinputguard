@@ -26,7 +26,7 @@
   * [Mapping](#mapping)
   * [Validation](#validation)
   * [Guard result](#guard-result)
-* [Customization](#customization)
+* [Advanced usage](#advanced-usage)
   * [Handling null](#handling-null)
   * [Nesting guards](#nesting-guards)
   * [Custom specialized builders](#custom-specialized-builders)
