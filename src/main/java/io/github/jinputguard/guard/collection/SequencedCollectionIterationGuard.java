@@ -3,11 +3,12 @@ package io.github.jinputguard.guard.collection;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.Path;
 import io.github.jinputguard.result.errors.MultiError;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.SequencedCollection;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -29,12 +30,12 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 	}
 
 	@Override
-	public GuardResult<C_OUT> process(C_IN value, @Nonnull Path path) {
+	public GuardResult<C_OUT> process(C_IN value, @Nullable String path) {
 
 		var iter = value.iterator();
 		var resultMap = IntStream.range(0, value.size())
-			.mapToObj(index -> processElement(iter.next(), path.atIndex(index)))
-			.filter(elem -> elem != null)
+			.mapToObj(index -> processElement(iter.next(), Optional.ofNullable(path).orElse("") + "[" + index + "]"))
+			.filter(Objects::nonNull)
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of())
@@ -52,7 +53,7 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 		return GuardResult.success(newCollection);
 	}
 
-	private GuardResult<OUT> processElement(T elem, Path indexPath) {
+	private GuardResult<OUT> processElement(T elem, String indexPath) {
 		if (!elementFilter.test(elem)) {
 			return null;
 		}

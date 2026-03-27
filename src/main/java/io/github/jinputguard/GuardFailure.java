@@ -17,7 +17,7 @@ public interface GuardFailure {
 	 * This can be used to identify the specific part of the input that caused the failure.
 	 * @return
 	 */
-	@Nonnull
+	@Nullable
 	String getPath();
 
 	/**

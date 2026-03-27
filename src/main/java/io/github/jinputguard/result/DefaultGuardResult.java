@@ -73,7 +73,7 @@ public class DefaultGuardResult<T> implements GuardResult<T> {
 	@Nonnull
 	@Override
 	public T getOrThrow() throws InputGuardFailureException {
-		return getOrThrow(failure -> new InputGuardFailureException(failure));
+		return getOrThrow(InputGuardFailureException::new);
 	}
 
 	@Nonnull
@@ -94,15 +94,13 @@ public class DefaultGuardResult<T> implements GuardResult<T> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DefaultGuardResult<?> other = (DefaultGuardResult<?>) obj;
-		return Objects.equals(failure, other.failure)
-			&& Objects.equals(value, other.value);
+		}
+		if (obj instanceof DefaultGuardResult<?> other) {
+			return Objects.equals(failure, other.failure) && Objects.equals(value, other.value);
+		}
+		return false;
 	}
 
 	@Override

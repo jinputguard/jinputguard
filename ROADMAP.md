@@ -23,23 +23,39 @@
   - Comparison: `isGreaterThan(T)`, `isGreaterOrEqualTo(T)`, `isLowerThan(T)`, `isLowerOrEqualTo(T)`, `isBetween(T, T)`
   - Relation to zero: `isPositive()`, `isPositiveOrNul()`, `isZero()`, `isNegative()`, `isNegativeOrNul()`
 
-### List
+### Sequenced collections: List
+- Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
-### Set
+### Collecions: Set
+- Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
 
 ## To do
-- [ ] Revamp/cleanup `null` handling
-- [] Move to JSpecify annotations for nullability
-- More validation
-  - [ ] String - Validation - Length: `isMinLength(int)`, `isLength(int)`, `isLengthBetween(int, int)`
-- More mapping
-- [ ] Object - Mapping: `mapToString()`
-- [ ] String - Mapping: `mapToDouble()`, `mapToFloat()`, `mapToUuid()`
-- [ ] Integer - Mapping: `mapToLong()`, `mapToDouble()`, `mapToFloat()`
-- [ ] Long - Mapping: `mapToInteger()`, `mapToDouble()`, `mapToFloat()`
-- [ ] Double - Mapping: `mapToInteger()`, `mapToLong()`, `mapToFloat()`
-- [ ] Float - Mapping: `mapToInteger()`, `mapToLong()`, `mapToDouble()`
+- Revamp/cleanup `null` handling
+- Move to JSpecify annotations for nullability
+- More specialized methods:
+  - Object
+    - Mapping: `mapToString()`
+  - String
+    - Validation
+      - Length: `isMinLength(int)`, `isLength(int)`, `isLengthBetween(int, int)`
+    - Mapping: 
+      - To Number: `mapToDouble()`, `mapToFloat()`
+      - To UUID: `mapToUuid()`
+  - Number - Integer
+    - Mapping: 
+      - Integer to other Number: `mapToLong()`, `mapToDouble()`, `mapToFloat()`
+      - Long to other Number: `mapToInteger()`, `mapToDouble()`, `mapToFloat()`
+      - Double to other Number: `mapToInteger()`, `mapToLong()`, `mapToFloat()`
+      - Float to other Number: `mapToInteger()`, `mapToLong()`, `mapToDouble()`
+  - Sequenced collections
+    - Validation
+      - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
+      - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
+  - Collections
+    - Validation
+      - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
+      - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
 - More specialized builders
   - [ ] Array
   - [ ] UUID

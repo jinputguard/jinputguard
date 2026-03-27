@@ -11,7 +11,7 @@ public interface MappingError extends ErrorDetails {
 	/**
 	 * A simple validation error that has just a message. 
 	 */
-	record MappingExceptionError(Throwable cause) implements MappingError, WithCause {
+	record MappingExceptionError(Throwable cause) implements MappingError, WithEmbeddedCause {
 
 		@Override
 		public String getMessage() {

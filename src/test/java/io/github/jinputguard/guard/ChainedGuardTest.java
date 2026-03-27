@@ -5,7 +5,6 @@ import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.types.ObjectValidationError;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.Path;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -29,12 +28,11 @@ class ChainedGuardTest {
 
 	@Test
 	void nominal() {
-		var basePath = Path.create("myVal");
 		InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.success(value + "-1");
 		InputGuard<String, String> subGuard2 = (value, path) -> GuardResult.success(value + "-2");
 
 		var guard = new ChainedGuard<>(subGuard1, subGuard2);
-		var actualResult = guard.process("0", basePath);
+		var actualResult = guard.process("0");
 
 		GuardResultAssert.assertThat(actualResult).isSuccess("0-1-2");
 	}
@@ -42,9 +40,8 @@ class ChainedGuardTest {
 	@Test
 	void when_error_in_first_then_second_is_not_processed() {
 
-		var basePath = Path.create("myVal");
 		var validationError = new ObjectValidationError.ObjectIsNull();
-		var validationFailure = new DefaultGuardFailure(basePath, validationError);
+		var validationFailure = new DefaultGuardFailure("myVal", validationError);
 		InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.failure(validationFailure);
 
 		var secondGuardIsCalled = new AtomicBoolean(false);
@@ -55,7 +52,7 @@ class ChainedGuardTest {
 
 		var guard = new ChainedGuard<>(subGuard1, subGuard2);
 
-		var actualResult = guard.process("0", basePath);
+		var actualResult = guard.process("0", "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isFailure(validationFailure);
 		Assertions.assertThat(secondGuardIsCalled).isFalse();
@@ -73,7 +70,7 @@ class ChainedGuardTest {
 			var chainedGuard1and2 = new ChainedGuard<>(subGuard1, subGuard2);
 			var guard = chainedGuard1and2.andThen(subGuard3);
 
-			var actualResult = guard.process("0", "myVal");
+			var actualResult = guard.process("0");
 
 			GuardResultAssert.assertThat(actualResult).isSuccess("0-1-2-3");
 		}
@@ -92,7 +89,7 @@ class ChainedGuardTest {
 			var subGuard1and2 = new ChainedGuard<>(subGuard1, subGuard2);
 			var guard = subGuard1and2.compose(subGuard3);
 
-			var actualResult = guard.process("0", "myVal");
+			var actualResult = guard.process("0");
 
 			GuardResultAssert.assertThat(actualResult).isSuccess("0-3-1-2");
 		}
