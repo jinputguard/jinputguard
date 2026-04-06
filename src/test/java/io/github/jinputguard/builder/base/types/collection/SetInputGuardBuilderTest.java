@@ -57,7 +57,7 @@ class SetInputGuardBuilderTest {
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("is empty");
+				.withMessage(BASE_PATH + " is empty");
 		}
 
 	}
@@ -237,11 +237,9 @@ class SetInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.hasPathEqualTo("myVal")
-					.hasMessage("""
+					.withMessage("""
 						multiple errors:
-						  - myVal[?] -> must not be empty
-						""");
+						  - myVal[?] must not be empty""");
 			}
 
 			@Test
@@ -256,12 +254,10 @@ class SetInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.hasPathEqualTo("myVal")
-					.hasMessage("""
+					.withMessage("""
 						multiple errors:
-						  - myVal[?] -> must be 2 chars max, but is 3
-						  - myVal[?] -> must be 2 chars max, but is 3
-						""");
+						  - myVal[?] must be 2 chars max, but is 3
+						  - myVal[?] must be 2 chars max, but is 3""");
 				;
 			}
 

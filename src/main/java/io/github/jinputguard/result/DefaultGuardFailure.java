@@ -1,6 +1,5 @@
 package io.github.jinputguard.result;
 
-import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.WithEmbeddedCause;
 import jakarta.annotation.Nonnull;
@@ -10,7 +9,7 @@ import java.util.Objects;
 /**
  * A class representing the failure of a guard.
  */
-public class DefaultGuardFailure implements GuardFailure {
+public final class DefaultGuardFailure implements GuardFailure {
 
 	private final String path;
 	private final ErrorDetails message;
@@ -37,27 +36,16 @@ public class DefaultGuardFailure implements GuardFailure {
 		return cause;
 	}
 
-	@Override
 	public String getPath() {
 		return path;
 	}
 
-	@Override
 	public Throwable getCause() {
 		return cause;
 	}
 
-	@Override
-	public String getMessage() {
-		return message.getMessage();
-	}
-
-	@Override
-	public String toString() {
-		return "GuardFailure:\n"
-			+ "  - Path: " + getPath() + "\n"
-			+ "  - Message: " + getMessage() + "\n"
-			+ "  - Cause: " + (cause == null ? "" : cause.getMessage());
+	public String getMessage(String path) {
+		return (path != null ? path + " " : "") + message.getMessage();
 	}
 
 	@Override

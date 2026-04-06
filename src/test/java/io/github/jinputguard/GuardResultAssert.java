@@ -1,7 +1,9 @@
 package io.github.jinputguard;
 
+import io.github.jinputguard.result.GuardFailure;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssertAlternative;
 
 public class GuardResultAssert<T> extends AbstractAssert<GuardResultAssert<T>, GuardResult<T>> {
 
@@ -30,16 +32,27 @@ public class GuardResultAssert<T> extends AbstractAssert<GuardResultAssert<T>, G
 		return this;
 	}
 
-	public GuardFailureAssert isFailure() {
+//	public GuardFailureAssert isFailure() {
+//		Assertions.assertThat(actual.isFailure())
+//			.as(descriptionText())
+//			.overridingErrorMessage(() -> "Expected process result to be failure, but is success with value: " + actual.get())
+//			.isTrue();
+//		return GuardFailureAssert.assertThat(actual.getFailure());
+//	}
+
+	public ThrowableAssertAlternative<InputGuardFailureException> isFailure() {
+		return Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
+			.isThrownBy(actual::getOrThrow);
+	}
+
+	public GuardResultAssert<T> isFailure(GuardFailure expected) {
 		Assertions.assertThat(actual.isFailure())
 			.as(descriptionText())
 			.overridingErrorMessage(() -> "Expected process result to be failure, but is success with value: " + actual.get())
 			.isTrue();
-		return GuardFailureAssert.assertThat(actual.getFailure());
-	}
-
-	public GuardFailureAssert isFailure(GuardFailure expected) {
-		return isFailure().isEqualTo(expected);
+		Assertions.assertThat(actual.getFailure())
+			.isEqualTo(expected);
+		return this;
 	}
 
 }

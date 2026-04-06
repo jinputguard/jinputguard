@@ -1,5 +1,8 @@
 package io.github.jinputguard;
 
+import io.github.jinputguard.result.DefaultGuardFailure;
+import io.github.jinputguard.result.GuardFailure;
+import io.github.jinputguard.result.GuardFailureMessageFactory;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
@@ -20,7 +23,7 @@ public class InputGuardFailureException extends IllegalArgumentException {
 	 * @param failure the GuardFailure that caused this exception
 	 */
 	public InputGuardFailureException(@Nonnull GuardFailure failure) {
-		super(buildExceptionMessage(failure), failure.getCause());
+		super(buildExceptionMessage(failure), buildCause(failure));
 		this.failure = failure;
 	}
 
@@ -35,10 +38,11 @@ public class InputGuardFailureException extends IllegalArgumentException {
 
 	private static String buildExceptionMessage(@Nonnull GuardFailure failure) {
 		Objects.requireNonNull(failure, "failure cannot be null");
-		var path = failure.getPath();
-		return path != null
-			? path + ": " + failure.getMessage()
-			: failure.getMessage();
+		return GuardFailureMessageFactory.getInstance().buildMessage(failure);
+	}
+
+	private static Throwable buildCause(@Nonnull GuardFailure failure) {
+		return failure instanceof DefaultGuardFailure defaultGuardFailure ? defaultGuardFailure.getCause() : null;
 	}
 
 }

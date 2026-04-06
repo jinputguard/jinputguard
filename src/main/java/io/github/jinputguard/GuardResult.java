@@ -1,6 +1,7 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.result.DefaultGuardResult;
+import io.github.jinputguard.result.GuardFailure;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.function.Function;

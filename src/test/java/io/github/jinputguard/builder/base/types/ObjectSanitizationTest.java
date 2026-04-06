@@ -1,7 +1,5 @@
 package io.github.jinputguard.builder.base.types;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import java.util.Objects;
@@ -224,7 +222,7 @@ class ObjectInputGuardBuilderTest {
 				var actualResult = GUARD.process("plop");
 
 				GuardResultAssert.assertThat(actualResult).isFailure()
-					.hasMessage("object is not null: plop");
+					.withMessage("object is not null: plop");
 			}
 
 		}
@@ -254,9 +252,7 @@ class ObjectInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.hasMessage("object is not null");
-
-				assertThat(actualResult.getFailure().getCause()).isNull();
+					.withMessage("object is not null");
 			}
 
 		}
@@ -283,7 +279,7 @@ class ObjectInputGuardBuilderTest {
 				var actual = GUARD.process(null);
 				GuardResultAssert.assertThat(actual)
 					.isFailure()
-					.hasMessage("must not be null");
+					.withMessage("must not be null");
 			}
 
 			@Test
@@ -315,7 +311,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(null);
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.hasMessage("is not an instance of " + Integer.class.getName() + ", but is null");
+						.withMessage("is not an instance of " + Integer.class.getName() + ", but is null");
 				}
 
 				@Test
@@ -341,7 +337,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(longValue);
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.hasMessage("is not an instance of " + Integer.class.getName() + ", but is instance of " + Long.class.getName());
+						.withMessage("is not an instance of " + Integer.class.getName() + ", but is instance of " + Long.class.getName());
 				}
 
 			}
@@ -363,14 +359,14 @@ class ObjectInputGuardBuilderTest {
 				void when_null_then_failure() {
 					var actual = GUARD_FOR_STRING.process(null);
 					GuardResultAssert.assertThat(actual).isFailure()
-						.messageStartsWith("is not equals to");
+						.withMessageStartingWith("is not equals to");
 				}
 
 				@Test
 				void when_notEqualValue_then_failure() {
 					var actual = GUARD_FOR_STRING.process("other");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.messageStartsWith("is not equals to");
+						.withMessageStartingWith("is not equals to");
 				}
 
 				@Test
@@ -401,8 +397,8 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value);
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.hasMessage("invalid value")
-				.hasSameCause(exception);
+				.withMessage("invalid value")
+				.withCause(exception);
 		}
 
 		@Test

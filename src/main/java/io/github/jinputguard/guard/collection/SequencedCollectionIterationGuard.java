@@ -2,8 +2,7 @@ package io.github.jinputguard.guard.collection;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.errors.MultiError;
+import io.github.jinputguard.result.MultiGuardFailure;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.List;
@@ -43,8 +42,7 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 			.map(GuardResult::getFailure)
 			.toList();
 		if (!failures.isEmpty()) {
-			var error = new MultiError(failures);
-			return GuardResult.failure(new DefaultGuardFailure(path, error));
+			return GuardResult.failure(new MultiGuardFailure(path, failures));
 		}
 
 		var newCollection = resultMap.getOrDefault(true, List.of()).stream()

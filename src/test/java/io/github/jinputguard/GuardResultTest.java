@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.jinputguard.result.DefaultGuardFailure;
+import io.github.jinputguard.result.GuardFailure;
 import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import org.junit.jupiter.api.Nested;
@@ -51,7 +52,7 @@ class GuardResultTest {
 	@Test
 	void failure_with_path() {
 		var cause = new RuntimeException("cause");
-		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("bad value"), cause);
+		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("is wrong"), cause);
 		var result = GuardResult.failure(failure);
 
 		assertThat(result.isSuccess()).isFalse();
@@ -59,7 +60,7 @@ class GuardResultTest {
 			.withMessage("Cannot get the value as result is failure, please first test with isSuccess()/isFailure()");
 		assertThatExceptionOfType(InputGuardFailureException.class)
 			.isThrownBy(result::getOrThrow)
-			.withMessage("myVal: bad value")
+			.withMessage("myVal is wrong")
 			.withCause(cause)
 			.extracting(InputGuardFailureException::getFailure).isEqualTo(failure);
 
@@ -79,8 +80,8 @@ class GuardResultTest {
 	void getOrThrowWithMapperShouldThrowMappedException() {
 		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("err2"));
 		var r = GuardResult.failure(failure);
-		RuntimeException ex = assertThrows(RuntimeException.class, () -> r.getOrThrow(f -> new RuntimeException(f.getMessage())));
-		assertEquals("err2", ex.getMessage());
+		RuntimeException ex = assertThrows(RuntimeException.class, () -> r.getOrThrow(f -> new RuntimeException("errooooor")));
+		assertEquals("errooooor", ex.getMessage());
 	}
 
 	@Nested

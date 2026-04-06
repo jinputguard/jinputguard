@@ -60,7 +60,7 @@ class ListInputGuardBuilderTest {
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("is empty");
+				.withMessage(BASE_PATH + " is empty");
 		}
 
 	}
@@ -249,13 +249,11 @@ class ListInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.hasPathEqualTo("myVal")
-					.hasMessage("""
+					.withMessage("""
 						multiple errors:
-						  - myVal[0] -> must not be empty
-						  - myVal[2] -> must not be empty
-						  - myVal[4] -> must not be empty
-						""");
+						  - myVal[0] must not be empty
+						  - myVal[2] must not be empty
+						  - myVal[4] must not be empty""");
 			}
 
 		}

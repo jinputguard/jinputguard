@@ -333,7 +333,7 @@ class StringInputGuardBuilderTest {
 			void when_longer_then_failure() {
 				var actual = GUARD.process("123456");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("must be 5 chars max, but is 6");
+					.withMessage("must be 5 chars max, but is 6");
 			}
 
 		}
@@ -373,7 +373,7 @@ class StringInputGuardBuilderTest {
 			void when_invalid_then_failure(String value) {
 				var actual = GUARD.process(value);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("is not parseable to Integer");
+					.withMessage("is not parseable to Integer");
 			}
 
 		}
@@ -413,7 +413,7 @@ class StringInputGuardBuilderTest {
 			void when_subRegion_then_failure() {
 				var actual = GUARD.process("zabc9z");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("must match pattern " + REGEX);
+					.withMessage("must match pattern " + REGEX);
 			}
 
 		}
@@ -446,7 +446,7 @@ class StringInputGuardBuilderTest {
 			void when_subRegion_then_failure() {
 				var actual = GUARD.process("zabc9z");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("must match pattern " + PATTERN.pattern());
+					.withMessage("must match pattern " + PATTERN.pattern());
 			}
 
 		}
@@ -491,7 +491,7 @@ class StringInputGuardBuilderTest {
 			void when_invalid_then_failure(String input) {
 				var actual = GUARD.process(input);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasCauseInstanceOf(NumberFormatException.class);
+					.withCauseInstanceOf(NumberFormatException.class);
 			}
 
 		}
@@ -531,7 +531,7 @@ class StringInputGuardBuilderTest {
 			void failure(String input) {
 				var actual = GUARD.process(input);
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasCauseInstanceOf(NumberFormatException.class);
+					.withCauseInstanceOf(NumberFormatException.class);
 			}
 
 		}
