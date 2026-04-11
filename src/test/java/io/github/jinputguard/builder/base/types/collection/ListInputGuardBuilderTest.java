@@ -38,7 +38,7 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate(list -> list.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
 			var actualResult = listGuard.process(List.of("a"), BASE_PATH);
@@ -53,14 +53,14 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate(list -> list.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
 			var actualResult = listGuard.process(List.of(), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.withMessage(BASE_PATH + " is empty");
+				.hasMessage(BASE_PATH + " is empty");
 		}
 
 	}
@@ -249,8 +249,8 @@ class ListInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.withMessage("""
-						multiple errors:
+					.hasMessage("""
+						myVal contains 3 illegal elements:
 						  - myVal[0] must not be empty
 						  - myVal[2] must not be empty
 						  - myVal[4] must not be empty""");

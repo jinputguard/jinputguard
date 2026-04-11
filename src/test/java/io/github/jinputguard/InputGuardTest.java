@@ -16,7 +16,7 @@ class InputGuardTest {
 
 			var guard = subGuard1.andThen(subGuard2).andThen(subGuard3);
 
-			GuardResultAssert.assertThat(guard.process("plop")).isSuccess("plop-1-2-3");
+			GuardResultAssert.assertThat(guard.process("plop", "myVal")).isSuccess("plop-1-2-3");
 		}
 
 	}
@@ -32,7 +32,7 @@ class InputGuardTest {
 
 			var guard = subGuard1.compose(subGuard2).compose(subGuard3);
 
-			GuardResultAssert.assertThat(guard.process("plop")).isSuccess("plop-3-2-1");
+			GuardResultAssert.assertThat(guard.process("plop", "myVal")).isSuccess("plop-3-2-1");
 		}
 
 	}

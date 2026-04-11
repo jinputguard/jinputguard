@@ -35,27 +35,15 @@ import java.util.Objects;
 @FunctionalInterface
 public interface InputGuard<IN, OUT> {
 
-	/** 
-	 * Process the given input value and return the result of the processing, which may be a success or a failure.
-	 * This is a convenience method that calls {@link #process(Object, String)} with a <code>null</code> property name.
-	 * 
-	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
-	 * @return	the result of the processing, containing either the processed value or the failure details
-	 */
-	@Nonnull
-	default GuardResult<OUT> process(@Nullable IN value) {
-		return process(value, null);
-	}
-
 	/**
-	 * Process the given input value and return the result of the processing, which may be a success or a failure.
+	 * Process the input value and return the result of the processing, which may be a success with the processed value, or a failure with the error details.
 	 * 
-	 * @param value	the input value to process, may be <code>null</code> if the guard is configured to allow null values
-	 * @param property an optional property name to include in error reporting, can be <code>null</code>
-	 * @return	the result of the processing, containing either the processed value or the failure details
+	 * @param value the input value to process, may be null if the guard is designed to handle null values
+	 * @param property the name of the property being processed, used for error reporting and debugging purposes
+	 * @return the result of processing the input value, containing either the processed value or the error details
 	 */
 	@Nonnull
-	GuardResult<OUT> process(@Nullable IN value, @Nullable String property);
+	GuardResult<OUT> process(@Nullable IN value, @Nonnull String property);
 
 	// ===========================================================================================================
 

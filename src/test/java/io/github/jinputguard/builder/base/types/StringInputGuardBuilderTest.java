@@ -22,14 +22,14 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().strip().then().build();
-				var actualResult = guard.process(" \t plop \r\n");
+				var actualResult = guard.process(" \t plop \r\n", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 			}
 
 			@Test
 			void full_whitespace() {
 				var guard = InputGuard.builder().forString().sanitize().strip().then().build();
-				var actualResult = guard.process(" \t \r\n");
+				var actualResult = guard.process(" \t \r\n", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("");
 			}
 
@@ -41,7 +41,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().toLowerCase().then().build();
-				var actualResult = guard.process("THIS IS Éé");
+				var actualResult = guard.process("THIS IS Éé", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("this is éé");
 			}
 
@@ -53,7 +53,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().toUpperCase().then().build();
-				var actualResult = guard.process("THIS IS Éé");
+				var actualResult = guard.process("THIS IS Éé", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("THIS IS ÉÉ");
 			}
 
@@ -65,7 +65,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 			}
 
@@ -77,21 +77,21 @@ class StringInputGuardBuilderTest {
 			@Test
 			void empty_prefix_does_nothing() {
 				var guard = InputGuard.builder().forString().sanitize().prefix("").then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 			}
 
 			@Test
 			void when_already_prefixed_do_nothing() {
 				var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-				var actualResult = guard.process("p-plop");
+				var actualResult = guard.process("p-plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 			}
 
 			@Test
 			void when_already_prefixed_with_other_case_then_do_prefix() {
 				var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-				var actualResult = guard.process("P-plop");
+				var actualResult = guard.process("P-plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("p-P-plop");
 			}
 
@@ -103,7 +103,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 			}
 
@@ -115,21 +115,21 @@ class StringInputGuardBuilderTest {
 			@Test
 			void empty_suffix_does_nothing() {
 				var guard = InputGuard.builder().forString().sanitize().suffix("").then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 			}
 
 			@Test
 			void when_already_suffixed_do_nothing() {
 				var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-				var actualResult = guard.process("plop-s");
+				var actualResult = guard.process("plop-s", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 			}
 
 			@Test
 			void when_already_suffixed_with_other_case_then_do_suffix() {
 				var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-				var actualResult = guard.process("plop-S");
+				var actualResult = guard.process("plop-S", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("plop-S-s");
 			}
 
@@ -141,7 +141,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replace('p', 'a').then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 			}
 
@@ -167,7 +167,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replace("p", "a").then().build();
-				var actualResult = guard.process("plop");
+				var actualResult = guard.process("plop", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 			}
 
@@ -200,7 +200,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replaceAll("a.b[0-9]", "zzz").then().build();
-				var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5");
+				var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 			}
 
@@ -228,7 +228,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replaceAll(PATTERN, "zzz").then().build();
-				var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5");
+				var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 			}
 
@@ -261,7 +261,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replaceFirst("a.b[0-9]", "zzz").then().build();
-				var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5");
+				var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 			}
 
@@ -289,7 +289,7 @@ class StringInputGuardBuilderTest {
 			@Test
 			void nominal() {
 				var guard = InputGuard.builder().forString().sanitize().replaceFirst(PATTERN, "zzz").then().build();
-				var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5");
+				var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 				GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 			}
 
@@ -319,21 +319,21 @@ class StringInputGuardBuilderTest {
 
 			@Test
 			void when_shorter_then_success() {
-				var actual = GUARD.process("1234");
+				var actual = GUARD.process("1234", "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess("1234");
 			}
 
 			@Test
 			void when_exactMaxLength_then_success() {
-				var actual = GUARD.process("12345");
+				var actual = GUARD.process("12345", "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess("12345");
 			}
 
 			@Test
 			void when_longer_then_failure() {
-				var actual = GUARD.process("123456");
+				var actual = GUARD.process("123456", "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withMessage("must be 5 chars max, but is 6");
+					.hasMessage("myVal must be 5 chars max, but is 6");
 			}
 
 		}
@@ -357,7 +357,7 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void when_valid_then_success(String value) {
-				var actual = GUARD.process(value);
+				var actual = GUARD.process(value, "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess(value);
 			}
 
@@ -371,9 +371,9 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void when_invalid_then_failure(String value) {
-				var actual = GUARD.process(value);
+				var actual = GUARD.process(value, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withMessage("is not parseable to Integer");
+					.hasMessage("myVal is not parseable to Integer");
 			}
 
 		}
@@ -405,15 +405,15 @@ class StringInputGuardBuilderTest {
 
 			@Test
 			void when_entireRegion_then_success() {
-				var actual = GUARD.process("abc9");
+				var actual = GUARD.process("abc9", "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess("abc9");
 			}
 
 			@Test
 			void when_subRegion_then_failure() {
-				var actual = GUARD.process("zabc9z");
+				var actual = GUARD.process("zabc9z", "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withMessage("must match pattern " + REGEX);
+					.hasMessage("myVal must match pattern " + REGEX);
 			}
 
 		}
@@ -438,15 +438,15 @@ class StringInputGuardBuilderTest {
 
 			@Test
 			void when_entireRegion_then_success() {
-				var actual = GUARD.process("abc9");
+				var actual = GUARD.process("abc9", "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess("abc9");
 			}
 
 			@Test
 			void when_subRegion_then_failure() {
-				var actual = GUARD.process("zabc9z");
+				var actual = GUARD.process("zabc9z", "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withMessage("must match pattern " + PATTERN.pattern());
+					.hasMessage("myVal must match pattern " + PATTERN.pattern());
 			}
 
 		}
@@ -475,7 +475,7 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void when_valid_then_success(String input) {
-				var actual = GUARD.process(input);
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess(Integer.parseInt(input));
 			}
 
@@ -489,9 +489,9 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void when_invalid_then_failure(String input) {
-				var actual = GUARD.process(input);
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withCauseInstanceOf(NumberFormatException.class);
+					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
 		}
@@ -515,7 +515,7 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void success(String input) {
-				var actual = GUARD.process(input);
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess(Long.parseLong(input));
 			}
 
@@ -529,9 +529,9 @@ class StringInputGuardBuilderTest {
 				}
 			)
 			void failure(String input) {
-				var actual = GUARD.process(input);
+				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.withCauseInstanceOf(NumberFormatException.class);
+					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
 		}

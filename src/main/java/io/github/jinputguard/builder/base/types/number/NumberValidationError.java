@@ -7,8 +7,8 @@ public sealed interface NumberValidationError extends ValidationError {
 	record NumberMustBeGreaterThan(Number value, Number ref) implements NumberValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be > " + ref;
+		public String getMessage(String path) {
+			return path + " must be > " + ref;
 		}
 
 	}
@@ -16,8 +16,8 @@ public sealed interface NumberValidationError extends ValidationError {
 	record NumberMustBeGreaterOrEqualTo(Number value, Number ref) implements NumberValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be >= " + ref;
+		public String getMessage(String path) {
+			return path + " must be >= " + ref;
 		}
 
 	}
@@ -25,8 +25,8 @@ public sealed interface NumberValidationError extends ValidationError {
 	record NumberMustBeLowerThan(Number value, Number ref) implements NumberValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be < " + ref;
+		public String getMessage(String path) {
+			return path + " must be < " + ref;
 		}
 
 	}
@@ -34,8 +34,8 @@ public sealed interface NumberValidationError extends ValidationError {
 	record NumberMustBeLowerOrEqualTo(Number value, Number ref) implements NumberValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be <= " + ref;
+		public String getMessage(String path) {
+			return path + " must be <= " + ref;
 		}
 
 	}
@@ -43,8 +43,8 @@ public sealed interface NumberValidationError extends ValidationError {
 	record NumberMustBeBetween(Number value, Number min, Number max) implements NumberValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be between " + min + " and " + max;
+		public String getMessage(String path) {
+			return path + " must be between " + min + " and " + max;
 		}
 
 	}

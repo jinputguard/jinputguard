@@ -8,8 +8,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringIsEmpty() implements StringValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must not be empty";
+		public String getMessage(String path) {
+			return path + " must not be empty";
 		}
 
 	}
@@ -17,8 +17,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringIsTooLong(int currentLength, int maxLength) implements StringValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must be " + maxLength + " chars max, but is " + currentLength;
+		public String getMessage(String path) {
+			return path + " must be " + maxLength + " chars max, but is " + currentLength;
 		}
 
 	}
@@ -26,8 +26,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringMustBeParseableToInteger() implements StringValidationError {
 
 		@Override
-		public String getMessage() {
-			return "is not parseable to Integer";
+		public String getMessage(String path) {
+			return path + " is not parseable to Integer";
 		}
 
 	}
@@ -35,8 +35,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringMustMatchPattern(Pattern pattern) implements StringValidationError {
 
 		@Override
-		public String getMessage() {
-			return "must match pattern " + pattern.pattern();
+		public String getMessage(String path) {
+			return path + " must match pattern " + pattern.pattern();
 		}
 
 	}

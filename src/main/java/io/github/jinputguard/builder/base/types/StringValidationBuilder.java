@@ -14,7 +14,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 
 	public StringValidationBuilder<IN> canBeParsedToInteger() {
 		builder = builder.validate(
-			value -> {
+			(value, path) -> {
 				try {
 					@SuppressWarnings("unused")
 					var i = Integer.parseInt(value);
@@ -34,7 +34,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 	 */
 	public StringValidationBuilder<IN> isNotEmpty() {
 		builder = builder.validate(
-			value -> value.isEmpty()
+			(value, path) -> value.isEmpty()
 				? new StringValidationError.StringIsEmpty()
 				: null
 		);
@@ -55,7 +55,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 			throw new IllegalArgumentException("maxLength cannot be negative");
 		}
 		builder = builder.validate(
-			value -> value.length() > maxLength
+			(value, path) -> value.length() > maxLength
 				? new StringValidationError.StringIsTooLong(value.length(), maxLength)
 				: null
 		);
@@ -86,7 +86,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 	public StringValidationBuilder<IN> matches(Pattern pattern) {
 		Objects.requireNonNull(pattern, "pattern cannot be null");
 		builder = builder.validate(
-			value -> !pattern.matcher(value).matches()
+			(value, path) -> !pattern.matcher(value).matches()
 				? new StringValidationError.StringMustMatchPattern(pattern)
 				: null
 		);

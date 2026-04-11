@@ -41,7 +41,7 @@ class NullStrategyGuardTest {
 
 		@Test
 		void null_case_notProcessed() {
-			var actual = NOOP_GUARD.process(null);
+			var actual = NOOP_GUARD.process(null, "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess(null);
 		}
@@ -49,12 +49,12 @@ class NullStrategyGuardTest {
 		@Test
 		void null_case_processed() {
 			Assertions.assertThatNullPointerException()
-				.isThrownBy(() -> OP_GUARD.process(null));
+				.isThrownBy(() -> OP_GUARD.process(null, "myVal"));
 		}
 
 		@Test
 		void nonNull_case() {
-			var actual = OP_GUARD.process(" val ");
+			var actual = OP_GUARD.process(" val ", "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess("val");
 		}
@@ -73,14 +73,14 @@ class NullStrategyGuardTest {
 
 		@Test
 		void null_case() {
-			var actual = GUARD.process(null);
+			var actual = GUARD.process(null, "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess(null);
 		}
 
 		@Test
 		void nonNull_case() {
-			var actual = GUARD.process("val");
+			var actual = GUARD.process("val", "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess("val");
 		}
@@ -99,16 +99,16 @@ class NullStrategyGuardTest {
 
 		@Test
 		void null_case() {
-			var actual = GUARD.process(null);
+			var actual = GUARD.process(null, "myVal");
 
 			GuardResultAssert.assertThat(actual)
 				.isFailure()
-				.withMessage("must not be null");
+				.hasMessage("myVal must not be null");
 		}
 
 		@Test
 		void nonNull_case() {
-			var actual = GUARD.process("val");
+			var actual = GUARD.process("val", "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess("val");
 		}
@@ -128,14 +128,14 @@ class NullStrategyGuardTest {
 
 		@Test
 		void null_case() {
-			var actual = GUARD.process(null);
+			var actual = GUARD.process(null, "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess(DEFAULT_VALUE);
 		}
 
 		@Test
 		void nonNull_case() {
-			var actual = GUARD.process("val");
+			var actual = GUARD.process("val", "myVal");
 
 			GuardResultAssert.assertThat(actual).isSuccess("val");
 		}

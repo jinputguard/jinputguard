@@ -20,7 +20,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	 */
 	public final SELF isNotNull() {
 		builder = builder.validate(
-			value -> value == null
+			(value, path) -> value == null
 				? new ObjectValidationError.ObjectIsNull()
 				: null
 		);
@@ -36,7 +36,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	public final <U extends T> SELF isInstanceOf(Class<U> clazz) {
 		Objects.requireNonNull(clazz, "Expected class cannot be null");
 		builder = builder.validate(
-			value -> !clazz.isInstance(value)
+			(value, path) -> !clazz.isInstance(value)
 				? new ObjectValidationError.ObjectMustBeInstanceOf(value == null ? null : value.getClass(), clazz)
 				: null
 		);
@@ -51,7 +51,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	 */
 	public final SELF isEqualTo(T other) {
 		builder = builder.validate(
-			value -> !Objects.equals(value, other)
+			(value, path) -> !Objects.equals(value, other)
 				? new ObjectValidationError.ObjectMustBeEqualTo(other)
 				: null
 		);

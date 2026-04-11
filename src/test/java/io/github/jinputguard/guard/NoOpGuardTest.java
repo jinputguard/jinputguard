@@ -13,7 +13,7 @@ class NoOpGuardTest {
 	void nominal() {
 		InputGuard<String, String> noOpGuard = new NoOpGuard<>();
 
-		var actualResult = noOpGuard.process("OK");
+		var actualResult = noOpGuard.process("OK", "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isSuccess("OK");
 	}
@@ -28,8 +28,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.andThen(afterGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ")).isSuccess(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ")).isSuccess("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}
@@ -44,8 +44,8 @@ class NoOpGuardTest {
 
 			var newGuard = noOpGuard.compose(beforeGuard);
 
-			GuardResultAssert.assertThat(noOpGuard.process(" plop ")).isSuccess(" plop ");
-			GuardResultAssert.assertThat(newGuard.process(" plop ")).isSuccess("plop");
+			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
+			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
 		}
 
 	}

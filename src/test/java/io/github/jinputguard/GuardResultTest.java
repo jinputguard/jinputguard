@@ -3,13 +3,13 @@ package io.github.jinputguard;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.GuardFailure;
 import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import org.junit.jupiter.api.Nested;
@@ -32,27 +32,15 @@ class GuardResultTest {
 
 	@Test
 	void failure_without_path() {
-		var cause = new RuntimeException("cause");
-		var failure = new DefaultGuardFailure(null, new GenericValidationError("bad value"), cause);
-		var result = GuardResult.failure(failure);
-
-		assertThat(result.isSuccess()).isFalse();
-		assertThatIllegalStateException().isThrownBy(result::get)
-			.withMessage("Cannot get the value as result is failure, please first test with isSuccess()/isFailure()");
-		assertThatExceptionOfType(InputGuardFailureException.class)
-			.isThrownBy(result::getOrThrow)
-			.withMessage("bad value")
-			.withCause(cause)
-			.extracting(InputGuardFailureException::getFailure).isEqualTo(failure);
-
-		assertThat(result.isFailure()).isTrue();
-		assertThat(result.getFailure()).isSameAs(failure);
+		assertThatNullPointerException()
+			.isThrownBy(() -> new DefaultGuardFailure(null, new GenericValidationError(path -> path + " is wrong"), null))
+			.withMessage("path cannot be null");
 	}
 
 	@Test
 	void failure_with_path() {
 		var cause = new RuntimeException("cause");
-		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("is wrong"), cause);
+		var failure = new DefaultGuardFailure("myVal", new GenericValidationError(path -> path + " is wrong"), cause);
 		var result = GuardResult.failure(failure);
 
 		assertThat(result.isSuccess()).isFalse();
@@ -70,7 +58,7 @@ class GuardResultTest {
 
 	@Test
 	void getOrThrowShouldThrowInputGuardFailureException() {
-		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("err"));
+		var failure = new DefaultGuardFailure("myVal", new GenericValidationError(path -> path + " is wrong"));
 		var r = GuardResult.failure(failure);
 		InputGuardFailureException ex = assertThrows(InputGuardFailureException.class, r::getOrThrow);
 		assertSame(failure, ex.getFailure());
@@ -78,7 +66,7 @@ class GuardResultTest {
 
 	@Test
 	void getOrThrowWithMapperShouldThrowMappedException() {
-		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("err2"));
+		var failure = new DefaultGuardFailure("myVal", new GenericValidationError(path -> path + " is wrong"));
 		var r = GuardResult.failure(failure);
 		RuntimeException ex = assertThrows(RuntimeException.class, () -> r.getOrThrow(f -> new RuntimeException("errooooor")));
 		assertEquals("errooooor", ex.getMessage());
@@ -90,7 +78,7 @@ class GuardResultTest {
 		private static final GuardResult<String> BASE_SUCCESS_RESULT = GuardResult.success("x");
 
 		private static final String BASE_PATH = "myVal";
-		private static final ErrorDetails BASE_ERROR_DETAILS = new GenericValidationError("Some error!");
+		private static final ErrorDetails BASE_ERROR_DETAILS = new GenericValidationError(path -> path + " is wrong");
 		private static final RuntimeException BASE_CAUSE = new RuntimeException("cause");
 		private static final GuardFailure BASE_FAILURE = new DefaultGuardFailure(BASE_PATH, BASE_ERROR_DETAILS, BASE_CAUSE);
 		private static final GuardResult<String> BASE_FAILED_RESULT = GuardResult.failure(BASE_FAILURE);
@@ -133,7 +121,7 @@ class GuardResultTest {
 
 		@Test
 		void test_equals_failure_differnt() {
-			var actual = GuardResult.failure(new DefaultGuardFailure("other", new GenericValidationError("Other error!"), null));
+			var actual = GuardResult.failure(new DefaultGuardFailure("other", new GenericValidationError(path -> path + " is wrong"), null));
 			assertThat(actual)
 				.isNotEqualTo(BASE_FAILED_RESULT);
 		}
@@ -152,7 +140,7 @@ class GuardResultTest {
 		var resultSuccess = GuardResult.success("x");
 		assertTrue(resultSuccess.toString().contains("Success"));
 
-		var failure = new DefaultGuardFailure("myVal", new GenericValidationError("m"));
+		var failure = new DefaultGuardFailure("myVal", new GenericValidationError(path -> path + " is wrong"));
 		var resultFailure = GuardResult.failure(failure);
 		assertTrue(resultFailure.toString().contains("Failure"));
 	}

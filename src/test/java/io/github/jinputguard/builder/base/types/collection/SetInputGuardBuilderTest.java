@@ -38,7 +38,7 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate(set -> set.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("a"), BASE_PATH);
@@ -50,14 +50,14 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate(set -> set.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of(), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.withMessage(BASE_PATH + " is empty");
+				.hasMessage(BASE_PATH + " is empty");
 		}
 
 	}
@@ -237,8 +237,8 @@ class SetInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.withMessage("""
-						multiple errors:
+					.hasMessage("""
+						myVal contains 1 illegal element:
 						  - myVal[?] must not be empty""");
 			}
 
@@ -254,8 +254,8 @@ class SetInputGuardBuilderTest {
 
 				GuardResultAssert.assertThat(actualResult)
 					.isFailure()
-					.withMessage("""
-						multiple errors:
+					.hasMessage("""
+						myVal contains 2 illegal elements:
 						  - myVal[?] must be 2 chars max, but is 3
 						  - myVal[?] must be 2 chars max, but is 3""");
 				;

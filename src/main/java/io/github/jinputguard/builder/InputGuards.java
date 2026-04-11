@@ -1,5 +1,6 @@
 package io.github.jinputguard.builder;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.ChainedGuard;
@@ -7,7 +8,6 @@ import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.GuardFailure;
 import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.MappingError.MappingExceptionError;
 import jakarta.annotation.Nonnull;
@@ -83,10 +83,10 @@ public final class InputGuards {
 	 * 
 	 * @see ValidationGuard
 	 */
-	public static <T> InputGuard<T, T> validationGuard(@Nonnull Function<T, ErrorDetails> validationFunction) {
+	public static <T> InputGuard<T, T> validationGuard(@Nonnull BiFunction<T, String, ErrorDetails> validationFunction) {
 		Objects.requireNonNull(validationFunction, "Validation function cannot be null");
 		return (value, path) -> {
-			var error = validationFunction.apply(value);
+			var error = validationFunction.apply(value, path);
 			return error == null
 				? GuardResult.success(value)
 				: GuardResult.failure(new DefaultGuardFailure(path, error));

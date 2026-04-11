@@ -3,7 +3,6 @@ package io.github.jinputguard.guard;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.Objects;
 
 public class ChainedGuard<IN, OUT, NEW_OUT> implements InputGuard<IN, NEW_OUT> {
@@ -17,14 +16,13 @@ public class ChainedGuard<IN, OUT, NEW_OUT> implements InputGuard<IN, NEW_OUT> {
 	}
 
 	@Override
-	public GuardResult<NEW_OUT> process(IN value, @Nullable String path) {
+	public GuardResult<NEW_OUT> process(IN value, @Nonnull String path) {
 		var resultOut = firstGuard.process(value, path);
 		if (resultOut.isFailure()) {
 			return GuardResult.failure(resultOut.getFailure());
 		}
 		var outValue = resultOut.get();
-		var resultNewOut = secondGuard.process(outValue, path);
-		return resultNewOut;
+		return secondGuard.process(outValue, path);
 	}
 
 	@Override

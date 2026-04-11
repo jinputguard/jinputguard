@@ -5,6 +5,7 @@ import io.github.jinputguard.result.errors.ErrorDetails;
 import io.github.jinputguard.result.errors.ValidationError;
 import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import jakarta.annotation.Nonnull;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -50,16 +51,17 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 
 	/**
 	 * Validate the value using the given validation function.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned error details.
+	 * The validation function takes the output value and a path as input, and returns an {@link ErrorDetails} if the value is invalid, or <code>null</code> if the value is valid.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned {@link ErrorDetails}.
 	 * 
-	 * @param validationFunction	A function that takes the output value and returns an error details if validation fails, or <code>null</code> if validation succeeds.
+	 * @param validationFunction	The validation function to apply on the value and the path
 	 * 
 	 * @return	a new builder
 	 * 
 	 * @see ValidationFailure
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Function<OUT, ErrorDetails> validationFunction);
+	SELF validate(@Nonnull BiFunction<OUT, String, ErrorDetails> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.
@@ -74,22 +76,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see GenericValidationError
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull String errorMessage);
-
-	/**
-	 * Validate the value using the given predicate.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing a {@link ValidationError#GenericError} with the error message returned by the given function.
-	 * 
-	 * @param validationPredicate	The test to apply on the value
-	 * @param errorMessageFunction	The function to get the error message to use if validation fails, it takes the value as input
-	 * 
-	 * @return	a new builder
-	 * 
-	 * @see ValidationFailure
-	 * @see GenericValidationError
-	 */
-	@Nonnull
-	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<OUT, String> errorMessageFunction);
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<String, String> errorMessageFunction);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// MAPPING

@@ -40,7 +40,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isGreaterThan(T ref) {
 		builder = builder.validate(
-			value -> !numberTester.isGreaterThan(value, ref)
+			(value, path) -> !numberTester.isGreaterThan(value, ref)
 				? new NumberValidationError.NumberMustBeGreaterThan(value, ref)
 				: null
 		);
@@ -55,7 +55,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isGreaterOrEqualTo(T ref) {
 		builder = builder.validate(
-			value -> !numberTester.isGreaterOrEqualTo(value, ref)
+			(value, path) -> !numberTester.isGreaterOrEqualTo(value, ref)
 				? new NumberValidationError.NumberMustBeGreaterOrEqualTo(value, ref)
 				: null
 		);
@@ -70,7 +70,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isLowerThan(T ref) {
 		builder = builder.validate(
-			value -> !numberTester.isLowerThan(value, ref)
+			(value, path) -> !numberTester.isLowerThan(value, ref)
 				? new NumberValidationError.NumberMustBeLowerThan(value, ref)
 				: null
 		);
@@ -85,7 +85,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isLowerOrEqualTo(T ref) {
 		builder = builder.validate(
-			value -> !numberTester.isLowerOrEqualTo(value, ref)
+			(value, path) -> !numberTester.isLowerOrEqualTo(value, ref)
 				? new NumberValidationError.NumberMustBeLowerOrEqualTo(value, ref)
 				: null
 		);
@@ -148,7 +148,7 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 			throw new IllegalArgumentException("Min value " + minInclusive + " is greater than max value " + maxInclusive);
 		}
 		builder = builder.validate(
-			value -> !numberTester.isBetween(value, minInclusive, maxInclusive)
+			(value, path) -> !numberTester.isBetween(value, minInclusive, maxInclusive)
 				? new NumberValidationError.NumberMustBeBetween(value, minInclusive, maxInclusive)
 				: null
 		);

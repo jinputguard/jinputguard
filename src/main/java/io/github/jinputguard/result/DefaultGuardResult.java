@@ -1,5 +1,6 @@
 package io.github.jinputguard.result;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuardFailureException;

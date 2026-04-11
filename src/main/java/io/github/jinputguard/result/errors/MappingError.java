@@ -14,7 +14,7 @@ public interface MappingError extends ErrorDetails {
 	record MappingExceptionError(Throwable cause) implements MappingError, WithEmbeddedCause {
 
 		@Override
-		public String getMessage() {
+		public String getMessage(String path) {
 			return "invalid value";
 		}
 
