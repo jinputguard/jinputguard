@@ -7,8 +7,8 @@ public sealed interface CollectionValidationError extends ValidationError {
 	record CollectionIsEmpty() implements CollectionValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " is empty";
+		public String getMessage() {
+			return "is empty";
 		}
 
 	}

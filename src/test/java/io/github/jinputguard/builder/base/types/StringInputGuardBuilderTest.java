@@ -373,7 +373,8 @@ class StringInputGuardBuilderTest {
 			void when_invalid_then_failure(String value) {
 				var actual = GUARD.process(value, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("myVal is not parseable to Integer");
+					.hasMessage("myVal is not parseable to Integer")
+					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
 		}

@@ -206,7 +206,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, path -> path + " is not null")
+					.validate(Objects::isNull, "is not null")
 					.build();
 			}
 
@@ -235,7 +235,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, path -> path + " is not null")
+					.validate(Objects::isNull, "is not null")
 					.build();
 			}
 
@@ -397,7 +397,7 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.hasMessage("invalid value")
+				.hasMessage("myVal is invalid")
 				.hasCause(exception);
 		}
 

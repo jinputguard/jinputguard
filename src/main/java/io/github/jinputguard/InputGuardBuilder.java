@@ -1,7 +1,7 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
-import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorMessage;
 import io.github.jinputguard.result.errors.ValidationError;
 import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import jakarta.annotation.Nonnull;
@@ -51,8 +51,8 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 
 	/**
 	 * Validate the value using the given validation function.
-	 * The validation function takes the output value and a path as input, and returns an {@link ErrorDetails} if the value is invalid, or <code>null</code> if the value is valid.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned {@link ErrorDetails}.
+	 * The validation function takes the output value and a path as input, and returns an {@link ErrorMessage} if the value is invalid, or <code>null</code> if the value is valid.
+	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned {@link ErrorMessage}.
 	 * 
 	 * @param validationFunction	The validation function to apply on the value and the path
 	 * 
@@ -61,7 +61,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see ValidationFailure
 	 */
 	@Nonnull
-	SELF validate(@Nonnull BiFunction<OUT, String, ErrorDetails> validationFunction);
+	SELF validate(@Nonnull BiFunction<OUT, String, ErrorMessage> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.
@@ -76,7 +76,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see GenericValidationError
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<String, String> errorMessageFunction);
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull String errorMessage);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// MAPPING

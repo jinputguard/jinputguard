@@ -9,8 +9,8 @@ public sealed interface ObjectValidationError extends ValidationError {
 	record ObjectIsNull() implements ObjectValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " must not be null";
+		public String getMessage() {
+			return "must not be null";
 		}
 
 	}
@@ -18,10 +18,10 @@ public sealed interface ObjectValidationError extends ValidationError {
 	record ObjectMustBeInstanceOf(@Nullable Class<?> currentClass, @Nonnull Class<?> expectedClass) implements ObjectValidationError {
 
 		@Override
-		public String getMessage(String path) {
+		public String getMessage() {
 			return currentClass == null
-				? path + " is not an instance of " + expectedClass.getName() + ", but is null"
-				: path + " is not an instance of " + expectedClass.getName() + ", but is instance of " + currentClass.getName();
+				? "is not an instance of " + expectedClass.getName() + ", but is null"
+				: "is not an instance of " + expectedClass.getName() + ", but is instance of " + currentClass.getName();
 		}
 
 	}
@@ -29,8 +29,8 @@ public sealed interface ObjectValidationError extends ValidationError {
 	record ObjectMustBeEqualTo(Object expected) implements ObjectValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " is not equals to " + expected;
+		public String getMessage() {
+			return "is not equals to " + expected;
 		}
 
 	}

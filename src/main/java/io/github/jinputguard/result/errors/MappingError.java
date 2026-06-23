@@ -6,7 +6,7 @@ package io.github.jinputguard.result.errors;
  * 
  * @see ValidationGuard
  */
-public interface MappingError extends ErrorDetails {
+public interface MappingError extends ErrorMessage {
 
 	/**
 	 * A simple validation error that has just a message. 
@@ -14,8 +14,8 @@ public interface MappingError extends ErrorDetails {
 	record MappingExceptionError(Throwable cause) implements MappingError, WithEmbeddedCause {
 
 		@Override
-		public String getMessage(String path) {
-			return "invalid value";
+		public String getMessage() {
+			return "is invalid";
 		}
 
 	}

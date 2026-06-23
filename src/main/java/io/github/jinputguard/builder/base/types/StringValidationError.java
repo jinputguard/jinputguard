@@ -1,6 +1,7 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.result.errors.ValidationError;
+import io.github.jinputguard.result.errors.WithEmbeddedCause;
 import java.util.regex.Pattern;
 
 public sealed interface StringValidationError extends ValidationError {
@@ -8,8 +9,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringIsEmpty() implements StringValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " must not be empty";
+		public String getMessage() {
+			return "must not be empty";
 		}
 
 	}
@@ -17,17 +18,17 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringIsTooLong(int currentLength, int maxLength) implements StringValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " must be " + maxLength + " chars max, but is " + currentLength;
+		public String getMessage() {
+			return "must be " + maxLength + " chars max, but is " + currentLength;
 		}
 
 	}
 
-	record StringMustBeParseableToInteger() implements StringValidationError {
+	record StringMustBeParseableToInteger(NumberFormatException cause) implements StringValidationError, WithEmbeddedCause {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " is not parseable to Integer";
+		public String getMessage() {
+			return "is not parseable to Integer";
 		}
 
 	}
@@ -35,8 +36,8 @@ public sealed interface StringValidationError extends ValidationError {
 	record StringMustMatchPattern(Pattern pattern) implements StringValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return path + " must match pattern " + pattern.pattern();
+		public String getMessage() {
+			return "must match pattern " + pattern.pattern();
 		}
 
 	}

@@ -188,10 +188,10 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
 ## Validation
 Validation is the process of checking if a variable or data meets certain criteria or constraints. For example, validation can involve verifying that an email address is in the correct format, ensuring a number falls within a specified range, or confirming that required fields are not empty.
 
-The `validate` method takes a `Function<T, ErrorDetails>` as argument, returning `null` if the value is valid, or a non-null `ErrorDetails` otherwise.
+The `validate` method takes a `Function<T, ErrorMessage>` as argument, returning `null` if the value is valid, or a non-null `ErrorMessage` otherwise.
 
 > [!NOTE]
-> For now `ErrorDetails` is basically an interface exposing a simple `String getMessage()` method. More methods could be added some day (e.g. `Map<String, String> getParameters()`, etc.).
+> For now `ErrorMessage` is basically an interface exposing a simple `String getMessage()` method. More methods could be added some day (e.g. `Map<String, String> getParameters()`, etc.).
 
 
 ```java

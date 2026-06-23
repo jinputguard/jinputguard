@@ -1,7 +1,7 @@
 package io.github.jinputguard.result;
 
 import io.github.jinputguard.GuardFailure;
-import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorMessage;
 import io.github.jinputguard.result.errors.WithEmbeddedCause;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -13,21 +13,21 @@ import java.util.Objects;
 public class DefaultGuardFailure implements GuardFailure {
 
 	private final String path;
-	private final ErrorDetails message;
+	private final ErrorMessage message;
 	private final Throwable cause;
 
-	public DefaultGuardFailure(@Nonnull String path, @Nonnull ErrorDetails message) {
+	public DefaultGuardFailure(@Nonnull String path, @Nonnull ErrorMessage message) {
 		this(path, message, null);
 	}
 
-	public DefaultGuardFailure(@Nonnull String path, @Nonnull ErrorDetails details, @Nullable Throwable cause) {
+	public DefaultGuardFailure(@Nonnull String path, @Nonnull ErrorMessage details, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
 		this.message = Objects.requireNonNull(details, "details cannot be null");
 		this.cause = determineCause(details, cause);
 	}
 
 	@Nullable
-	private static Throwable determineCause(@Nonnull ErrorDetails details, @Nullable Throwable cause) {
+	private static Throwable determineCause(@Nonnull ErrorMessage details, @Nullable Throwable cause) {
 		if (details instanceof WithEmbeddedCause wCause) {
 			if (cause == null) {
 				return wCause.cause();
@@ -49,7 +49,7 @@ public class DefaultGuardFailure implements GuardFailure {
 
 	@Override
 	public String getMessage() {
-		return message.getMessage(path);
+		return path + " " + message.getMessage();
 	}
 
 	@Override

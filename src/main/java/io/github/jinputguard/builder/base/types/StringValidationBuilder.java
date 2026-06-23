@@ -20,7 +20,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 					var i = Integer.parseInt(value);
 					return null;
 				} catch (NumberFormatException e) {
-					return new StringValidationError.StringMustBeParseableToInteger();
+					return new StringValidationError.StringMustBeParseableToInteger(e);
 				}
 			}
 		);

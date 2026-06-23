@@ -1,14 +1,12 @@
 package io.github.jinputguard.result.errors;
 
-import java.util.function.Function;
-
 /**
  * A failure because of a validation issue. 
  * It is again a sealed interface, allowing switch pattern matching for a complete failure handling.
  * 
  * @see ValidationGuard
  */
-public interface ValidationError extends ErrorDetails {
+public interface ValidationError extends ErrorMessage {
 
 	// ===========================================================================
 	// CUSTOM
@@ -27,11 +25,11 @@ public interface ValidationError extends ErrorDetails {
 	/**
 	 * A simple validation error that has just a message. 
 	 */
-	record GenericValidationError(Function<String, String> messageFn) implements ValidationError {
+	record GenericValidationError(String msg) implements ValidationError {
 
 		@Override
-		public String getMessage(String path) {
-			return messageFn.apply(path);
+		public String getMessage() {
+			return msg;
 		}
 
 	}

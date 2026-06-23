@@ -8,7 +8,7 @@ import io.github.jinputguard.guard.NoOpGuard;
 import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import io.github.jinputguard.result.DefaultGuardFailure;
-import io.github.jinputguard.result.errors.ErrorDetails;
+import io.github.jinputguard.result.errors.ErrorMessage;
 import io.github.jinputguard.result.errors.MappingError.MappingExceptionError;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -83,7 +83,7 @@ public final class InputGuards {
 	 * 
 	 * @see ValidationGuard
 	 */
-	public static <T> InputGuard<T, T> validationGuard(@Nonnull BiFunction<T, String, ErrorDetails> validationFunction) {
+	public static <T> InputGuard<T, T> validationGuard(@Nonnull BiFunction<T, String, ErrorMessage> validationFunction) {
 		Objects.requireNonNull(validationFunction, "Validation function cannot be null");
 		return (value, path) -> {
 			var error = validationFunction.apply(value, path);
