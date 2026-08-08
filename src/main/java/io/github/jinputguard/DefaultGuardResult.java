@@ -1,9 +1,5 @@
-package io.github.jinputguard.result;
+package io.github.jinputguard;
 
-import io.github.jinputguard.GuardFailure;
-import io.github.jinputguard.GuardResult;
-import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.InputGuardFailureException;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;
@@ -19,7 +15,7 @@ import java.util.function.Function;
  * 
  * @param <T>
  */
-public class DefaultGuardResult<T> implements GuardResult<T> {
+class DefaultGuardResult<T> implements GuardResult<T> {
 
 	private final @Nullable T value;
 	private final @Nullable GuardFailure failure;

@@ -2,8 +2,7 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.base.types.ObjectValidationError.ObjectIsNull;
-import io.github.jinputguard.result.DefaultGuardFailure;
+import io.github.jinputguard.builder.base.BaseValidationErrors;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 
@@ -31,7 +30,7 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 		return switch (strategy) {
 			case Process<IN> str -> nextGuard.process(value, path);
 			case SkipProcess<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
-			case Fail<IN> str -> value == null ? GuardResult.failure(new DefaultGuardFailure(path, new ObjectIsNull())) : nextGuard.process(value, path);
+			case Fail<IN> str -> value == null ? GuardResult.failure(BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)) : nextGuard.process(value, path);
 			case UseDefault<IN>(var defaultValue) -> value == null ? nextGuard.process(defaultValue, path) : nextGuard.process(value, path);
 		};
 	}

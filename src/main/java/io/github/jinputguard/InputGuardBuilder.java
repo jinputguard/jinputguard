@@ -1,9 +1,6 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
-import io.github.jinputguard.result.errors.ErrorMessage;
-import io.github.jinputguard.result.errors.ValidationError;
-import io.github.jinputguard.result.errors.ValidationError.GenericValidationError;
 import jakarta.annotation.Nonnull;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -61,7 +58,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see ValidationFailure
 	 */
 	@Nonnull
-	SELF validate(@Nonnull BiFunction<OUT, String, ErrorMessage> validationFunction);
+	SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.

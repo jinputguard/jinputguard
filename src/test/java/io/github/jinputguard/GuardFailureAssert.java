@@ -72,4 +72,8 @@ public class GuardFailureAssert extends AbstractAssert<GuardFailureAssert, Guard
 		return causeAssert(assertor -> assertor.isInstanceOf(expected));
 	}
 
+	public GuardFailureAssert hasNoCause() {
+		return causeAssert(assertor -> assertor.isNull());
+	}
+
 }

@@ -206,7 +206,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, "is not null")
+					.validate(Objects::isNull, "%s is not null")
 					.build();
 			}
 
@@ -235,7 +235,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, "is not null")
+					.validate(Objects::isNull, "%s is not null")
 					.build();
 			}
 
@@ -311,7 +311,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(null, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.hasMessage("myVal is not an instance of " + Integer.class.getName() + ", but is null");
+						.hasMessage("myVal must be an instance of " + Integer.class.getName());
 				}
 
 				@Test
@@ -337,7 +337,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(longValue, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.hasMessage("myVal is not an instance of " + Integer.class.getName() + ", but is instance of " + Long.class.getName());
+						.hasMessage("myVal must be an instance of " + Integer.class.getName());
 				}
 
 			}
@@ -346,7 +346,7 @@ class ObjectInputGuardBuilderTest {
 			class IsEqualTo {
 
 				private static InputGuard<Object, Object> GUARD_FOR_STRING;
-				private static Object expected = new Object();
+				private static Object expected = "<expected>";
 
 				@BeforeAll
 				static void setup() {
@@ -359,14 +359,14 @@ class ObjectInputGuardBuilderTest {
 				void when_null_then_failure() {
 					var actual = GUARD_FOR_STRING.process(null, "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.hasMessageStartingWith("myVal is not equals to");
+						.hasMessage("myVal must be equal to " + expected);
 				}
 
 				@Test
 				void when_notEqualValue_then_failure() {
 					var actual = GUARD_FOR_STRING.process("other", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.hasMessageStartingWith("myVal is not equals to");
+						.hasMessage("myVal must be equal to " + expected);
 				}
 
 				@Test
@@ -397,7 +397,7 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.hasMessage("myVal is invalid")
+				.hasMessage("Invalid myVal: " + exception.getMessage())
 				.hasCause(exception);
 		}
 

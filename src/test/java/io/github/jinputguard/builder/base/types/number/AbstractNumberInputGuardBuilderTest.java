@@ -402,7 +402,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterThan(" + ref + ") = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be > " + ref);
+						.hasMessage("myVal must be greater than " + ref);
 				}
 			}
 
@@ -463,7 +463,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isGreaterOrEqualTo(" + ref + ") = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be >= " + ref);
+						.hasMessage("myVal must be greater or equal to " + ref);
 				}
 			}
 
@@ -524,7 +524,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerThan(" + ref + ") = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be < " + ref);
+						.hasMessage("myVal must be lower than " + ref);
 				}
 			}
 
@@ -585,7 +585,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isLowerOrEqualTo(" + ref + ") = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be <= " + ref);
+						.hasMessage("myVal must be lower or equal to " + ref);
 				}
 			}
 
@@ -622,7 +622,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositive() = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be > " + getZero());
+						.hasMessage("myVal must be greater than " + getZero());
 				}
 			}
 
@@ -659,7 +659,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isPositiveOrNul() = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be >= " + getZero());
+						.hasMessage("myVal must be greater or equal to " + getZero());
 				}
 			}
 
@@ -696,7 +696,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isZero() = FAIL")
 						.isFailure()
-						.hasMessage("myVal is not equals to " + getZero());
+						.hasMessage("myVal must be equal to " + getZero());
 				}
 			}
 
@@ -733,7 +733,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegative() = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be < " + getZero());
+						.hasMessage("myVal must be lower than " + getZero());
 				}
 			}
 
@@ -770,7 +770,7 @@ abstract class AbstractNumberInputGuardBuilderTest<T extends Number> {
 					GuardResultAssert.assertThat(actualResult)
 						.as(value + " isNegativeOrNul() = FAIL")
 						.isFailure()
-						.hasMessage("myVal must be <= " + getZero());
+						.hasMessage("myVal must be lower or equal to " + getZero());
 				}
 			}
 

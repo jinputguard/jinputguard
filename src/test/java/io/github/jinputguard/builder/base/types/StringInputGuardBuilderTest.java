@@ -333,7 +333,7 @@ class StringInputGuardBuilderTest {
 			void when_longer_then_failure() {
 				var actual = GUARD.process("123456", "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("myVal must be 5 chars max, but is 6");
+					.hasMessage("myVal is too long: 5 chars max");
 			}
 
 		}
@@ -373,7 +373,7 @@ class StringInputGuardBuilderTest {
 			void when_invalid_then_failure(String value) {
 				var actual = GUARD.process(value, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("myVal is not parseable to Integer")
+					.hasMessage("myVal must be parseable to Integer")
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 

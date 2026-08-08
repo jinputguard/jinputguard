@@ -3,6 +3,7 @@ package io.github.jinputguard.guard.collection;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.InputGuards;
+import io.github.jinputguard.guard.CollectionIterationGuard;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;

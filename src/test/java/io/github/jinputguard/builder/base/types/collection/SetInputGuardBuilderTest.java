@@ -2,6 +2,7 @@ package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.failure.SimpleFailure;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,7 +39,7 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("a"), BASE_PATH);
@@ -50,14 +51,16 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate((value, path) -> value.isEmpty() ? new CollectionValidationError.CollectionIsEmpty() : null)
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of(), BASE_PATH);
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage(BASE_PATH + " is empty");
+				.hasPathEqualTo(BASE_PATH)
+				.hasMessage("value is wrong")
+				.hasNoCause();
 		}
 
 	}
@@ -256,8 +259,8 @@ class SetInputGuardBuilderTest {
 					.isFailure()
 					.hasMessage("""
 						myVal contains 2 illegal elements:
-						  - myVal[?] must be 2 chars max, but is 3
-						  - myVal[?] must be 2 chars max, but is 3""");
+						  - myVal[?] is too long: 2 chars max
+						  - myVal[?] is too long: 2 chars max""");
 				;
 			}
 

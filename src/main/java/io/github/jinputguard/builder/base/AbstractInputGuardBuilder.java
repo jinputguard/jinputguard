@@ -1,11 +1,11 @@
 package io.github.jinputguard.builder.base;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
-import io.github.jinputguard.result.errors.ErrorMessage;
-import io.github.jinputguard.result.errors.ValidationError;
+import io.github.jinputguard.failure.SimpleFailure;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -45,13 +45,13 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	// VALIDATION
 
 	@Override
-	public SELF validate(@Nonnull BiFunction<OUT, String, ErrorMessage> validationFunction) {
+	public SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction) {
 		return apply(InputGuards.validationGuard(validationFunction));
 	}
 
 	@Override
-	public SELF validate(Predicate<OUT> validationPredicate, String errorMessage) {
-		return this.validate((value, path) -> validationPredicate.test(value) ? null : new ValidationError.GenericValidationError(errorMessage));
+	public SELF validate(Predicate<OUT> validationPredicate, String messageTemplate) {
+		return this.validate((value, path) -> validationPredicate.test(value) ? null : new SimpleFailure(path, messageTemplate.formatted(path)));
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
