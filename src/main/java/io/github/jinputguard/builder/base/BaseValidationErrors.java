@@ -11,6 +11,8 @@ public enum BaseValidationErrors {
 
 	OBJECT_MUST_NOT_BE_NULL ("%s must not be null"),
 
+	OBJECT_MUST_BE_NULL ("%s must be null"),
+
 	OBJECT_MUST_BE_INSTANCE_OF ("%s must be an instance of %s"),
 
 	OBJECT_MUST_BE_EQUAL_TO ("%s must be equal to %s"),
@@ -21,8 +23,6 @@ public enum BaseValidationErrors {
 	STRING_MUST_NOT_BE_EMPTY ("%s must not be empty"),
 
 	STRING_IS_TOO_LONG ("%s is too long: %s chars max"),
-
-	STRING_MUST_BE_PARSEABLE_TO_INTEGER ("%s must be parseable to Integer"),
 
 	STRING_MUST_MATCH_PATTERN ("%s must match pattern %s"),
 

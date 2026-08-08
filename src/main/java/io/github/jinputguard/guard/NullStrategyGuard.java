@@ -35,12 +35,6 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 		};
 	}
 
-	@Override
-	public String toString() {
-		return "NullStrategyGuard / " + strategy + "\n"
-			+ nextGuard.toString().indent(2);
-	}
-
 	@SuppressWarnings("unused")
 	public static sealed interface NullStrategy<T> {
 

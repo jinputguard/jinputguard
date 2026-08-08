@@ -29,9 +29,4 @@ public class NoOpGuard<T> implements InputGuard<T, T> {
 		return before;
 	}
 
-	@Override
-	public String toString() {
-		return "NoOpGuard";
-	}
-
 }

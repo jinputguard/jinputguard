@@ -339,47 +339,6 @@ class StringInputGuardBuilderTest {
 		}
 
 		@Nested
-		class CanBeParsedToInteger {
-
-			private static InputGuard<String, String> GUARD;
-
-			@BeforeAll
-			static void setup() {
-				GUARD = InputGuard.builder().forString().validateThat().canBeParsedToInteger().then().build();
-			}
-
-			@ParameterizedTest
-			@ValueSource(
-				strings = {
-					"-1", "0", "1", "+1",
-					"-2147483648", // Integer.MIN_VALUE
-					"2147483647", // Integer.MAX_VALUE
-				}
-			)
-			void when_valid_then_success(String value) {
-				var actual = GUARD.process(value, "myVal");
-				GuardResultAssert.assertThat(actual).isSuccess(value);
-			}
-
-			@ParameterizedTest
-			@ValueSource(
-				strings = {
-					"plop",
-					"123 456",
-					"-21474836481", // Integer.MIN_VALUE - 1 (64 bits)
-					"2147483648", // Integer.MAX_VALUE + 1 (64 bits)
-				}
-			)
-			void when_invalid_then_failure(String value) {
-				var actual = GUARD.process(value, "myVal");
-				GuardResultAssert.assertThat(actual).isFailure()
-					.hasMessage("myVal must be parseable to Integer")
-					.hasCauseInstanceOf(NumberFormatException.class);
-			}
-
-		}
-
-		@Nested
 		class Matches_String {
 
 			private static final String REGEX = "abc[0-9]";

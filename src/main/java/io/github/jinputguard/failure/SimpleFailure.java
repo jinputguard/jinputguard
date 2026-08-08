@@ -55,4 +55,9 @@ public class SimpleFailure implements GuardFailure {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + SimpleFailure.class.getSimpleName() + "] path: " + path + ", message: " + getMessage() + (getCause() != null ? ", caused by: " + getCause() : "");
+	}
+
 }

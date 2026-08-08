@@ -15,7 +15,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 * Apply {@link String#strip()}
 	 */
 	public StringSanitizationBuilder<IN> strip() {
-		builder = builder.sanitize(String::strip);
+		builder = notNullValueBuilder().sanitize(String::strip);
 		return cast();
 	}
 
@@ -23,7 +23,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 * Apply {@link String#toUpperCase()}
 	 */
 	public StringSanitizationBuilder<IN> toUpperCase() {
-		builder = builder.sanitize(String::toUpperCase);
+		builder = notNullValueBuilder().sanitize(String::toUpperCase);
 		return cast();
 	}
 
@@ -31,7 +31,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 * Apply {@link String#toLowerCase()}
 	 */
 	public StringSanitizationBuilder<IN> toLowerCase() {
-		builder = builder.sanitize(String::toLowerCase);
+		builder = notNullValueBuilder().sanitize(String::toLowerCase);
 		return cast();
 	}
 
@@ -44,7 +44,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 */
 	public StringSanitizationBuilder<IN> prefix(String prefix) {
 		Objects.requireNonNull(prefix, "prefix cannot be null");
-		builder = builder.sanitize(value -> value.startsWith(prefix) ? value : prefix + value);
+		builder = notNullValueBuilder().sanitize(value -> value.startsWith(prefix) ? value : prefix + value);
 		return cast();
 	}
 
@@ -57,7 +57,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 */
 	public StringSanitizationBuilder<IN> suffix(String suffix) {
 		Objects.requireNonNull(suffix, "suffix cannot be null");
-		builder = builder.sanitize(value -> value.endsWith(suffix) ? value : value + suffix);
+		builder = notNullValueBuilder().sanitize(value -> value.endsWith(suffix) ? value : value + suffix);
 		return cast();
 	}
 
@@ -68,7 +68,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	 * @param newChar	The new character
 	 */
 	public StringSanitizationBuilder<IN> replace(char oldChar, char newChar) {
-		builder = builder.sanitize(value -> value.replace(oldChar, newChar));
+		builder = notNullValueBuilder().sanitize(value -> value.replace(oldChar, newChar));
 		return cast();
 	}
 
@@ -81,7 +81,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	public StringSanitizationBuilder<IN> replace(CharSequence target, CharSequence replacement) {
 		Objects.requireNonNull(target, "target cannot be null");
 		Objects.requireNonNull(replacement, "replacement cannot be null");
-		builder = builder.sanitize(value -> value.replace(target, replacement));
+		builder = notNullValueBuilder().sanitize(value -> value.replace(target, replacement));
 		return cast();
 	}
 
@@ -108,7 +108,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	public StringSanitizationBuilder<IN> replaceAll(Pattern pattern, String replacement) {
 		Objects.requireNonNull(pattern, "pattern cannot be null");
 		Objects.requireNonNull(replacement, "replacement cannot be null");
-		builder = builder.sanitize(value -> pattern.matcher(value).replaceAll(replacement));
+		builder = notNullValueBuilder().sanitize(value -> pattern.matcher(value).replaceAll(replacement));
 		return cast();
 	}
 
@@ -135,7 +135,7 @@ public class StringSanitizationBuilder<IN> extends AbstractSanitizationBuilder<I
 	public StringSanitizationBuilder<IN> replaceFirst(Pattern pattern, String replacement) {
 		Objects.requireNonNull(pattern, "pattern cannot be null");
 		Objects.requireNonNull(replacement, "replacement cannot be null");
-		builder = builder.sanitize(value -> pattern.matcher(value).replaceFirst(replacement));
+		builder = notNullValueBuilder().sanitize(value -> pattern.matcher(value).replaceFirst(replacement));
 		return cast();
 	}
 

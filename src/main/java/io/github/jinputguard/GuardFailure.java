@@ -1,5 +1,6 @@
 package io.github.jinputguard;
 
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 
 /**
@@ -30,6 +31,7 @@ public interface GuardFailure extends Serializable {
 	 *
 	 * @return the cause of the failure, or null if there is no cause
 	 */
+	@Nullable
 	Throwable getCause();
 
 }

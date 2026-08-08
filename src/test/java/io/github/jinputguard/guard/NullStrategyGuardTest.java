@@ -142,22 +142,4 @@ class NullStrategyGuardTest {
 
 	}
 
-	@Nested
-	class ToStringTest {
-
-		@Test
-		void nominal() {
-			var nextGuard = InputGuards.noOpGuard();
-			var guard = new NullStrategyGuard<>(NullStrategy.process(), nextGuard);
-
-			var actual = guard.toString();
-
-			Assertions.assertThat(actual)
-				.startsWith("NullStrategyGuard")
-				.contains(NullStrategy.process().toString())
-				.contains(nextGuard.toString());
-		}
-
-	}
-
 }

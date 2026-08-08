@@ -13,28 +13,13 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		super(builder);
 	}
 
-	public StringValidationBuilder<IN> canBeParsedToInteger() {
-		builder = builder.validate(
-			(value, path) -> {
-				try {
-					@SuppressWarnings("unused")
-					var i = Integer.parseInt(value);
-					return null;
-				} catch (NumberFormatException e) {
-					return BaseValidationErrors.STRING_MUST_BE_PARSEABLE_TO_INTEGER.toFailure(path, e);
-				}
-			}
-		);
-		return cast();
-	}
-
 	/**
 	 * Validates that the value is not empty.
 	 * 
 	 * @see String#isEmpty()
 	 */
 	public StringValidationBuilder<IN> isNotEmpty() {
-		builder = builder.validate(
+		builder = notNullValueBuilder().validate(
 			(value, path) -> value.isEmpty()
 				? BaseValidationErrors.STRING_MUST_NOT_BE_EMPTY.toFailure(path)
 				: null
@@ -55,7 +40,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		if (maxLength < 0) {
 			throw new IllegalArgumentException("maxLength cannot be negative");
 		}
-		builder = builder.validate(
+		builder = notNullValueBuilder().validate(
 			(value, path) -> value.length() > maxLength
 				? BaseValidationErrors.STRING_IS_TOO_LONG.toFailure(path, maxLength)
 				: null
@@ -86,7 +71,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 	 */
 	public StringValidationBuilder<IN> matches(Pattern pattern) {
 		Objects.requireNonNull(pattern, "pattern cannot be null");
-		builder = builder.validate(
+		builder = notNullValueBuilder().validate(
 			(value, path) -> !pattern.matcher(value).matches()
 				? BaseValidationErrors.STRING_MUST_MATCH_PATTERN.toFailure(path, pattern)
 				: null

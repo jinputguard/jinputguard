@@ -45,4 +45,28 @@ public class MultiGuardFailure implements GuardFailure {
 		return null;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(failures, path);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MultiGuardFailure other = (MultiGuardFailure) obj;
+		return Objects.equals(failures, other.failures) && Objects.equals(path, other.path);
+	}
+
+	@Override
+	public String toString() {
+		return "[" + MultiGuardFailure.class.getSimpleName() + "] path: " + path + ", messages:\n" +
+			failures.stream().map(GuardFailure::toString).reduce((a, b) -> a + "\n" + b).map(s -> s.indent(2))
+				.orElse("");
+	}
+
 }

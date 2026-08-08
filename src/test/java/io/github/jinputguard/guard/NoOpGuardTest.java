@@ -3,7 +3,6 @@ package io.github.jinputguard.guard;
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.InputGuards;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -46,20 +45,6 @@ class NoOpGuardTest {
 
 			GuardResultAssert.assertThat(noOpGuard.process(" plop ", "myVal")).isSuccess(" plop ");
 			GuardResultAssert.assertThat(newGuard.process(" plop ", "myVal")).isSuccess("plop");
-		}
-
-	}
-
-	@Nested
-	class ToStringTest {
-
-		@Test
-		void nominal() {
-			InputGuard<String, String> noOpGuard = new NoOpGuard<>();
-
-			var actual = noOpGuard.toString();
-
-			Assertions.assertThat(actual).startsWith("NoOpGuard");
 		}
 
 	}

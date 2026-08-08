@@ -94,23 +94,4 @@ class ChainedGuardTest {
 
 	}
 
-	@Nested
-	class ToStringTest {
-
-		@Test
-		void nominal() {
-			InputGuard<String, String> subGuard1 = (value, path) -> GuardResult.success(value + "-1");
-			InputGuard<String, String> subGuard2 = (value, path) -> GuardResult.success(value + "-2");
-
-			var guard = new ChainedGuard<>(subGuard1, subGuard2);
-			var actual = guard.toString();
-
-			Assertions.assertThat(actual)
-				.startsWith("ChainedGuard")
-				.contains("  " + subGuard1.toString())
-				.contains("  " + subGuard2.toString());
-		}
-
-	}
-
 }

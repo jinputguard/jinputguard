@@ -60,4 +60,9 @@ public class MappingFailure implements GuardFailure {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + MappingFailure.class.getSimpleName() + "] path: " + path + ", message: " + getMessage() + (getCause() != null ? ", caused by: " + getCause() : "");
+	}
+
 }

@@ -31,11 +31,4 @@ public class ChainedGuard<IN, OUT, NEW_OUT> implements InputGuard<IN, NEW_OUT> {
 		return new ChainedGuard<>(firstGuard, secondGuard.andThen(after));
 	}
 
-	@Override
-	public String toString() {
-		return "ChainedGuard\n"
-			+ firstGuard.toString().indent(2)
-			+ secondGuard.toString().indent(2);
-	}
-
 }

@@ -311,7 +311,7 @@ class ObjectInputGuardBuilderTest {
 					var actual = GUARD_FOR_INTEGER.process(null, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
-						.hasMessage("myVal must be an instance of " + Integer.class.getName());
+						.hasMessage("myVal must not be null");
 				}
 
 				@Test
@@ -356,10 +356,29 @@ class ObjectInputGuardBuilderTest {
 				}
 
 				@Test
+				void when_null_expected_and_null_input_then_success() {
+					var actual = InputGuard.builder().forClass(Object.class)
+						.validateThat().isEqualTo(null).then()
+						.build()
+						.process(null, "myVal");
+					GuardResultAssert.assertThat(actual).isSuccess(null);
+				}
+
+				@Test
+				void when_null_expected_and_not_null_input_then_failure() {
+					var actual = InputGuard.builder().forClass(Object.class)
+						.validateThat().isEqualTo(null).then()
+						.build()
+						.process("someValue", "myVal");
+					GuardResultAssert.assertThat(actual).isFailure()
+						.hasMessage("myVal must be null");
+				}
+
+				@Test
 				void when_null_then_failure() {
 					var actual = GUARD_FOR_STRING.process(null, "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
-						.hasMessage("myVal must be equal to " + expected);
+						.hasMessage("myVal must not be null");
 				}
 
 				@Test

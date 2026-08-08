@@ -27,7 +27,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 	public GuardResult<C_OUT> process(C_IN value, @Nonnull String path) {
 		var resultMap = value.stream()
 			.filter(elementFilter)
-			.map(elem -> elementGuard.process(elem, path + "[?]"))
+			.map(elem -> elementGuard.process(elem, path + "[X]"))
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of()).stream()
@@ -42,14 +42,6 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 			.collect(collector);
 
 		return GuardResult.success(newCollection);
-	}
-
-	@Override
-	public String toString() {
-		return "CollectionIterationGuard\n"
-			+ ("Filter: " + elementFilter.toString()).indent(2)
-			+ ("Collector: " + collector.toString()).indent(2)
-			+ ("Guard: " + elementGuard.toString()).indent(2);
 	}
 
 }

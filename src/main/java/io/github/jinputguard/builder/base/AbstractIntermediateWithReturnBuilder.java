@@ -17,6 +17,14 @@ abstract class AbstractIntermediateWithReturnBuilder<IN, T, B extends InputGuard
 		super(builder);
 	}
 
+	protected final B notNullValueBuilder() {
+		return builder.validate(
+			(value, path) -> value == null
+				? BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)
+				: null
+		);
+	}
+
 	public B then() {
 		return builder;
 	}

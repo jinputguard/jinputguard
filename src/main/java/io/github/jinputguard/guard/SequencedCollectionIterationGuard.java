@@ -56,12 +56,4 @@ public class SequencedCollectionIterationGuard<C_IN extends SequencedCollection<
 		return elementGuard.process(elem, indexPath);
 	}
 
-	@Override
-	public String toString() {
-		return "SequencedCollectionIterationGuard\n"
-			+ ("Filter: " + elementFilter.toString()).indent(2)
-			+ ("Collector: " + collector.toString()).indent(2)
-			+ ("Guard: " + elementGuard.toString()).indent(2);
-	}
-
 }

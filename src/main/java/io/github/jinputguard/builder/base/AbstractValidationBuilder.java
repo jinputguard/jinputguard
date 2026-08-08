@@ -15,11 +15,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	 * If not, generates {@link ObjectIsNull}.
 	 */
 	public final SELF isNotNull() {
-		builder = builder.validate(
-			(value, path) -> value == null
-				? BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)
-				: null
-		);
+		builder = notNullValueBuilder();
 		return cast();
 	}
 
@@ -31,7 +27,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	 */
 	public final <U extends T> SELF isInstanceOf(Class<U> clazz) {
 		Objects.requireNonNull(clazz, "Expected class cannot be null");
-		builder = builder.validate(
+		builder = notNullValueBuilder().validate(
 			(value, path) -> !clazz.isInstance(value)
 				? BaseValidationErrors.OBJECT_MUST_BE_INSTANCE_OF.toFailure(path, clazz.getName())
 				: null
@@ -46,11 +42,19 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	 * @param other	the comparison reference, may be <code>null</code>
 	 */
 	public final SELF isEqualTo(T other) {
-		builder = builder.validate(
-			(value, path) -> !Objects.equals(value, other)
-				? BaseValidationErrors.OBJECT_MUST_BE_EQUAL_TO.toFailure(path, other)
-				: null
-		);
+		if (other == null) {
+			builder = builder.validate(
+				(value, path) -> value != null
+					? BaseValidationErrors.OBJECT_MUST_BE_NULL.toFailure(path)
+					: null
+			);
+		} else {
+			builder = notNullValueBuilder().validate(
+				(value, path) -> !Objects.equals(value, other)
+					? BaseValidationErrors.OBJECT_MUST_BE_EQUAL_TO.toFailure(path, other)
+					: null
+			);
+		}
 		return cast();
 	}
 
