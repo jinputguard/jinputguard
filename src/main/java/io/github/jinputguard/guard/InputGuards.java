@@ -6,7 +6,6 @@ import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.failure.MappingFailure;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -105,15 +104,14 @@ public final class InputGuards {
 	 * 
 	 * @param initialGuard			The initial guard, from which the output will be mapped
 	 * @param mappingFunction		The mapping function
-	 * @param targetType			The target type of the mapping, used for error reporting
 	 * 
 	 * @return						A guard ready to be used or combined with other guard(s)
 	 * 
 	 */
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nullable Class<?> targetType
+		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
 	) {
-		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, targetType, ex));
+		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, ex));
 	}
 
 	/**

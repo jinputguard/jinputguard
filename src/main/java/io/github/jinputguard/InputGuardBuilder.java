@@ -2,7 +2,6 @@ package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -99,24 +98,6 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	/**
 	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type,
 	 * using the provided function.
-	 * The new builder will be of the same type as this one, i.e. it will have the same behavior and available methods.
-	 * 
-	 * @param <NEW_OUT>	The new output value type
-	 * @param <B>		The new guard builder type
-	 * 
-	 * @param mappingFunction	The mapping function to apply to this guard's output value
-	 * @param targetType		The target type of the mapping, used for error messages in case of failure
-	 * 
-	 * @return	a new builder of type B
-	 */
-	@Nonnull
-	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nullable Class<NEW_OUT> targetType
-	);
-
-	/**
-	 * Map the output value of this guard into another type, and return a new {@link InputGuardBuilder} for this new type,
-	 * using the provided function.
 	 * The new builder will be created by the given builder function, which takes as input the new guard that would be created by applying the mapping function to this guard.
 	 * This allows to create a new builder of a different type than this one, with different behavior and available methods if needed.
 	 * 
@@ -125,13 +106,12 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * 
 	 * @param mappingFunction	The mapping function to apply to this guard's output value
 	 * @param builderFunction	The function to create the new builder, it takes as input the new guard that would be created by applying the mapping function to this guard
-	 * @param targetType		The target type of the mapping, used for error messages in case of failure
 	 * 
 	 * @return	a new builder of type B
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction, @Nullable Class<NEW_OUT> targetType
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	);
 
 	// ------------------------------------------------------------------------------------------------------------

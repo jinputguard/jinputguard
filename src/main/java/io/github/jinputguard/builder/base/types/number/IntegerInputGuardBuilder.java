@@ -31,7 +31,7 @@ public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilde
 	}
 
 	public LongInputGuardBuilder<IN> mapToLong() {
-		return map(Number::longValue, LongInputGuardBuilder::new, Long.class);
+		return map(Number::longValue, LongInputGuardBuilder::new);
 	}
 
 }

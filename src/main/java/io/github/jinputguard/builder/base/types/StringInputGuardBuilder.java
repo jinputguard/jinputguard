@@ -30,11 +30,11 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	}
 
 	public IntegerInputGuardBuilder<IN> mapToInteger() {
-		return map(Integer::parseInt, IntegerInputGuardBuilder::new, Integer.class);
+		return map(Integer::parseInt, IntegerInputGuardBuilder::new);
 	}
 
 	public LongInputGuardBuilder<IN> mapToLong() {
-		return map(Long::parseLong, LongInputGuardBuilder::new, Long.class);
+		return map(Long::parseLong, LongInputGuardBuilder::new);
 	}
 
 }

@@ -7,7 +7,6 @@ import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.failure.SimpleFailure;
 import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -63,22 +62,14 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
 		Function<OUT, NEW_OUT> mappingFunction
 	) {
-		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new, null);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
-		Function<OUT, NEW_OUT> mappingFunction, @Nullable Class<NEW_OUT> targetType
-	) {
-		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new, targetType);
+		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new);
 	}
 
 	@Override
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction, @Nullable Class<NEW_OUT> targetType
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	) {
-		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction, targetType));
+		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction));
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
