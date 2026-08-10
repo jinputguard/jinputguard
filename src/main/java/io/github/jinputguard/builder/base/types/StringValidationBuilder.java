@@ -28,6 +28,20 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 	}
 
 	/**
+	 * Validates that the value is not blank.
+	 * 
+	 * @see String#isBlank()
+	 */
+	public StringValidationBuilder<IN> isNotBlank() {
+		builder = notNullValueBuilder().validate(
+			(value, path) -> value.isBlank()
+				? BaseValidationErrors.STRING_MUST_NOT_BE_BLANK.toFailure(path)
+				: null
+		);
+		return cast();
+	}
+
+	/**
 	 * Validates that the value's length is no more than given value.
 	 * 
 	 * @param maxLength	The maximum length, inclusive, cannot be negative

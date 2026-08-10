@@ -21,6 +21,8 @@ public enum BaseValidationErrors {
 
 	STRING_MUST_NOT_BE_EMPTY ("%s must not be empty"),
 
+	STRING_MUST_NOT_BE_BLANK ("%s must not be blank"),
+
 	STRING_IS_TOO_LONG ("%s is too long: %s chars max"),
 
 	STRING_MUST_MATCH_PATTERN ("%s must match pattern %s"),

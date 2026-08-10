@@ -301,6 +301,56 @@ class StringInputGuardBuilderTest {
 	class Validation {
 
 		@Nested
+		class IsNotEmpty {
+
+			private static InputGuard<String, String> GUARD;
+
+			@BeforeAll
+			static void setup() {
+				GUARD = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
+			}
+
+			@Test
+			void when_empty_then_failure() {
+				var actual = GUARD.process("", "myVal");
+				GuardResultAssert.assertThat(actual).isFailure()
+					.hasMessage("myVal must not be empty");
+			}
+
+			@Test
+			void when_notEmpty_then_success() {
+				var actual = GUARD.process("plop", "myVal");
+				GuardResultAssert.assertThat(actual).isSuccess("plop");
+			}
+
+		}
+
+		@Nested
+		class isNotBlank {
+
+			private static InputGuard<String, String> GUARD;
+
+			@BeforeAll
+			static void setup() {
+				GUARD = InputGuard.builder().forString().validateThat().isNotBlank().then().build();
+			}
+
+			@Test
+			void when_blank_then_failure() {
+				var actual = GUARD.process(" \t \r\n", "myVal");
+				GuardResultAssert.assertThat(actual).isFailure()
+					.hasMessage("myVal must not be blank");
+			}
+
+			@Test
+			void when_notBlank_then_success() {
+				var actual = GUARD.process("plop", "myVal");
+				GuardResultAssert.assertThat(actual).isSuccess("plop");
+			}
+
+		}
+
+		@Nested
 		class IsMaxLength {
 
 			private static InputGuard<String, String> GUARD;
