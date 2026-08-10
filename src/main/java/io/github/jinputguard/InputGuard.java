@@ -1,6 +1,6 @@
 package io.github.jinputguard;
 
-import io.github.jinputguard.builder.InputGuards;
+import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.Objects;

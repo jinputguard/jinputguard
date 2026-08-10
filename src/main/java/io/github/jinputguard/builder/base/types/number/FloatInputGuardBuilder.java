@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.InputGuards;
+import io.github.jinputguard.guard.InputGuards;
 
 public class FloatInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Float, FloatInputGuardBuilder<IN>> {
 

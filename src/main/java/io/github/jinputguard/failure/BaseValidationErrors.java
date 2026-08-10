@@ -1,7 +1,6 @@
-package io.github.jinputguard.builder.base;
+package io.github.jinputguard.failure;
 
 import io.github.jinputguard.GuardFailure;
-import io.github.jinputguard.failure.SimpleFailure;
 import java.util.stream.Stream;
 
 public enum BaseValidationErrors {
@@ -38,11 +37,6 @@ public enum BaseValidationErrors {
 	NUMBER_MUST_BE_LOWER_OR_EQUAL_TO ("%s must be lower or equal to %s"),
 
 	NUMBER_MUST_BE_BETWEEN ("%s must be between %s and %s"),
-
-	// --------------------------------------------------------------------------
-	// COLLECTION
-
-	COLLECTION_IS_EMPTY ("%s is empty"),
 
 	;
 

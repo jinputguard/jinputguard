@@ -2,7 +2,7 @@ package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.base.BaseValidationErrors;
+import io.github.jinputguard.failure.BaseValidationErrors;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base.types.number;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.InputGuards;
+import io.github.jinputguard.guard.InputGuards;
 
 public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Integer, IntegerInputGuardBuilder<IN>> {
 
@@ -31,7 +31,7 @@ public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilde
 	}
 
 	public LongInputGuardBuilder<IN> mapToLong() {
-		return map(value -> value.longValue(), LongInputGuardBuilder::new);
+		return map(Number::longValue, LongInputGuardBuilder::new, Long.class);
 	}
 
 }

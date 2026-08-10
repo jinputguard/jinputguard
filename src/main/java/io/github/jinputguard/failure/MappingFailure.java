@@ -11,21 +11,25 @@ import java.util.Objects;
 public class MappingFailure implements GuardFailure {
 
 	private static final String MESSAGE_TEMPLATE = "Invalid %s";
-	private static final String MESSAGE_WITH_CAUSE_TEMPLATE = "Invalid %s: %s";
+	private static final String MESSAGE_WITH_TYPE_TEMPLATE = "%s is not a valid %s";
 
 	private final String path;
 	private final String message;
 	private final Throwable cause;
 
 	public MappingFailure(@Nonnull String path) {
-		this(path, null);
+		this(path, null, null);
 	}
 
-	public MappingFailure(@Nonnull String path, @Nullable Throwable cause) {
+	public MappingFailure(@Nonnull String path, @Nullable Class<?> targetType) {
+		this(path, targetType, null);
+	}
+
+	public MappingFailure(@Nonnull String path, @Nullable Class<?> targetType, @Nullable Throwable cause) {
 		this.path = Objects.requireNonNull(path, "path cannot be null");
-		this.message = cause == null
+		this.message = targetType == null
 			? MESSAGE_TEMPLATE.formatted(path)
-			: MESSAGE_WITH_CAUSE_TEMPLATE.formatted(path, cause.getMessage());
+			: MESSAGE_WITH_TYPE_TEMPLATE.formatted(path, targetType.getSimpleName());
 		this.cause = cause;
 	}
 

@@ -451,6 +451,7 @@ class StringInputGuardBuilderTest {
 			void when_invalid_then_failure(String input) {
 				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
+					.hasMessage("myVal is not a valid Integer")
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 
@@ -491,6 +492,7 @@ class StringInputGuardBuilderTest {
 			void failure(String input) {
 				var actual = GUARD.process(input, "myVal");
 				GuardResultAssert.assertThat(actual).isFailure()
+					.hasMessage("myVal is not a valid Long")
 					.hasCauseInstanceOf(NumberFormatException.class);
 			}
 

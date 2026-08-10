@@ -416,7 +416,7 @@ class ObjectInputGuardBuilderTest {
 			var actualResult = guard.process(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
-				.hasMessage("Invalid myVal: " + exception.getMessage())
+				.hasMessage("Invalid myVal")
 				.hasCause(exception);
 		}
 

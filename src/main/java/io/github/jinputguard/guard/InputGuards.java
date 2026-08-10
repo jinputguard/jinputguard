@@ -1,14 +1,12 @@
-package io.github.jinputguard.builder;
+package io.github.jinputguard.guard;
 
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.failure.MappingFailure;
-import io.github.jinputguard.guard.ChainedGuard;
-import io.github.jinputguard.guard.NoOpGuard;
-import io.github.jinputguard.guard.NullStrategyGuard;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -105,17 +103,17 @@ public final class InputGuards {
 	 * @param <OUT>					The type of the initial outpout (=the type to map from)
 	 * @param <NEW_OUT>				The new type of the outpout, after mapping (=the type to map to)
 	 * 
-	 * @param initialGuard		The initial guard, from which the output will be mapped
+	 * @param initialGuard			The initial guard, from which the output will be mapped
 	 * @param mappingFunction		The mapping function
-	 * @param failureFunction		The failure function
+	 * @param targetType			The target type of the mapping, used for error reporting
 	 * 
 	 * @return						A guard ready to be used or combined with other guard(s)
 	 * 
 	 */
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
+		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nullable Class<?> targetType
 	) {
-		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, ex));
+		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, targetType, ex));
 	}
 
 	/**

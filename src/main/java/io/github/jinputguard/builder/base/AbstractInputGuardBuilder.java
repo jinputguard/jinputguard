@@ -3,10 +3,11 @@ package io.github.jinputguard.builder.base;
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuardBuilder;
-import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.failure.SimpleFailure;
+import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -62,14 +63,22 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
 		Function<OUT, NEW_OUT> mappingFunction
 	) {
-		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new);
+		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new, null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
+		Function<OUT, NEW_OUT> mappingFunction, @Nullable Class<NEW_OUT> targetType
+	) {
+		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, ObjectInputGuardBuilder::new, targetType);
 	}
 
 	@Override
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction, @Nullable Class<NEW_OUT> targetType
 	) {
-		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction));
+		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction, targetType));
 	}
 
 	// ------------------------------------------------------------------------------------------------------------

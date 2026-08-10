@@ -1,6 +1,7 @@
 package io.github.jinputguard.builder.base;
 
 import io.github.jinputguard.InputGuardBuilder;
+import io.github.jinputguard.failure.BaseValidationErrors;
 import java.util.Objects;
 
 public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuilder<IN, T, B>, SELF extends AbstractValidationBuilder<IN, T, B, SELF>>

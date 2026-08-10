@@ -1,10 +1,10 @@
 package io.github.jinputguard.builder.base.types;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.InputGuards;
 import io.github.jinputguard.builder.base.AbstractInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
+import io.github.jinputguard.guard.InputGuards;
 
 public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, String, StringInputGuardBuilder<IN>> {
 
@@ -30,11 +30,11 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	}
 
 	public IntegerInputGuardBuilder<IN> mapToInteger() {
-		return map(Integer::parseInt, IntegerInputGuardBuilder::new);
+		return map(Integer::parseInt, IntegerInputGuardBuilder::new, Integer.class);
 	}
 
 	public LongInputGuardBuilder<IN> mapToLong() {
-		return map(Long::parseLong, LongInputGuardBuilder::new);
+		return map(Long::parseLong, LongInputGuardBuilder::new, Long.class);
 	}
 
 }

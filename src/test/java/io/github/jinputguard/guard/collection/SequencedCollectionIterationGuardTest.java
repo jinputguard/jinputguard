@@ -1,7 +1,7 @@
 package io.github.jinputguard.guard.collection;
 
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.builder.InputGuards;
+import io.github.jinputguard.guard.InputGuards;
 import io.github.jinputguard.guard.SequencedCollectionIterationGuard;
 import java.util.List;
 import java.util.function.Predicate;
