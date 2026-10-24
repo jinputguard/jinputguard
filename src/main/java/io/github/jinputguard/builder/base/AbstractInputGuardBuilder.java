@@ -50,10 +50,10 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	}
 
 	@Override
-	public SELF validate(Predicate<OUT> validationPredicate, String messageTemplate) {
+	public SELF validate(Predicate<OUT> validationPredicate, Function<String, String> messageTemplateFunction) {
 		return this.validate((value, path) -> {
 			if (!validationPredicate.test(value)) {
-				return GuardResult.failure(new SimpleFailure(path, messageTemplate.formatted(path)));
+				return GuardResult.failure(new SimpleFailure(path, messageTemplateFunction.apply(path)));
 			}
 			return GuardResult.success(value);
 		});

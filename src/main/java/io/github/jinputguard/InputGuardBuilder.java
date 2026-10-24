@@ -65,7 +65,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing a {@link ValidationError#GenericError} with the given error message.
 	 * 
 	 * @param validationPredicate	The test to apply on the value
-	 * @param errorMessage			The error message to use if validation fails
+	 * @param errorMessageFunction	A function that takes the path as input and returns an error message to use in case of failure
 	 * 
 	 * @return	a new builder
 	 * 
@@ -73,7 +73,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see GenericValidationError
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull String errorMessage);
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<String, String> errorMessageFunction);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// MAPPING

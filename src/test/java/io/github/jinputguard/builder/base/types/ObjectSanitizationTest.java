@@ -206,7 +206,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, "%s is not null")
+					.validate(Objects::isNull, p -> p + " is not null")
 					.build();
 			}
 
@@ -235,7 +235,7 @@ class ObjectInputGuardBuilderTest {
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validate(Objects::isNull, "%s is not null")
+					.validate(Objects::isNull, p -> p + " is not null")
 					.build();
 			}
 
