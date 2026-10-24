@@ -1,5 +1,6 @@
 package io.github.jinputguard.builder.base;
 
+import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 		Objects.requireNonNull(clazz, "Expected class cannot be null");
 		builder = notNullValueBuilder().validate(
 			(value, path) -> clazz.isInstance(value)
-				? null
+				? GuardResult.success(value)
 				: BaseValidationErrors.OBJECT_MUST_BE_INSTANCE_OF.toFailure(path, clazz.getName())
 		);
 		return cast();
@@ -45,14 +46,14 @@ public abstract class AbstractValidationBuilder<IN, T, B extends InputGuardBuild
 	public final SELF isEqualTo(T other) {
 		if (other == null) {
 			builder = builder.validate(
-				(value, path) -> value != null
-					? BaseValidationErrors.OBJECT_MUST_BE_NULL.toFailure(path)
-					: null
+				(value, path) -> value == null
+					? GuardResult.success(value)
+					: BaseValidationErrors.OBJECT_MUST_BE_NULL.toFailure(path)
 			);
 		} else {
 			builder = notNullValueBuilder().validate(
 				(value, path) -> Objects.equals(value, other)
-					? null
+					? GuardResult.success(value)
 					: BaseValidationErrors.OBJECT_MUST_BE_EQUAL_TO.toFailure(path, other)
 			);
 		}

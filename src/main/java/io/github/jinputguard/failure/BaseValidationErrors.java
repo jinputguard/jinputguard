@@ -1,6 +1,6 @@
 package io.github.jinputguard.failure;
 
-import io.github.jinputguard.GuardFailure;
+import io.github.jinputguard.GuardResult;
 import java.util.stream.Stream;
 
 public enum BaseValidationErrors {
@@ -48,12 +48,13 @@ public enum BaseValidationErrors {
 		this.messageTemplate = messageTemplate;
 	}
 
-	public GuardFailure toFailure(String path, Object... args) {
+	public <T> GuardResult<T> toFailure(String path, Object... args) {
 		return toFailure(path, null, args);
 	}
 
-	public GuardFailure toFailure(String path, Throwable cause, Object... args) {
-		return new SimpleFailure(path, formatMessage(path, args), cause);
+	public <T> GuardResult<T> toFailure(String path, Throwable cause, Object... args) {
+		var failure = new SimpleFailure(path, formatMessage(path, args), cause);
+		return GuardResult.failure(failure);
 	}
 
 	private String formatMessage(String path, Object... args) {

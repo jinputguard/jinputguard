@@ -58,7 +58,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see ValidationFailure
 	 */
 	@Nonnull
-	SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction);
+	SELF validate(@Nonnull BiFunction<OUT, String, GuardResult<OUT>> validationFunction);
 
 	/**
 	 * Validate the value using the given predicate.

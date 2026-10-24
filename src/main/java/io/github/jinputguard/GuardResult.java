@@ -1,5 +1,6 @@
 package io.github.jinputguard;
 
+import io.github.jinputguard.failure.SimpleFailure;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.util.function.Function;
@@ -99,6 +100,20 @@ public interface GuardResult<T> {
 	@Nonnull
 	static <OUT> GuardResult<OUT> failure(@Nonnull GuardFailure failure) {
 		return DefaultGuardResult.failure(failure);
+	}
+
+	/**
+	 * Create a failed guard result, using the given path and message.
+	 * 
+	 * @param <OUT> Expected type of the value (not used in this method)
+	 * @param path	The path of the input that failed, cannot be <code>null</code>
+	 * @param message	The failure message, cannot be <code>null</code>
+	 * 
+	 * @return	A failed guard result
+	 */
+	@Nonnull
+	static <OUT> GuardResult<OUT> failure(@Nonnull String path, @Nonnull String message) {
+		return failure(new SimpleFailure(path, message));
 	}
 
 }

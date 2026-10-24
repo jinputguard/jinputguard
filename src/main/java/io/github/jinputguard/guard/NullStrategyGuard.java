@@ -30,7 +30,7 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 		return switch (strategy) {
 			case KeepProcessing<IN> str -> nextGuard.process(value, path);
 			case ReturnNull<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
-			case Fail<IN> str -> value == null ? GuardResult.failure(BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)) : nextGuard.process(value, path);
+			case Fail<IN> str -> value == null ? BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path) : nextGuard.process(value, path);
 			case UseDefault<IN>(var defaultValue) -> nextGuard.process(value == null ? defaultValue : value, path);
 		};
 	}

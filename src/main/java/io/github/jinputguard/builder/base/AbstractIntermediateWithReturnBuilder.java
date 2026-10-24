@@ -1,5 +1,6 @@
 package io.github.jinputguard.builder.base;
 
+import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
 
@@ -22,7 +23,7 @@ abstract class AbstractIntermediateWithReturnBuilder<IN, T, B extends InputGuard
 		return builder.validate(
 			(value, path) -> value == null
 				? BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)
-				: null
+				: GuardResult.success(value)
 		);
 	}
 
