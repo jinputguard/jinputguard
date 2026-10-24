@@ -19,7 +19,7 @@ class NullStrategyGuardTest {
 
 	@Test
 	void guard_cannot_be_null() {
-		NullStrategy<Object> strategy = NullStrategy.process();
+		NullStrategy<Object> strategy = NullStrategy.keepProcessing();
 		InputGuard<Object, Object> guard = null;
 		Assertions.assertThatNullPointerException().isThrownBy(() -> new NullStrategyGuard<>(strategy, guard));
 	}
@@ -32,9 +32,9 @@ class NullStrategyGuardTest {
 
 		@BeforeAll
 		static void setup() {
-			NOOP_GUARD = new NullStrategyGuard<>(NullStrategy.process(), InputGuards.noOpGuard());
+			NOOP_GUARD = new NullStrategyGuard<>(NullStrategy.keepProcessing(), InputGuards.noOpGuard());
 			OP_GUARD = new NullStrategyGuard<>(
-				NullStrategy.process(), InputGuards.sanitizationGuard(String::strip)
+				NullStrategy.keepProcessing(), InputGuards.sanitizationGuard(String::strip)
 			);
 		}
 
@@ -67,7 +67,7 @@ class NullStrategyGuardTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = new NullStrategyGuard<>(NullStrategy.skipProcess(), InputGuards.noOpGuard());
+			GUARD = new NullStrategyGuard<>(NullStrategy.returnNull(), InputGuards.noOpGuard());
 		}
 
 		@Test

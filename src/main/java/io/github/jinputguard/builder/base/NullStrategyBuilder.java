@@ -16,12 +16,12 @@ public class NullStrategyBuilder<IN, OUT, B extends InputGuardBuilder<IN, OUT, B
 
 	/**
 	 * Continue process of <code>null</code> value. This may raise NullPointerException inside process.
-	 * This is the default behavior when no null strategy is defined.
+	 * This is the default behavior when no null strategy is defined. You can use this method to explicitly define the behavior.
 	 * 
 	 * @return the calling builder
 	 */
-	public final B process() {
-		builder = builder.apply(InputGuards.nullStrategyGuard(NullStrategy.process(), InputGuards.noOpGuard()));
+	public final B keepProcessing() {
+		builder = builder.apply(InputGuards.nullStrategyGuard(NullStrategy.keepProcessing(), InputGuards.noOpGuard()));
 		return builder;
 	}
 
@@ -30,8 +30,8 @@ public class NullStrategyBuilder<IN, OUT, B extends InputGuardBuilder<IN, OUT, B
 	 * 
 	 * @return the calling builder
 	 */
-	public final B skipProcess() {
-		builder = builder.apply(InputGuards.nullStrategyGuard(NullStrategy.skipProcess(), InputGuards.noOpGuard()));
+	public final B returnNull() {
+		builder = builder.apply(InputGuards.nullStrategyGuard(NullStrategy.returnNull(), InputGuards.noOpGuard()));
 		return builder;
 	}
 

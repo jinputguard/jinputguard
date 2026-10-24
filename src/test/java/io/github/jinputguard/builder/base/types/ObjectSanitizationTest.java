@@ -28,7 +28,7 @@ class ObjectInputGuardBuilderTest {
 		@Test
 		void process() {
 			var guard = InputGuard.builder().forClass(Object.class)
-				.ifNullThen().process()
+				.ifNullThen().keepProcessing()
 				.sanitize(value -> value + "-1")
 				.build();
 
@@ -39,7 +39,7 @@ class ObjectInputGuardBuilderTest {
 		@Test
 		void skipProcess() {
 			var guard = InputGuard.builder().forClass(Object.class)
-				.ifNullThen().skipProcess()
+				.ifNullThen().returnNull()
 				.sanitize(value -> value + "-1")
 				.build();
 
@@ -82,9 +82,9 @@ class ObjectInputGuardBuilderTest {
 		@Test
 		void mixedStrategies_1() {
 			var guard = InputGuard.builder().forClass(Object.class)
-				.ifNullThen().skipProcess()
-				.ifNullThen().process()
-				.ifNullThen().skipProcess()
+				.ifNullThen().returnNull()
+				.ifNullThen().keepProcessing()
+				.ifNullThen().returnNull()
 				.sanitize(value -> value + "-1")
 				.build();
 
@@ -95,11 +95,11 @@ class ObjectInputGuardBuilderTest {
 		@Test
 		void mixedStrategies_2() {
 			var guard = InputGuard.builder().forClass(Object.class)
-				.ifNullThen().skipProcess()
-				.ifNullThen().process()
+				.ifNullThen().returnNull()
+				.ifNullThen().keepProcessing()
 				.ifNullThen().useDefault("plop")
-				.ifNullThen().skipProcess()
-				.ifNullThen().process()
+				.ifNullThen().returnNull()
+				.ifNullThen().keepProcessing()
 				.sanitize(value -> value + "-1")
 				.build();
 
@@ -110,13 +110,13 @@ class ObjectInputGuardBuilderTest {
 		@Test
 		void mixedStrategies_3() {
 			var guard = InputGuard.builder().forClass(Object.class)
-				.ifNullThen().skipProcess()
+				.ifNullThen().returnNull()
 				.sanitize(value -> value + "-1")
-				.ifNullThen().process()
+				.ifNullThen().keepProcessing()
 				.sanitize(value -> value + "-2")
-				.ifNullThen().skipProcess()
+				.ifNullThen().returnNull()
 				.sanitize(value -> value + "-3")
-				.ifNullThen().process()
+				.ifNullThen().keepProcessing()
 				.sanitize(value -> value + "-4")
 				.ifNullThen().useDefault("default")
 				.sanitize(value -> value + "-5")

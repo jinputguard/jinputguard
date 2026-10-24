@@ -28,22 +28,22 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 	@Override
 	public GuardResult<OUT> process(IN value, @Nonnull String path) {
 		return switch (strategy) {
-			case Process<IN> str -> nextGuard.process(value, path);
-			case SkipProcess<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
+			case KeepProcessing<IN> str -> nextGuard.process(value, path);
+			case ReturnNull<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
 			case Fail<IN> str -> value == null ? GuardResult.failure(BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)) : nextGuard.process(value, path);
-			case UseDefault<IN>(var defaultValue) -> value == null ? nextGuard.process(defaultValue, path) : nextGuard.process(value, path);
+			case UseDefault<IN>(var defaultValue) -> nextGuard.process(value == null ? defaultValue : value, path);
 		};
 	}
 
 	@SuppressWarnings("unused")
 	public static sealed interface NullStrategy<T> {
 
-		static <T> NullStrategy<T> process() {
-			return new Process<>();
+		static <T> NullStrategy<T> keepProcessing() {
+			return new KeepProcessing<>();
 		}
 
-		static <T> NullStrategy<T> skipProcess() {
-			return new SkipProcess<>();
+		static <T> NullStrategy<T> returnNull() {
+			return new ReturnNull<>();
 		}
 
 		static <T> NullStrategy<T> fail() {
@@ -56,11 +56,11 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 
 	}
 
-	private static record Process<T>() implements NullStrategy<T> {
+	private static record KeepProcessing<T>() implements NullStrategy<T> {
 
 	}
 
-	private static record SkipProcess<T>() implements NullStrategy<T> {
+	private static record ReturnNull<T>() implements NullStrategy<T> {
 
 	}
 
