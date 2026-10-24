@@ -32,7 +32,7 @@
   * [Custom specialized builders](#custom-specialized-builders)
   * [Custom exception](#custom-exception)
 * [License](#license)
-* [Contact](#contact)
+* [Contributing and Contact](#Contributing-and-Contact)
 
 # Quick Start
 Create input guards and use them at the beginning of any method to process input arguments, particularly when they come from user (e.g. in controller layer).
@@ -301,5 +301,5 @@ var i = result.getOrThrow(failure -> new MyCustomException(failure)); // throws 
 # License
 This project is licensed under the Apache License 2.0. See the LICENSE file for details.
 
-# Contributing & Contact
+# Contributing and Contact
 For any questions or feedback, please open an issue on this repository.
