@@ -1,6 +1,5 @@
 package io.github.jinputguard.builder.base.types;
 
-import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		builder = notNullValueBuilder().validate(
 			(value, path) -> value.isEmpty()
 				? BaseValidationErrors.STRING_MUST_NOT_BE_EMPTY.toFailure(path)
-				: GuardResult.success(value)
+				: null
 		);
 		return cast();
 	}
@@ -37,7 +36,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		builder = notNullValueBuilder().validate(
 			(value, path) -> value.isBlank()
 				? BaseValidationErrors.STRING_MUST_NOT_BE_BLANK.toFailure(path)
-				: GuardResult.success(value)
+				: null
 		);
 		return cast();
 	}
@@ -58,7 +57,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		builder = notNullValueBuilder().validate(
 			(value, path) -> value.length() > maxLength
 				? BaseValidationErrors.STRING_IS_TOO_LONG.toFailure(path, maxLength)
-				: GuardResult.success(value)
+				: null
 		);
 		return cast();
 	}
@@ -89,7 +88,7 @@ public class StringValidationBuilder<IN> extends AbstractValidationBuilder<IN, S
 		builder = notNullValueBuilder().validate(
 			(value, path) -> !pattern.matcher(value).matches()
 				? BaseValidationErrors.STRING_MUST_MATCH_PATTERN.toFailure(path, pattern)
-				: GuardResult.success(value)
+				: null
 		);
 		return cast();
 	}

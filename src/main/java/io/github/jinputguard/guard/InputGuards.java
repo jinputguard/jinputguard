@@ -1,5 +1,6 @@
 package io.github.jinputguard.guard;
 
+import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.failure.MappingFailure;
@@ -77,10 +78,13 @@ public final class InputGuards {
 	 * 
 	 * @see ValidationGuard
 	 */
-	public static <T> InputGuard<T, T> validationGuard(@Nonnull BiFunction<T, String, GuardResult<T>> validationFunction) {
+	public static <T> InputGuard<T, T> validationGuard(@Nonnull BiFunction<T, String, GuardFailure> validationFunction) {
 		Objects.requireNonNull(validationFunction, "Validation function cannot be null");
 		return (value, path) -> {
-			return validationFunction.apply(value, path);
+			var error = validationFunction.apply(value, path);
+			return error == null
+				? GuardResult.success(value)
+				: GuardResult.failure(error);
 		};
 	}
 
@@ -107,9 +111,7 @@ public final class InputGuards {
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
 		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
 	) {
-		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> {
-			return GuardResult.failure(new MappingFailure(path, ex));
-		});
+		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, ex));
 	}
 
 	/**
@@ -132,7 +134,7 @@ public final class InputGuards {
 	 * 
 	 */
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull BiFunction<String, Throwable, GuardResult<NEW_OUT>> failureFunction
+		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull BiFunction<String, Throwable, GuardFailure> failureFunction
 	) {
 
 		Objects.requireNonNull(mappingFunction, "Mapping function cannot be null");
@@ -141,7 +143,7 @@ public final class InputGuards {
 			try {
 				return GuardResult.success(mappingFunction.apply(value));
 			} catch (Throwable ex) {
-				return failureFunction.apply(path, ex);
+				return GuardResult.failure(failureFunction.apply(path, ex));
 			}
 		};
 		return initialGuard.andThen(mappingGuard);

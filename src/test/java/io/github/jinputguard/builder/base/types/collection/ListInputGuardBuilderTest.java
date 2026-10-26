@@ -1,8 +1,8 @@
 package io.github.jinputguard.builder.base.types.collection;
 
-import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.failure.SimpleFailure;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +39,7 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate((value, path) -> value.isEmpty() ? GuardResult.failure(path, "value is wrong") : GuardResult.success(value))
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = listGuard.process(List.of("a"), BASE_PATH);
@@ -54,7 +54,7 @@ class ListInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var listGuard = InputGuard.builder().forList(String.class)
-				.validate((value, path) -> value.isEmpty() ? GuardResult.failure(path, "value is wrong") : GuardResult.success(value))
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = listGuard.process(List.of(), BASE_PATH);

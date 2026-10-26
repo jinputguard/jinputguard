@@ -1,6 +1,5 @@
 package io.github.jinputguard.builder.base.types.number;
 
-import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.base.AbstractValidationBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
@@ -36,9 +35,9 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isGreaterThan(T ref) {
 		builder = builder.validate(
-			(value, path) -> numberTester.isGreaterThan(value, ref)
-				? GuardResult.success(value)
-				: BaseValidationErrors.NUMBER_MUST_BE_GREATER_THAN.toFailure(path, ref)
+			(value, path) -> !numberTester.isGreaterThan(value, ref)
+				? BaseValidationErrors.NUMBER_MUST_BE_GREATER_THAN.toFailure(path, ref)
+				: null
 		);
 		return cast();
 	}
@@ -51,9 +50,9 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isGreaterOrEqualTo(T ref) {
 		builder = builder.validate(
-			(value, path) -> numberTester.isGreaterOrEqualTo(value, ref)
-				? GuardResult.success(value)
-				: BaseValidationErrors.NUMBER_MUST_BE_GREATER_OR_EQUAL_TO.toFailure(path, ref)
+			(value, path) -> !numberTester.isGreaterOrEqualTo(value, ref)
+				? BaseValidationErrors.NUMBER_MUST_BE_GREATER_OR_EQUAL_TO.toFailure(path, ref)
+				: null
 		);
 		return cast();
 	}
@@ -66,9 +65,9 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isLowerThan(T ref) {
 		builder = builder.validate(
-			(value, path) -> numberTester.isLowerThan(value, ref)
-				? GuardResult.success(value)
-				: BaseValidationErrors.NUMBER_MUST_BE_LOWER_THAN.toFailure(path, ref)
+			(value, path) -> !numberTester.isLowerThan(value, ref)
+				? BaseValidationErrors.NUMBER_MUST_BE_LOWER_THAN.toFailure(path, ref)
+				: null
 		);
 		return cast();
 	}
@@ -81,9 +80,9 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 	 */
 	public SELF isLowerOrEqualTo(T ref) {
 		builder = builder.validate(
-			(value, path) -> numberTester.isLowerOrEqualTo(value, ref)
-				? GuardResult.success(value)
-				: BaseValidationErrors.NUMBER_MUST_BE_LOWER_OR_EQUAL_TO.toFailure(path, ref)
+			(value, path) -> !numberTester.isLowerOrEqualTo(value, ref)
+				? BaseValidationErrors.NUMBER_MUST_BE_LOWER_OR_EQUAL_TO.toFailure(path, ref)
+				: null
 		);
 		return cast();
 	}
@@ -144,9 +143,9 @@ public abstract class AbstractNumberValidationBuilder<IN, T extends Number, B ex
 			throw new IllegalArgumentException("Min value " + minInclusive + " is greater than max value " + maxInclusive);
 		}
 		builder = builder.validate(
-			(value, path) -> numberTester.isBetween(value, minInclusive, maxInclusive)
-				? GuardResult.success(value)
-				: BaseValidationErrors.NUMBER_MUST_BE_BETWEEN.toFailure(path, minInclusive, maxInclusive)
+			(value, path) -> !numberTester.isBetween(value, minInclusive, maxInclusive)
+				? BaseValidationErrors.NUMBER_MUST_BE_BETWEEN.toFailure(path, minInclusive, maxInclusive)
+				: null
 		);
 		return cast();
 	}

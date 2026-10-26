@@ -1,8 +1,8 @@
 package io.github.jinputguard.builder.base.types.collection;
 
-import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
+import io.github.jinputguard.failure.SimpleFailure;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +39,7 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_success() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate((value, path) -> value.isEmpty() ? GuardResult.failure(path, "value is wrong") : GuardResult.success(value))
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("a"), BASE_PATH);
@@ -51,7 +51,7 @@ class SetInputGuardBuilderTest {
 		@Test
 		void nominal_failure() {
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.validate((value, path) -> value.isEmpty() ? GuardResult.failure(path, "value is wrong") : GuardResult.success(value))
+				.validate((value, path) -> value.isEmpty() ? new SimpleFailure(path, "value is wrong") : null)
 				.build();
 
 			var actualResult = setGuard.process(Set.of(), BASE_PATH);
