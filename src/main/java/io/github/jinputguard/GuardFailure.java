@@ -1,5 +1,7 @@
 package io.github.jinputguard;
 
+import io.github.jinputguard.failure.SimpleFailure;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import java.io.Serializable;
 
@@ -33,5 +35,28 @@ public interface GuardFailure extends Serializable {
 	 */
 	@Nullable
 	Throwable getCause();
+
+	/**
+	 * Creates a simple guard failure with the specified path and message.
+	 *
+	 * @param path    the path where the failure occurred
+	 * @param message the failure message
+	 * @return a new instance of {@link GuardFailure}
+	 */
+	static GuardFailure from(@Nonnull String path, @Nonnull String message) {
+		return new SimpleFailure(path, message);
+	}
+
+	/**
+	 * Creates a simple guard failure with the specified path, message, and cause.
+	 *
+	 * @param path    the path where the failure occurred
+	 * @param message the failure message
+	 * @param cause   the cause of the failure
+	 * @return a new instance of {@link GuardFailure}
+	 */
+	static GuardFailure from(@Nonnull String path, @Nonnull String message, @Nullable Throwable cause) {
+		return new SimpleFailure(path, message, cause);
+	}
 
 }

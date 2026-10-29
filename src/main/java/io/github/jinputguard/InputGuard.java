@@ -45,6 +45,19 @@ public interface InputGuard<IN, OUT> {
 	@Nonnull
 	GuardResult<OUT> process(@Nullable IN value, @Nonnull String property);
 
+	/**
+	 * Process the input value and return the processed value, or throw an exception if the processing fails.
+	 * 
+	 * @param value the input value to process, may be null if the guard is designed to handle null values
+	 * @param property the name of the property being processed, used for error reporting and debugging purposes
+	 * @return the processed value
+	 * @throws GuardException if the processing fails, containing the error details
+	 */
+	@Nullable
+	default OUT processOrThrow(@Nullable IN value, @Nonnull String property) {
+		return process(value, property).getOrThrow();
+	}
+
 	// ===========================================================================================================
 
 	/**

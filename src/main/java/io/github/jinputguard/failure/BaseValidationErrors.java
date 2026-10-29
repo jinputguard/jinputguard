@@ -53,7 +53,7 @@ public enum BaseValidationErrors {
 	}
 
 	public GuardFailure toFailure(String path, Throwable cause, Object... args) {
-		return new SimpleFailure(path, formatMessage(path, args), cause);
+		return GuardFailure.from(path, formatMessage(path, args), cause);
 	}
 
 	private String formatMessage(String path, Object... args) {

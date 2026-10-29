@@ -1,9 +1,28 @@
 package io.github.jinputguard;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class InputGuardTest {
+
+	@Nested
+	class ProcessOrThrow {
+
+		@Test
+		void success() {
+			InputGuard<String, String> guard = (value, path) -> GuardResult.success(value + "-1");
+			Assertions.assertThat(guard.processOrThrow("plop", "myVal")).isEqualTo("plop-1");
+		}
+
+		@Test
+		void failure() {
+			InputGuard<String, String> guard = (value, path) -> GuardResult.failure(GuardFailure.from(path, "value is wrong"));
+			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
+				.isThrownBy(() -> guard.processOrThrow("plop", "myVal"));
+		}
+
+	}
 
 	@Nested
 	class AndThen {

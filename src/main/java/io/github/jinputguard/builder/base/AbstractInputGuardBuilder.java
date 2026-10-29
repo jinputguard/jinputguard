@@ -4,7 +4,6 @@ import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
-import io.github.jinputguard.failure.SimpleFailure;
 import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -51,7 +50,7 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 
 	@Override
 	public SELF validate(Predicate<OUT> validationPredicate, Function<String, String> messageTemplateFunction) {
-		return this.validate((value, path) -> validationPredicate.test(value) ? null : new SimpleFailure(path, messageTemplateFunction.apply(path)));
+		return this.validate((value, path) -> validationPredicate.test(value) ? null : GuardFailure.from(path, messageTemplateFunction.apply(path)));
 
 	}
 

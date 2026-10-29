@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.github.jinputguard.failure.SimpleFailure;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -31,14 +30,14 @@ class GuardResultTest {
 	@Test
 	void failure_without_path() {
 		assertThatNullPointerException()
-			.isThrownBy(() -> new SimpleFailure(null, "value is wrong", null))
+			.isThrownBy(() -> GuardFailure.from(null, "value is wrong", null))
 			.withMessage("path cannot be null");
 	}
 
 	@Test
 	void failure_with_path() {
 		var cause = new RuntimeException("cause");
-		var failure = new SimpleFailure("myVal", "myVal is wrong", cause);
+		var failure = GuardFailure.from("myVal", "myVal is wrong", cause);
 		var result = GuardResult.failure(failure);
 
 		assertThat(result.isSuccess()).isFalse();
@@ -56,7 +55,7 @@ class GuardResultTest {
 
 	@Test
 	void getOrThrowShouldThrowInputGuardFailureException() {
-		var failure = new SimpleFailure("myVal", "value is wrong");
+		var failure = GuardFailure.from("myVal", "value is wrong");
 		var r = GuardResult.failure(failure);
 		InputGuardFailureException ex = assertThrows(InputGuardFailureException.class, r::getOrThrow);
 		assertSame(failure, ex.getFailure());
@@ -64,7 +63,7 @@ class GuardResultTest {
 
 	@Test
 	void getOrThrowWithMapperShouldThrowMappedException() {
-		var failure = new SimpleFailure("myVal", "value is wrong");
+		var failure = GuardFailure.from("myVal", "value is wrong");
 		var r = GuardResult.failure(failure);
 		RuntimeException ex = assertThrows(RuntimeException.class, () -> r.getOrThrow(f -> new RuntimeException("errooooor")));
 		assertEquals("errooooor", ex.getMessage());
@@ -78,7 +77,7 @@ class GuardResultTest {
 		private static final String BASE_PATH = "myVal";
 		private static final String BASE_ERROR_MESSAGE = "value is wrong";
 		private static final RuntimeException BASE_CAUSE = new RuntimeException("cause");
-		private static final GuardFailure BASE_FAILURE = new SimpleFailure(BASE_PATH, BASE_ERROR_MESSAGE, BASE_CAUSE);
+		private static final GuardFailure BASE_FAILURE = GuardFailure.from(BASE_PATH, BASE_ERROR_MESSAGE, BASE_CAUSE);
 		private static final GuardResult<String> BASE_FAILED_RESULT = GuardResult.failure(BASE_FAILURE);
 
 		@Test
@@ -119,7 +118,7 @@ class GuardResultTest {
 
 		@Test
 		void test_equals_failure_differnt() {
-			var actual = GuardResult.failure(new SimpleFailure("other", "value is wrong", null));
+			var actual = GuardResult.failure(GuardFailure.from("other", "value is wrong", null));
 			assertThat(actual)
 				.isNotEqualTo(BASE_FAILED_RESULT);
 		}
@@ -138,7 +137,7 @@ class GuardResultTest {
 		var resultSuccess = GuardResult.success("x");
 		assertTrue(resultSuccess.toString().contains("Success"));
 
-		var failure = new SimpleFailure("myVal", "value is wrong");
+		var failure = GuardFailure.from("myVal", "value is wrong");
 		var resultFailure = GuardResult.failure(failure);
 		assertTrue(resultFailure.toString().contains("Failure"));
 	}

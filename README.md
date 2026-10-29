@@ -32,7 +32,8 @@
   * [Custom specialized builders](#custom-specialized-builders)
   * [Custom exception](#custom-exception)
 * [License](#license)
-* [Contributing and Contact](#Contributing-and-Contact)
+* [Contributing and Contact](#contributing-and-contact)
+* [AI Usage](#ai-usage)
 
 # Quick Start
 Create input guards and use them at the beginning of any method to process input arguments, particularly when they come from user (e.g. in controller layer).
@@ -48,16 +49,18 @@ InputGuard<String, String> guard = InputGuard.builder().forString()
       .replace("a", "e")
       .then()
     .validateThat()
-      .isMaxLength(3)
+      .isMaxLength(4)
       .then()
     .build();
 ```
-* Process some input value and get the result, or throw an exception in case of failure:
+* Process some input value by calling the `processOrThrow` method, that returns the result or throw an exception in case of failure:
 ```java
-String barValueOK = guard.process("  BAR  ").getOrThrow(); // "ber"
-String barValueKO = guard.process("BAAAAR").getOrThrow(); // throw InputGuardFailureException "value is too long"
+String barValueOK = guard.processOrThrow("  BAAR  "); // "beer"
+String barValueKO = guard.processOrThrow("BAAAAR"); // throw InputGuardFailureException "value is too long"
+```
 
-// Or, for a better control of the process result:
+* For a better control of the result call the `process` method, that returns a `GuardResult<T>` object:
+```java
 GuardResult<String> result = guard.process(...);
 if(result.isSuccess()) { // also exists "isFailure()"
   String newValue = result.get();
@@ -88,7 +91,7 @@ implementation 'io.github.jinputguard:jinputguard:0.0.2'
 # Introduction
 
 ## Definition
-A guard is represented by a functional interface, exposing a `process` method that takes an input value and returning a `GuardResult`. This results contains either an output value or a failure (more on that below in the doc).
+A guard is represented by a functional interface, exposing a `process` method that takes an input value and returning a `GuardResult`. This results contains either an output value or a failure (more on that below in this doc).
 
 Processing an input argument consists basically in performing sequential operations on it. Base operations are:
 * **sanitization**: transform a value into a value of the _same_ type (e.g. `String` to `String` by applying `String.strip()`)
@@ -100,10 +103,10 @@ See [usage](#usage) for more details about available operations.
 ## Why should I use it?
 JInputGuard was developed with the vision of facilitating build and usage of Value Objects in your code base. If you're not using Value Objects (you should consider it 😉), input sanitization and validation is still a mandatory requirement to mitigate risks exposed by [CWE-20: Improper Input Validation](https://cwe.mitre.org/data/definitions/20.html): SQL/XML injections, CSRF, etc.
 
-To facilitate adoption, JInputGuards is/has:
-* Discoverable API: Thanks to fluent methods, use your IDE auto-completion to easily create and use guards.
-* Fully extensible: Write your own sanitization, transformation or validation functions to satisfy your needs.
-* Immutability: Guards are immutable and thread-safe POJOs in their default implementation.
+To facilitate adoption, JInputGuards has:
+* a discoverable API: thanks to fluent methods, use your IDE auto-completion to easily create and use guards.
+* an extensible design: write your own sanitization, transformation or validation functions to satisfy your needs.
+* a focus on immutability: guards are immutable and thread-safe POJOs in their default implementation.
 
 # Usage
 
@@ -303,3 +306,9 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 # Contributing and Contact
 For any questions or feedback, please open an issue on this repository.
+
+
+# AI Usage
+AI tools have been used in this project for documentation (README and Javadoc) and code auto-completion only.
+
+All implementation, design decisions, and code in this repository are my own work. No AI agents have been used to generate or modify the code.
