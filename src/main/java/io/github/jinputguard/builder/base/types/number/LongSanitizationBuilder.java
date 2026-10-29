@@ -6,10 +6,4 @@ public class LongSanitizationBuilder<IN> extends AbstractNumberSanitizationBuild
 		super(builder, LongTester.INSTANCE);
 	}
 
-	@Override
-	public LongSanitizationBuilder<IN> abs() {
-		builder = builder.sanitize(value -> Math.abs(value));
-		return cast();
-	}
-
 }

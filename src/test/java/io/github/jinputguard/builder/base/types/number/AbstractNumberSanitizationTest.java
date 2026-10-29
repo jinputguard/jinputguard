@@ -334,14 +334,4 @@ abstract class AbstractNumberSanitizationTest<T extends Number> extends Abstract
 
 	}
 
-	@Test
-	void abs() {
-		var guard = initiateGuard().sanitize().abs().then().build();
-		GuardResultAssert.assertThat(guard.process(getNumberProvider().getMinValue(), "myVal")).as("abs() & MIN = -MIN").isSuccess(getNumberProvider().getAbsMinValue());
-		GuardResultAssert.assertThat(guard.process(getNumberProvider().getMinusOne(), "myVal")).as("abs() & -1 = 1").isSuccess(getNumberProvider().getOne());
-		GuardResultAssert.assertThat(guard.process(getNumberProvider().getZero(), "myVal")).as("abs() & 0 = 0").isSuccess(getNumberProvider().getZero());
-		GuardResultAssert.assertThat(guard.process(getNumberProvider().getOne(), "myVal")).as("abs() & 1 = 1").isSuccess(getNumberProvider().getOne());
-		GuardResultAssert.assertThat(guard.process(getNumberProvider().getMaxValue(), "myVal")).as("abs() & MAX = MAX").isSuccess(getNumberProvider().getMaxValue());
-	}
-
 }

@@ -6,10 +6,4 @@ public class DoubleSanitizationBuilder<IN> extends AbstractNumberSanitizationBui
 		super(builder, DoubleTester.INSTANCE);
 	}
 
-	@Override
-	public DoubleSanitizationBuilder<IN> abs() {
-		builder = builder.sanitize(value -> Math.abs(value));
-		return cast();
-	}
-
 }

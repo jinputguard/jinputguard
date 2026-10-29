@@ -6,10 +6,4 @@ public class FloatSanitizationBuilder<IN> extends AbstractNumberSanitizationBuil
 		super(builder, FloatTester.INSTANCE);
 	}
 
-	@Override
-	public FloatSanitizationBuilder<IN> abs() {
-		builder = builder.sanitize(value -> Math.abs(value));
-		return cast();
-	}
-
 }
