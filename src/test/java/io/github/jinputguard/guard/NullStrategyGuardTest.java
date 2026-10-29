@@ -61,7 +61,7 @@ class NullStrategyGuardTest {
 	}
 
 	@Nested
-	class SkipProcessStrategyTest {
+	class ReturnNullStrategyTest {
 
 		private static InputGuard<String, String> GUARD;
 

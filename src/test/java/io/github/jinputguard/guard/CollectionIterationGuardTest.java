@@ -1,4 +1,4 @@
-package io.github.jinputguard.guard.collection;
+package io.github.jinputguard.guard;
 
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.CollectionIterationGuard;

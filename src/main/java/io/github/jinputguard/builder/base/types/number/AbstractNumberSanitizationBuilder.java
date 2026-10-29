@@ -48,11 +48,18 @@ public abstract class AbstractNumberSanitizationBuilder<IN, T extends Number, B 
 	}
 
 	private T clamp(T minInclusive, T maxInclusive, T value) {
+		System.out.println("--------------");
+		System.out.println("minInclusive: " + minInclusive);
+		System.out.println("maxInclusive: " + maxInclusive);
+		System.out.println("value: " + value);
 		if (numberTester.isLowerThan(value, minInclusive)) {
+			System.out.println("value is lower than minInclusive, returning minInclusive: " + minInclusive);
 			return minInclusive;
 		} else if (numberTester.isGreaterThan(value, maxInclusive)) {
+			System.out.println("value is greater than maxInclusive, returning maxInclusive: " + maxInclusive);
 			return maxInclusive;
 		}
+		System.out.println("value is within range, returning value: " + value);
 		return value;
 	}
 

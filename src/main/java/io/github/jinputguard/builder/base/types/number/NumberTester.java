@@ -130,7 +130,7 @@ final class DoubleTester implements NumberTester<Double> {
 
 	@Override
 	public Double getMin() {
-		return -Double.MAX_VALUE;
+		return Double.MIN_VALUE;
 	}
 
 	@Override
@@ -140,22 +140,61 @@ final class DoubleTester implements NumberTester<Double> {
 
 	@Override
 	public boolean isLowerThan(Double value, Double ref) {
-		return value.doubleValue() < ref.doubleValue();
+		if (value == Double.MAX_VALUE) {
+			return false;
+		}
+		if (value == Double.MIN_VALUE) {
+			return ref != Double.MIN_VALUE;
+		}
+		if (ref == Double.MAX_VALUE) {
+			return value != Double.MAX_VALUE;
+		}
+		if (ref == Double.MIN_VALUE) {
+			return false;
+		}
+		return value.compareTo(ref) < 0;
 	}
 
 	@Override
 	public boolean isLowerOrEqualTo(Double value, Double ref) {
-		return value.doubleValue() <= ref.doubleValue();
+		if (value == Double.MAX_VALUE) {
+			return ref == Double.MAX_VALUE;
+		}
+		if (value == Double.MIN_VALUE || ref == Double.MAX_VALUE) {
+			return true;
+		}
+		if (ref == Double.MIN_VALUE) {
+			return value == Double.MIN_VALUE;
+		}
+		return value.compareTo(ref) <= 0;
 	}
 
 	@Override
 	public boolean isGreaterThan(Double value, Double ref) {
-		return value.doubleValue() > ref.doubleValue();
+		if (value == Double.MAX_VALUE) {
+			return ref != Double.MAX_VALUE;
+		}
+		if (value == Double.MIN_VALUE || ref == Double.MAX_VALUE) {
+			return false;
+		}
+		if (ref == Double.MIN_VALUE) {
+			return value != Double.MIN_VALUE;
+		}
+		return value.compareTo(ref) > 0;
 	}
 
 	@Override
 	public boolean isGreaterOrEqualTo(Double value, Double ref) {
-		return value.doubleValue() >= ref.doubleValue();
+		if (value == Double.MIN_VALUE) {
+			return ref == Double.MIN_VALUE;
+		}
+		if (value == Double.MAX_VALUE || ref == Double.MIN_VALUE) {
+			return true;
+		}
+		if (ref == Double.MAX_VALUE) {
+			return value == Double.MAX_VALUE;
+		}
+		return value.compareTo(ref) >= 0;
 	}
 
 }
@@ -176,7 +215,7 @@ final class FloatTester implements NumberTester<Float> {
 
 	@Override
 	public Float getMin() {
-		return -Float.MAX_VALUE;
+		return Float.MIN_VALUE;
 	}
 
 	@Override
@@ -186,22 +225,61 @@ final class FloatTester implements NumberTester<Float> {
 
 	@Override
 	public boolean isLowerThan(Float value, Float ref) {
-		return value.floatValue() < ref.floatValue();
+		if (value == Float.MAX_VALUE) {
+			return false;
+		}
+		if (value == Float.MIN_VALUE) {
+			return ref != Float.MIN_VALUE;
+		}
+		if (ref == Float.MAX_VALUE) {
+			return value != Float.MAX_VALUE;
+		}
+		if (ref == Float.MIN_VALUE) {
+			return false;
+		}
+		return value.compareTo(ref) < 0;
 	}
 
 	@Override
 	public boolean isLowerOrEqualTo(Float value, Float ref) {
-		return value.floatValue() <= ref.floatValue();
+		if (value == Float.MAX_VALUE) {
+			return ref == Float.MAX_VALUE;
+		}
+		if (value == Float.MIN_VALUE || ref == Float.MAX_VALUE) {
+			return true;
+		}
+		if (ref == Float.MIN_VALUE) {
+			return value == Float.MIN_VALUE;
+		}
+		return value.compareTo(ref) <= 0;
 	}
 
 	@Override
 	public boolean isGreaterThan(Float value, Float ref) {
-		return value.floatValue() > ref.floatValue();
+		if (value == Float.MAX_VALUE) {
+			return ref != Float.MAX_VALUE;
+		}
+		if (value == Float.MIN_VALUE || ref == Float.MAX_VALUE) {
+			return false;
+		}
+		if (ref == Float.MIN_VALUE) {
+			return value != Float.MIN_VALUE;
+		}
+		return value.compareTo(ref) > 0;
 	}
 
 	@Override
 	public boolean isGreaterOrEqualTo(Float value, Float ref) {
-		return value.floatValue() >= ref.floatValue();
+		if (value == Float.MIN_VALUE) {
+			return ref == Float.MIN_VALUE;
+		}
+		if (value == Float.MAX_VALUE || ref == Float.MIN_VALUE) {
+			return true;
+		}
+		if (ref == Float.MAX_VALUE) {
+			return value == Float.MAX_VALUE;
+		}
+		return value.compareTo(ref) >= 0;
 	}
 
 }
