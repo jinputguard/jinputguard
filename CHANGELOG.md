@@ -15,9 +15,12 @@ Types of changes
 - `Documentation` for changes to the documentation. (actally, this is not a real type from "Keep a Changelog", but I want to use it for documentation changes)
 
 ---
-## [0.1.0] - 2026-03-14
+## [0.1.0] - 2026-10-xx
 
 ### Documentation
+- More santization/validation/mapping methods
+- Reworked failure system
+- Added AI usage disclaimer
 - More javadoc
 - Roadmap entries
 

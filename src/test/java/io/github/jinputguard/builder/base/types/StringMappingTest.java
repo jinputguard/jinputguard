@@ -10,13 +10,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 class StringMappingTest {
 
 	@Nested
-	class MapToInteger {
+	class ParseToInteger {
 
 		private static InputGuard<String, Integer> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().mapToInteger().build();
+			GUARD = InputGuard.builder().forString().parseToInt().build();
 		}
 
 		@ParameterizedTest
@@ -44,20 +44,20 @@ class StringMappingTest {
 		void when_invalid_then_failure(String input) {
 			var actual = GUARD.process(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("Invalid myVal")
+				.hasMessage("myVal cannot be parsed to integer")
 				.hasCauseInstanceOf(NumberFormatException.class);
 		}
 
 	}
 
 	@Nested
-	class MapToLong {
+	class ParseToLong {
 
 		private static InputGuard<String, Long> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().mapToLong().build();
+			GUARD = InputGuard.builder().forString().parseToLong().build();
 		}
 
 		@ParameterizedTest
@@ -85,7 +85,81 @@ class StringMappingTest {
 		void failure(String input) {
 			var actual = GUARD.process(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("Invalid myVal")
+				.hasMessage("myVal cannot be parsed to long")
+				.hasCauseInstanceOf(NumberFormatException.class);
+		}
+
+	}
+
+	@Nested
+	class ParseToFloat {
+
+		private static InputGuard<String, Float> GUARD;
+
+		@BeforeAll
+		static void setup() {
+			GUARD = InputGuard.builder().forString().parseToFloat().build();
+		}
+
+		@ParameterizedTest
+		@ValueSource(
+			strings = {
+				"-1", "0", "1", "+1",
+			}
+		)
+		void success(String input) {
+			var actual = GUARD.process(input, "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess(Float.parseFloat(input));
+		}
+
+		@ParameterizedTest
+		@ValueSource(
+			strings = {
+				"plop",
+				"123 456",
+			}
+		)
+		void failure(String input) {
+			var actual = GUARD.process(input, "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal cannot be parsed to float")
+				.hasCauseInstanceOf(NumberFormatException.class);
+		}
+
+	}
+
+	@Nested
+	class ParseToDouble {
+
+		private static InputGuard<String, Double> GUARD;
+
+		@BeforeAll
+		static void setup() {
+			GUARD = InputGuard.builder().forString().parseToDouble().build();
+		}
+
+		@ParameterizedTest
+		@ValueSource(
+			strings = {
+				"-1", "0", "1", "+1",
+			}
+		)
+		void success(String input) {
+			var actual = GUARD.process(input, "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess(Double.parseDouble(input));
+		}
+
+		@ParameterizedTest
+		@ValueSource(
+			strings = {
+				"plop",
+				"123 456",
+			}
+		)
+		void failure(String input) {
+			var actual = GUARD.process(input, "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal cannot be parsed to double")
 				.hasCauseInstanceOf(NumberFormatException.class);
 		}
 

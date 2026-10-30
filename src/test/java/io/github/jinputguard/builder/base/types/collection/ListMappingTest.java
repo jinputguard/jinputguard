@@ -13,7 +13,7 @@ class ListMappingTest {
 	@Test
 	void nominal() {
 		var listGuard = InputGuard.builder().forList(String.class)
-			.map(list -> list.stream().map(Integer::parseInt).toList())
+			.map(list -> list.stream().map(Integer::parseInt).toList(), path -> "Invalid " + path)
 			.build();
 
 		var actualResult = listGuard.process(List.of("0", "1", "2"), "myVal");

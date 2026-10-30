@@ -163,7 +163,7 @@ class SetProcessEachTest {
 
 		@Test
 		void mapping_all_success() {
-			var elementGuardGuard = InputGuard.builder().forString().mapToInteger().build();
+			var elementGuardGuard = InputGuard.builder().forString().parseToInt().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuardGuard)
 				.build();

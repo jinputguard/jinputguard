@@ -1,6 +1,8 @@
 package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.NullStrategyBuilder;
+import io.github.jinputguard.builder.base.types.StringInputGuardBuilder;
+import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -87,12 +89,13 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @param <B>		The new guard builder type
 	 * 
 	 * @param mappingFunction	The mapping function to apply to this guard's output value
+	 * @param failureMessageFunction	The function to create a failure message in case the mapping function throws an exception, it takes as input the path of the value being processed
 	 * 
 	 * @return	a new builder of type B
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction
 	);
 
 	/**
@@ -105,14 +108,24 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @param <B>		The new guard builder type
 	 * 
 	 * @param mappingFunction	The mapping function to apply to this guard's output value
+	 * @param failureMessageFunction	The function to create a failure message in case the mapping function throws an exception, it takes as input the path of the value being processed
 	 * @param builderFunction	The function to create the new builder, it takes as input the new guard that would be created by applying the mapping function to this guard
 	 * 
 	 * @return	a new builder of type B
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	);
+
+	/**
+	 * Map the output of this builder to a String by calling the {@code toString()} method on the value, and return a new {@link StringInputGuardBuilder}.
+	 * 
+	 * @return a new builder of type {@link StringInputGuardBuilder}
+	 */
+	public default StringInputGuardBuilder<IN> mapToString() {
+		return new StringInputGuardBuilder<>(InputGuards.mappingGuard(this.build(), Object::toString, p -> p + " cannot be mapped to String"));
+	}
 
 	// ------------------------------------------------------------------------------------------------------------
 	// SUB-GUARD

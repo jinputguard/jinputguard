@@ -152,7 +152,7 @@ class ListProcessEachTest {
 
 		@Test
 		void mapping_all_success() {
-			var elementGuard = InputGuard.builder().forString().mapToInteger().build();
+			var elementGuard = InputGuard.builder().forString().parseToInt().build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)
 				.build();

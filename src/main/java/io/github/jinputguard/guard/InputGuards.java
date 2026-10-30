@@ -3,7 +3,6 @@ package io.github.jinputguard.guard;
 import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResult;
 import io.github.jinputguard.InputGuard;
-import io.github.jinputguard.failure.MappingFailure;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -94,30 +93,6 @@ public final class InputGuards {
 	 * Creates a guard that will map the input into another type, using the given mapping function.
 	 * <pre>
 	 * InputGuard<String, String> stringOnlyProc = InputGuards.noOpGuard();
-	 * InputGuard<String, Integer> stringToIntProc = InputGuards.mappingGuard(stringOnlyProc, Integer::parseInt);
-	 * Integer i = stringToIntProc.process("123").get(); // i = 123
-	 * </pre>
-	 * 
-	 * @param <IN>					The type of the input
-	 * @param <OUT>					The type of the initial outpout (=the type to map from)
-	 * @param <NEW_OUT>				The new type of the outpout, after mapping (=the type to map to)
-	 * 
-	 * @param initialGuard			The initial guard, from which the output will be mapped
-	 * @param mappingFunction		The mapping function
-	 * 
-	 * @return						A guard ready to be used or combined with other guard(s)
-	 * 
-	 */
-	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction
-	) {
-		return mappingGuard(initialGuard, mappingFunction, (path, ex) -> new MappingFailure(path, ex));
-	}
-
-	/**
-	 * Creates a guard that will map the input into another type, using the given mapping function.
-	 * <pre>
-	 * InputGuard<String, String> stringOnlyProc = InputGuards.noOpGuard();
 	 * InputGuard<String, Integer> stringToIntProc = InputGuards.mappingGuard(stringOnlyProc, Integer::parseInt, (path, ex) -> new MappingFailure(path, ex));
 	 * Integer i = stringToIntProc.process("123").get(); // i = 123
 	 * </pre>
@@ -126,24 +101,24 @@ public final class InputGuards {
 	 * @param <OUT>					The type of the initial outpout (=the type to map from)
 	 * @param <NEW_OUT>				The new type of the outpout, after mapping (=the type to map to)
 	 * 
-	 * @param initialGuard		The initial guard, from which the output will be mapped
-	 * @param mappingFunction		The mapping function
-	 * @param failureFunction		The failure function
+	 * @param initialGuard			 The initial guard, from which the output will be mapped
+	 * @param mappingFunction		 The mapping function
+	 * @param failureMessageFunction The failure message function 
 	 * 
 	 * @return						A guard ready to be used or combined with other guard(s)
 	 * 
 	 */
 	public static <IN, OUT, NEW_OUT> InputGuard<IN, NEW_OUT> mappingGuard(
-		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull BiFunction<String, Throwable, GuardFailure> failureFunction
+		@Nonnull InputGuard<IN, OUT> initialGuard, @Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction
 	) {
 
 		Objects.requireNonNull(mappingFunction, "Mapping function cannot be null");
-		Objects.requireNonNull(failureFunction, "Failure function cannot be null");
+		Objects.requireNonNull(failureMessageFunction, "Failure function cannot be null");
 		InputGuard<OUT, NEW_OUT> mappingGuard = (value, path) -> {
 			try {
 				return GuardResult.success(mappingFunction.apply(value));
-			} catch (Throwable ex) {
-				return GuardResult.failure(failureFunction.apply(path, ex));
+			} catch (Exception ex) {
+				return GuardResult.failure(GuardFailure.from(path, failureMessageFunction.apply(path), ex));
 			}
 		};
 		return initialGuard.andThen(mappingGuard);

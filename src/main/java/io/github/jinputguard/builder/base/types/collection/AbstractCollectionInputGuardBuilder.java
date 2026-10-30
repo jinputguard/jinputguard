@@ -15,6 +15,17 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 		super(previous);
 	}
 
+	/**
+	 * Filter the input collection using the given predicate, and process each element using the given guard.
+	 * The result is collected into a new collection using the given collector.
+	 * 
+	 * @param elementFilter		Predicate to filter elements of the input collection
+	 * @param elementGuard		Guard to process each element of the input collection
+	 * @param collector			Collector to collect the processed elements into a new collection
+	 * @param builderFunction	Function to create a new builder for the resulting collection
+	 * 
+	 * @return a new builder for the resulting collection
+	 */
 	public <B extends AbstractCollectionInputGuardBuilder<IN, C_OUT, OUT, B>, C_OUT extends Collection<OUT>, OUT> B filterAndProcessEach(
 		Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard, Collector<OUT, ?, C_OUT> collector, Function<InputGuard<IN, C_OUT>, B> builderFunction
 	) {

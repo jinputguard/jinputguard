@@ -30,8 +30,4 @@ public class LongInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<I
 		return new LongValidationBuilder<>(this);
 	}
 
-	public IntegerInputGuardBuilder<IN> mapToInt() {
-		return map(Number::intValue, IntegerInputGuardBuilder::new);
-	}
-
 }

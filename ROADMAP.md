@@ -4,6 +4,7 @@
 ### Object
 - Sanitization: `apply(Function)`
 - Validation:  `isNotNull`, `isInstanceOf(Class)`, `isEqualTo(T)`
+- Mapping: `mapToString()`
 
 ### String
 - Sanitization: 
@@ -14,7 +15,7 @@
   - Length: `isNotEmpty()`, `isMaxLength(int)`
   - Match: `matches(String)`, `matches(Pattern)`
 - Mapping
-  - To Number: `mapToInteger()`, `mapToLong()`
+  - To Number: `parseToInteger()`, `parseToLong()`, `parseToFloat()`, `parseToDouble()`
 
 ### Number: Integer, Long, Float, Double
 - Sanitization: 
@@ -22,6 +23,8 @@
 - Validation
   - Comparison: `isGreaterThan(T)`, `isGreaterOrEqualTo(T)`, `isLowerThan(T)`, `isLowerOrEqualTo(T)`, `isBetween(T, T)`
   - Relation to zero: `isPositive()`, `isPositiveOrNul()`, `isZero()`, `isNegative()`, `isNegativeOrNul()`
+- Mapping: 
+  - `mapToInt()`, `mapToLong()`, `mapToDouble()`, `mapToFloat()`
 
 ### Sequenced collections: List
 - Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
@@ -34,20 +37,12 @@
 - Revamp/cleanup `null` handling
 - Move to JSpecify annotations for nullability
 - More specialized methods:
-  - Object
-    - Mapping: `mapToString()`
   - String
     - Validation
       - Length: `isMinLength(int)`, `isLength(int)`, `isLengthBetween(int, int)`
     - Mapping: 
       - To Number: `mapToDouble()`, `mapToFloat()`
       - To UUID: `mapToUuid()`
-  - Number - Integer
-    - Mapping: 
-      - Integer to other Number: `mapToLong()`, `mapToDouble()`, `mapToFloat()`
-      - Long to other Number: `mapToInteger()`, `mapToDouble()`, `mapToFloat()`
-      - Double to other Number: `mapToInteger()`, `mapToLong()`, `mapToFloat()`
-      - Float to other Number: `mapToInteger()`, `mapToLong()`, `mapToDouble()`
   - Sequenced collections
     - Validation
       - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
