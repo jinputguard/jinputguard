@@ -34,6 +34,13 @@ public enum BaseValidationErrors {
 	STRING_MUST_MATCH_PATTERN ("%s must match pattern %s"),
 
 	// --------------------------------------------------------------------------
+	// UUID
+
+	UUID_MUST_NOT_BE_NIL ("%s must not be nil UUID"),
+
+	UUID_MUST_BE_EXACT_VERSION ("%s must be UUID v%s"),
+
+	// --------------------------------------------------------------------------
 	// NUMBER
 
 	NUMBER_MUST_BE_GREATER_THAN ("%s must be greater than %s"),

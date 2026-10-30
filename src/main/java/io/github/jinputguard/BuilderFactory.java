@@ -2,6 +2,7 @@ package io.github.jinputguard;
 
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.StringInputGuardBuilder;
+import io.github.jinputguard.builder.base.types.UUIDInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.collection.ListInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.collection.SetInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.DoubleInputGuardBuilder;
@@ -10,6 +11,7 @@ import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Factory for builders of {@link InputGuard}.
@@ -49,6 +51,15 @@ public final class BuilderFactory {
 	 */
 	public StringInputGuardBuilder<String> forString() {
 		return StringInputGuardBuilder.newInstance();
+	}
+
+	/**
+	 * Create a builder for UUIDs.
+	 * 
+	 * @return	a builder for UUIDs
+	 */
+	public UUIDInputGuardBuilder<UUID> forUUID() {
+		return UUIDInputGuardBuilder.newInstance();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------

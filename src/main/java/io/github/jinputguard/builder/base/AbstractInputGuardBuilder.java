@@ -19,8 +19,6 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 		this.guard = Objects.requireNonNull(previous);
 	}
 
-	protected abstract SELF newInstance(InputGuard<IN, OUT> guard);
-
 	@Override
 	public InputGuard<IN, OUT> build() {
 		return guard;
@@ -79,5 +77,7 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	public SELF apply(InputGuard<OUT, OUT> guard) {
 		return newInstance(this.build().andThen(guard));
 	}
+
+	protected abstract SELF newInstance(InputGuard<IN, OUT> guard);
 
 }

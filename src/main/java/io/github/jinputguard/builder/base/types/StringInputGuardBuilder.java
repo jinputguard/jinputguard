@@ -7,6 +7,7 @@ import io.github.jinputguard.builder.base.types.number.FloatInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import io.github.jinputguard.guard.InputGuards;
+import java.util.UUID;
 
 public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, String, StringInputGuardBuilder<IN>> {
 
@@ -65,6 +66,15 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 */
 	public DoubleInputGuardBuilder<IN> parseToDouble() {
 		return map(Double::parseDouble, path -> path + " cannot be parsed to double", DoubleInputGuardBuilder::new);
+	}
+
+	/**
+	 * Parse the input to a UUID value using {@link UUID#fromString(String)}.
+	 *
+	 * @return A new UUIDInputGuardBuilder instance.
+	 */
+	public UUIDInputGuardBuilder<IN> parseToUUID() {
+		return map(UUID::fromString, path -> path + " cannot be parsed to UUID", UUIDInputGuardBuilder::new);
 	}
 
 }

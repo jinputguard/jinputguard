@@ -16,6 +16,7 @@
   - Match: `matches(String)`, `matches(Pattern)`
 - Mapping
   - To Number: `parseToInteger()`, `parseToLong()`, `parseToFloat()`, `parseToDouble()`
+  - To UUID: `parseToUuid()`
 
 ### Number: Integer, Long, Float, Double
 - Sanitization: 
@@ -26,6 +27,11 @@
 - Mapping: 
   - `mapToInt()`, `mapToLong()`, `mapToDouble()`, `mapToFloat()`
 
+### UUID
+- Validation
+  - Version: `isV1()`, `isV2()`, `isV3()`, `isV4()`, `isV5()`, `isV6()`, `isV7()`, `isV8()`
+  - Nil: `isNotNilUUID()`
+  
 ### Sequenced collections: List
 - Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
@@ -40,7 +46,6 @@
   - String
     - Validation
     - Mapping: 
-      - To UUID: `parseToUuid()`
   - Sequenced collections
     - Validation
       - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
@@ -51,7 +56,6 @@
       - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
 - More specialized builders
   - [ ] Array
-  - [ ] UUID
   - [ ] Path
 
 ## Backlog / To analyze / To implement if requested
