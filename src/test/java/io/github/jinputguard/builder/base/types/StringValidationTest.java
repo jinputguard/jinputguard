@@ -62,19 +62,161 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class IsMaxLength {
+	class HasExactLength {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().isMaxLength(5).then().build();
+			GUARD = InputGuard.builder().forString().validateThat().hasLength(5).then().build();
+		}
+
+		@Test
+		void length_negative_throws_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> InputGuard.builder().forString().validateThat().hasLength(-1).then().build()
+			);
+		}
+
+		@Test
+		void when_longer_then_failure() {
+			var actual = GUARD.process("123456", "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal must be exactly 5 char(s) long");
+		}
+
+		@Test
+		void when_exactMaxLength_then_success() {
+			var actual = GUARD.process("12345", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("12345");
+		}
+
+		@Test
+		void when_shorter_then_failure() {
+			var actual = GUARD.process("1234", "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal must be exactly 5 char(s) long");
+		}
+
+	}
+
+	@Nested
+	class HasLengthBetween {
+
+		private static InputGuard<String, String> GUARD;
+
+		@BeforeAll
+		static void setup() {
+			GUARD = InputGuard.builder().forString().validateThat().hasLengthBetween(4, 6).then().build();
+		}
+
+		@Test
+		void minLength_negative_throws_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(-1, 6).then().build()
+			);
 		}
 
 		@Test
 		void maxLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().isMaxLength(-1).then().build()
+				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(4, -1).then().build()
+			);
+		}
+
+		@Test
+		void minLength_greater_than_maxLength_throws_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(6, 4).then().build()
+			);
+		}
+
+		@Test
+		void when_longer_then_failure() {
+			var actual = GUARD.process("1234567", "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal must be between 4 and 6 char(s) long");
+		}
+
+		@Test
+		void when_exactMaxLength_then_success() {
+			var actual = GUARD.process("123456", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("123456");
+		}
+
+		@Test
+		void when_inRange_then_success() {
+			var actual = GUARD.process("12345", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("12345");
+		}
+
+		@Test
+		void when_exactMinLength_then_success() {
+			var actual = GUARD.process("1234", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("1234");
+		}
+
+		@Test
+		void when_shorter_then_failure() {
+			var actual = GUARD.process("123", "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal must be between 4 and 6 char(s) long");
+		}
+
+	}
+
+	@Nested
+	class HasMinLength {
+
+		private static InputGuard<String, String> GUARD;
+
+		@BeforeAll
+		static void setup() {
+			GUARD = InputGuard.builder().forString().validateThat().hasMinLength(5).then().build();
+		}
+
+		@Test
+		void minLength_negative_throws_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> InputGuard.builder().forString().validateThat().hasMinLength(-1).then().build()
+			);
+		}
+
+		@Test
+		void when_longer_then_success() {
+			var actual = GUARD.process("123456", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("123456");
+		}
+
+		@Test
+		void when_exactMaxLength_then_success() {
+			var actual = GUARD.process("12345", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("12345");
+		}
+
+		@Test
+		void when_shorter_then_failure() {
+			var actual = GUARD.process("1234", "myVal");
+			GuardResultAssert.assertThat(actual).isFailure()
+				.hasMessage("myVal is too short: 5 chars min");
+		}
+
+	}
+
+	@Nested
+	class HasMaxLength {
+
+		private static InputGuard<String, String> GUARD;
+
+		@BeforeAll
+		static void setup() {
+			GUARD = InputGuard.builder().forString().validateThat().hasMaxLength(5).then().build();
+		}
+
+		@Test
+		void maxLength_negative_throws_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> InputGuard.builder().forString().validateThat().hasMaxLength(-1).then().build()
 			);
 		}
 

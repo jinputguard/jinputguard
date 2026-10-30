@@ -138,7 +138,7 @@ class SetProcessEachTest {
 
 		@Test
 		void validation_fail_atPath() {
-			var elementGuardGuard = InputGuard.builder().forString().validateThat().isMaxLength(2).then().build();
+			var elementGuardGuard = InputGuard.builder().forString().validateThat().hasMaxLength(2).then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuardGuard)
 				.build();

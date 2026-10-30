@@ -12,7 +12,7 @@
   - Modification: `prefix(String)`, `suffix(String)`
   - Replacement: `replace(char, char)`, `replace(CharSequence, CharSequence)`, `replaceAll(String, String)`, `replaceAll(Pattern, String)`, `replaceFirst(String, String)`, `replaceFirst(Pattern, String)`
 - Validation
-  - Length: `isNotEmpty()`, `isMaxLength(int)`
+  - Length: `isNotEmpty()`, `hasMaxLength(int)`, `hasMinLength(int)`, `hasLength(int)`, `hasLengthBetween(int, int)`
   - Match: `matches(String)`, `matches(Pattern)`
 - Mapping
   - To Number: `parseToInteger()`, `parseToLong()`, `parseToFloat()`, `parseToDouble()`
@@ -39,10 +39,8 @@
 - More specialized methods:
   - String
     - Validation
-      - Length: `isMinLength(int)`, `isLength(int)`, `isLengthBetween(int, int)`
     - Mapping: 
-      - To Number: `mapToDouble()`, `mapToFloat()`
-      - To UUID: `mapToUuid()`
+      - To UUID: `parseToUuid()`
   - Sequenced collections
     - Validation
       - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
