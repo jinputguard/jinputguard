@@ -53,6 +53,19 @@ public enum BaseValidationErrors {
 
 	NUMBER_MUST_BE_BETWEEN ("%s must be between %s and %s"),
 
+	// --------------------------------------------------------------------------
+	// COLLECTION
+
+	COLLECTION_MUST_NOT_BE_EMPTY ("%s must not be empty"),
+
+	COLLECTION_SIZE_EXACT ("%s must have exactly %s element(s)"),
+
+	COLLECTION_SIZE_MIN ("%s must have at least %s element(s)"),
+
+	COLLECTION_SIZE_MAX ("%s must have at most %s element(s)"),
+
+	COLLECTION_SIZE_BETWEEN ("%s must have between %s and %s element(s)"),
+
 	;
 
 	private final String messageTemplate;

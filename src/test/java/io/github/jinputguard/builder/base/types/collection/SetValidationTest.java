@@ -1,38 +1,90 @@
 package io.github.jinputguard.builder.base.types.collection;
 
-import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import java.util.Set;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class SetValidationTest {
 
-	@Test
-	void nominal_success() {
-		var setGuard = InputGuard.builder().forSet(String.class)
-			.validate((value, path) -> value.isEmpty() ? GuardFailure.from(path, "value is wrong") : null)
-			.build();
+	@Nested
+	class IsNotEmpty {
 
-		var actualResult = setGuard.process(Set.of("a"), "myVal");
+		@Test
+		void nominal_success() {
+			var guard = InputGuard.builder().forSet(String.class)
+				.validateThat().isNotEmpty()
+				.then().build();
 
-		GuardResultAssert.assertThat(actualResult)
-			.isSuccess(Set.of("a"));
+			var actualResult = guard.process(Set.of("a"), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isSuccess(Set.of("a"));
+		}
+
+		@Test
+		void nominal_failure() {
+			var guard = InputGuard.builder().forSet(String.class)
+				.validateThat().isNotEmpty()
+				.then().build();
+
+			var actualResult = guard.process(Set.of(), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isFailure()
+				.hasPathEqualTo("myVal")
+				.hasMessage("myVal must not be empty")
+				.hasNoCause();
+		}
+
 	}
 
-	@Test
-	void nominal_failure() {
-		var setGuard = InputGuard.builder().forSet(String.class)
-			.validate((value, path) -> value.isEmpty() ? GuardFailure.from(path, "value is wrong") : null)
-			.build();
+	@Nested
+	class HasSize {
 
-		var actualResult = setGuard.process(Set.of(), "myVal");
+		@Test
+		void nominal_success() {
+			var guard = InputGuard.builder().forSet(String.class)
+				.validateThat().hasSize(2)
+				.then().build();
 
-		GuardResultAssert.assertThat(actualResult)
-			.isFailure()
-			.hasPathEqualTo("myVal")
-			.hasMessage("value is wrong")
-			.hasNoCause();
+			var actualResult = guard.process(Set.of("a", "b"), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isSuccess(Set.of("a", "b"));
+		}
+
+		@Test
+		void when_too_short_then_failure() {
+			var guard = InputGuard.builder().forSet(String.class)
+				.validateThat().hasSize(2)
+				.then().build();
+
+			var actualResult = guard.process(Set.of("a"), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isFailure()
+				.hasPathEqualTo("myVal")
+				.hasMessage("myVal must have exactly 2 element(s)")
+				.hasNoCause();
+		}
+
+		@Test
+		void when_too_long_then_failure() {
+			var guard = InputGuard.builder().forSet(String.class)
+				.validateThat().hasSize(2)
+				.then().build();
+
+			var actualResult = guard.process(Set.of("a", "b", "c"), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isFailure()
+				.hasPathEqualTo("myVal")
+				.hasMessage("myVal must have exactly 2 element(s)")
+				.hasNoCause();
+		}
+
 	}
 
 }

@@ -22,6 +22,12 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 		return new SetInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public SetValidationBuilder<IN, T> validateThat() {
+		return new SetValidationBuilder<>(this);
+	}
+
 	/**
 	 * Filter the input set using the given predicate, and process each element using the given guard.
 	 * The result is collected into a new set.

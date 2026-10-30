@@ -15,6 +15,8 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 		super(previous);
 	}
 
+	public abstract <V extends AbstractCollectionValidationBuilder<IN, C, T, SELF, V>> V validateThat();
+
 	/**
 	 * Filter the input collection using the given predicate, and process each element using the given guard.
 	 * The result is collected into a new collection using the given collector.

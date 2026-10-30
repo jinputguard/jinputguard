@@ -22,6 +22,12 @@ public class ListInputGuardBuilder<IN, T> extends AbstractSequencedCollectionInp
 		return new ListInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public ListValidationBuilder<IN, T> validateThat() {
+		return new ListValidationBuilder<>(this);
+	}
+
 	/**
 	 * Filter the input list using the given predicate, and process each element using the given guard.
 	 * The result is collected into a new list.

@@ -33,9 +33,13 @@
   - Nil: `isNotNilUUID()`
   
 ### Sequenced collections: List
+- Validation
+  - Length: `isNotEmpty()`, `hasSize(int)`
 - Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
 ### Collecions: Set
+- Validation
+  - Length: `isNotEmpty()`, `hasSize(int)`
 - Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
 
@@ -48,11 +52,11 @@
     - Mapping: 
   - Sequenced collections
     - Validation
-      - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
+      - Length: `hasMinSize(int)`, `hasMaxSize(int)`,  `hasSizeBetween(int, int)`
       - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
   - Collections
     - Validation
-      - Length: `isNotEmpty()`, `isMinSize(int)`, `isMaxSize(int)`, `isSize(int)`, `isSizeBetween(int, int)`
+      - Length: `hasMinSize(int)`, `hasMaxSize(int)`, `hasSizeBetween(int, int)`
       - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
 - More specialized builders
   - [ ] Array
