@@ -5,10 +5,8 @@ import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import java.util.List;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@Nested
 class ListValidationTest {
 
 	@Test
