@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-public class ListInputGuardBuilder<IN, T> extends AbstractSequencedCollectionInputGuardBuilder<IN, List<T>, T, ListInputGuardBuilder<IN, T>> {
+public class ListInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBuilder<IN, List<T>, T, ListInputGuardBuilder<IN, T>> {
 
 	public ListInputGuardBuilder(InputGuard<IN, List<T>> previous) {
 		super(previous);
