@@ -132,22 +132,10 @@ class StringValidationTest {
 		}
 
 		@Test
-		void when_longer_then_failure() {
-			var actual = GUARD.process("1234567", "myVal");
+		void when_shorter_then_failure() {
+			var actual = GUARD.process("123", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be between 4 and 6 char(s) long");
-		}
-
-		@Test
-		void when_exactMaxLength_then_success() {
-			var actual = GUARD.process("123456", "myVal");
-			GuardResultAssert.assertThat(actual).isSuccess("123456");
-		}
-
-		@Test
-		void when_inRange_then_success() {
-			var actual = GUARD.process("12345", "myVal");
-			GuardResultAssert.assertThat(actual).isSuccess("12345");
 		}
 
 		@Test
@@ -157,8 +145,20 @@ class StringValidationTest {
 		}
 
 		@Test
-		void when_shorter_then_failure() {
-			var actual = GUARD.process("123", "myVal");
+		void when_inRange_then_success() {
+			var actual = GUARD.process("12345", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("12345");
+		}
+
+		@Test
+		void when_exactMaxLength_then_success() {
+			var actual = GUARD.process("123456", "myVal");
+			GuardResultAssert.assertThat(actual).isSuccess("123456");
+		}
+
+		@Test
+		void when_longer_then_failure() {
+			var actual = GUARD.process("1234567", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be between 4 and 6 char(s) long");
 		}

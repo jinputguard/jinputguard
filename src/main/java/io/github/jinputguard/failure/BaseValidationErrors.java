@@ -66,6 +66,8 @@ public enum BaseValidationErrors {
 
 	COLLECTION_SIZE_BETWEEN ("%s must have between %s and %s element(s)"),
 
+	COLLECTION_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS ("%s must not contain duplicate elements"),
+
 	;
 
 	private final String messageTemplate;

@@ -31,33 +31,18 @@
 - Validation
   - Version: `isV1()`, `isV2()`, `isV3()`, `isV4()`, `isV5()`, `isV6()`, `isV7()`, `isV8()`
   - Nil: `isNotNilUUID()`
-  
-### Sequenced collections: List
-- Validation
-  - Length: `isNotEmpty()`, `hasSize(int)`
-- Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
-### Collecions: Set
+### Collections
+- Types: List, Set
 - Validation
-  - Length: `isNotEmpty()`, `hasSize(int)`
+  - Length: `isNotEmpty()`, `hasSize(int)`, `hasMinSize(int)`, `hasMaxSize(int)`,  `hasSizeBetween(int, int)`
+  - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(BiPredicate<T, ?>)`
 - Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
 
 
 ## To do
 - Revamp/cleanup `null` handling
 - Move to JSpecify annotations for nullability
-- More specialized methods:
-  - String
-    - Validation
-    - Mapping: 
-  - Sequenced collections
-    - Validation
-      - Length: `hasMinSize(int)`, `hasMaxSize(int)`,  `hasSizeBetween(int, int)`
-      - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
-  - Collections
-    - Validation
-      - Length: `hasMinSize(int)`, `hasMaxSize(int)`, `hasSizeBetween(int, int)`
-      - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(Function<T, ?>)`
 - More specialized builders
   - [ ] Array
   - [ ] Path
