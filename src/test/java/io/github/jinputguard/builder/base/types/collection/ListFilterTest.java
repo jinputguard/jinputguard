@@ -15,7 +15,7 @@ class ListFilterTest {
 	void nominal() {
 		Predicate<String> filter = value -> !value.isEmpty();
 		var listGuard = InputGuard.builder().forList(String.class)
-			.filter(filter)
+			.sanitize().filter(filter)
 			.build();
 
 		var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -31,7 +31,7 @@ class ListFilterTest {
 	void nominal_withCollector() {
 		Predicate<String> filter = value -> !value.isEmpty();
 		var listGuard = InputGuard.builder().forList(String.class)
-			.filter(filter, Collectors.toCollection(() -> new LinkedList<>()))
+			.sanitize().filter(filter, Collectors.toCollection(() -> new LinkedList<>()))
 			.build();
 
 		var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");

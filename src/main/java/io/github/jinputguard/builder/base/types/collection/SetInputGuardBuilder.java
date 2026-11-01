@@ -3,9 +3,6 @@ package io.github.jinputguard.builder.base.types.collection;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.InputGuards;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBuilder<IN, Set<T>, T, SetInputGuardBuilder<IN, T>> {
 
@@ -28,86 +25,10 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 		return new SetValidationBuilder<>(this);
 	}
 
-	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
-	public <OUT> SetInputGuardBuilder<IN, OUT> filter(Predicate<T> elementFilter) {
-		return filterAndProcessEach(elementFilter, (InputGuard<T, OUT>) InputGuards.noOpGuard(), Collectors.toUnmodifiableSet());
-	}
-
-	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
-	@SuppressWarnings("unchecked")
-	public <OUT> SetInputGuardBuilder<IN, OUT> filter(Predicate<T> elementFilter, Collector<OUT, ?, Set<OUT>> collector) {
-		return filterAndProcessEach(elementFilter, (InputGuard<T, OUT>) InputGuards.noOpGuard(), collector);
-	}
-
-	/**
-	 * Process each element of the input set using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementGuard		Guard to process each element of the input set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
-	public <OUT> SetInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard) {
-		return filterAndProcessEach(value -> true, elementGuard, Collectors.toUnmodifiableSet());
-	}
-
-	/**
-	 * Process each element of the input set using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementGuard		Guard to process each element of the input set
-	 * @param collector			Collector to collect the processed elements into a new set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
-	public <OUT> SetInputGuardBuilder<IN, OUT> processEach(InputGuard<T, OUT> elementGuard, Collector<OUT, ?, Set<OUT>> collector) {
-		return filterAndProcessEach(value -> true, elementGuard, collector, SetInputGuardBuilder::new);
-	}
-
-	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
-	public <OUT> SetInputGuardBuilder<IN, OUT> filterAndProcessEach(Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard) {
-		return filterAndProcessEach(elementFilter, elementGuard, Collectors.toUnmodifiableSet());
-	}
-
-	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
-	 * The result is collected into a new set.
-	 * 
-	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
-	 * @param collector			Collector to collect the processed elements into a new set
-	 * 
-	 * @return a new builder for the resulting set
-	 */
-	public <OUT> SetInputGuardBuilder<IN, OUT> filterAndProcessEach(
-		Predicate<T> elementFilter, InputGuard<T, OUT> elementGuard, Collector<OUT, ?, Set<OUT>> collector
-	) {
-		return filterAndProcessEach(elementFilter, elementGuard, collector, SetInputGuardBuilder::new);
+	public SetSanitizationBuilder<IN, T> sanitize() {
+		return new SetSanitizationBuilder<>(this);
 	}
 
 }

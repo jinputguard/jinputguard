@@ -20,7 +20,7 @@ class SetProcessEachTest {
 		void nominal() {
 			var elementGuardGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard)
+				.sanitize().processEach(elementGuardGuard)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -37,7 +37,7 @@ class SetProcessEachTest {
 				.strip().then()
 				.build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var listWithNull = new HashSet<>(List.of("", " ", " a", "b ", " c "));
@@ -56,7 +56,7 @@ class SetProcessEachTest {
 			Predicate<String> filter = value -> !value.isEmpty();
 			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var listGuard = InputGuard.builder().forSet(String.class)
-				.filterAndProcessEach(filter, elementGuard)
+				.sanitize().filterAndProcessEach(filter, elementGuard)
 				.build();
 
 			var actualResult = listGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -72,7 +72,7 @@ class SetProcessEachTest {
 		void nominal_withCollector() {
 			var elementGuardGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
+				.sanitize().processEach(elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
 				.build();
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -89,7 +89,7 @@ class SetProcessEachTest {
 			Predicate<String> filter = value -> !value.isEmpty();
 			var elementGuardGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.filterAndProcessEach(filter, elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
+				.sanitize().filterAndProcessEach(filter, elementGuardGuard, Collectors.toCollection(() -> new HashSet<>()))
 				.build();
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -110,7 +110,7 @@ class SetProcessEachTest {
 		void validation_all_success() {
 			var elementGuardGuard = InputGuard.builder().forString().validateThat().isNotNull().then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard)
+				.sanitize().processEach(elementGuardGuard)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -123,7 +123,7 @@ class SetProcessEachTest {
 		void validation_fail() {
 			var elementGuardGuard = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard)
+				.sanitize().processEach(elementGuardGuard)
 				.build();
 
 			var value = Set.of("", "abc", "123");
@@ -140,7 +140,7 @@ class SetProcessEachTest {
 		void validation_fail_atPath() {
 			var elementGuardGuard = InputGuard.builder().forString().validateThat().hasMaxLength(2).then().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard)
+				.sanitize().processEach(elementGuardGuard)
 				.build();
 
 			var value = Set.of("", "abc", "0", "123");
@@ -164,7 +164,7 @@ class SetProcessEachTest {
 		void mapping_all_success() {
 			var elementGuardGuard = InputGuard.builder().forString().parseToInt().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
-				.processEach(elementGuardGuard)
+				.sanitize().processEach(elementGuardGuard)
 				.build();
 
 			var actualResult = setGuard.process(Set.of("0", "1", "2"), "myVal");

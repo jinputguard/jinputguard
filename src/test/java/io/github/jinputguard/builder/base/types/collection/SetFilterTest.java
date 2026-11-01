@@ -15,7 +15,7 @@ class SetFilterTest {
 	void nominal() {
 		Predicate<String> filter = value -> !value.isEmpty();
 		var setGuard = InputGuard.builder().forSet(String.class)
-			.filter(filter)
+			.sanitize().filter(filter)
 			.build();
 
 		var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
@@ -31,7 +31,7 @@ class SetFilterTest {
 	void nominal_withCollector() {
 		Predicate<String> filter = value -> !value.isEmpty();
 		var setGuard = InputGuard.builder().forSet(String.class)
-			.filter(filter, Collectors.toCollection(() -> new HashSet<>()))
+			.sanitize().filter(filter, Collectors.toCollection(() -> new HashSet<>()))
 			.build();
 
 		var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");

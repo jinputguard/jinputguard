@@ -20,7 +20,7 @@ class ListProcessEachTest {
 		void nominal() {
 			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -40,7 +40,7 @@ class ListProcessEachTest {
 				.strip().then()
 				.build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var listWithNull = new ArrayList<>(List.of("", " ", " a", "b ", " c "));
@@ -59,7 +59,7 @@ class ListProcessEachTest {
 			Predicate<String> filter = value -> !value.isEmpty();
 			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.filterAndProcessEach(filter, elementGuard)
+				.sanitize().filterAndProcessEach(filter, elementGuard)
 				.build();
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -75,7 +75,7 @@ class ListProcessEachTest {
 		void nominal_withCollector() {
 			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
+				.sanitize().processEach(elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
 				.build();
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -92,7 +92,7 @@ class ListProcessEachTest {
 			Predicate<String> filter = value -> !value.isEmpty();
 			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.filterAndProcessEach(filter, elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
+				.sanitize().filterAndProcessEach(filter, elementGuard, Collectors.toCollection(() -> new LinkedList<>()))
 				.build();
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -113,7 +113,7 @@ class ListProcessEachTest {
 		void validation_all_success() {
 			var elementGuard = InputGuard.builder().forString().validateThat().isNotNull().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
@@ -129,7 +129,7 @@ class ListProcessEachTest {
 		void subGuardFailure() {
 			var elementGuard = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var value = List.of("", "abc", "", "123", "");
@@ -153,7 +153,7 @@ class ListProcessEachTest {
 		void mapping_all_success() {
 			var elementGuard = InputGuard.builder().forString().parseToInt().build();
 			var listGuard = InputGuard.builder().forList(String.class)
-				.processEach(elementGuard)
+				.sanitize().processEach(elementGuard)
 				.build();
 
 			var actualResult = listGuard.process(List.of("0", "1", "2"), "myVal");

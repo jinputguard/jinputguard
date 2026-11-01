@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.BiPredicate;
 
-public class AbstractCollectionValidationBuilder<IN, C extends Collection<T>, T, B extends AbstractCollectionInputGuardBuilder<IN, C, T, B>, SELF extends AbstractCollectionValidationBuilder<IN, C, T, B, SELF>>
+public abstract class AbstractCollectionValidationBuilder<IN, C extends Collection<T>, T, B extends AbstractCollectionInputGuardBuilder<IN, C, T, B>, SELF extends AbstractCollectionValidationBuilder<IN, C, T, B, SELF>>
 	extends AbstractValidationBuilder<IN, C, B, SELF> {
 
 	protected AbstractCollectionValidationBuilder(B builder) {
