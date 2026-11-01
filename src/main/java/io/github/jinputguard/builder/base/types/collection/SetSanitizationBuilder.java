@@ -14,11 +14,10 @@ public class SetSanitizationBuilder<IN, T> extends AbstractCollectionSanitizatio
 	}
 
 	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
+	 * Filter the input set using the given predicate.
 	 * The result is collected into a new set.
 	 * 
 	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
 	 * 
 	 * @return a new builder for the resulting set
 	 */
@@ -28,11 +27,11 @@ public class SetSanitizationBuilder<IN, T> extends AbstractCollectionSanitizatio
 	}
 
 	/**
-	 * Filter the input set using the given predicate, and process each element using the given guard.
-	 * The result is collected into a new set.
+	 * Filter the input set using the given predicate.
+	 * The result is collected using the provided collector.
 	 * 
 	 * @param elementFilter		Predicate to filter elements of the input set
-	 * @param elementGuard		Guard to process each element of the input set
+	 * @param collector			Collector to collect the processed elements into a new set
 	 * 
 	 * @return a new builder for the resulting set
 	 */
@@ -55,7 +54,7 @@ public class SetSanitizationBuilder<IN, T> extends AbstractCollectionSanitizatio
 
 	/**
 	 * Process each element of the input set using the given guard.
-	 * The result is collected into a new set.
+	 * The result is collected using the provided collector.
 	 * 
 	 * @param elementGuard		Guard to process each element of the input set
 	 * @param collector			Collector to collect the processed elements into a new set

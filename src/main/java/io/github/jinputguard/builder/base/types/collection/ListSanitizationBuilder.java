@@ -14,11 +14,10 @@ public class ListSanitizationBuilder<IN, T> extends AbstractCollectionSanitizati
 	}
 
 	/**
-	 * Filter the input list using the given predicate, and process each element using the given guard.
+	 * Filter the input list using the given predicate.
 	 * The result is collected into a new list.
 	 * 
 	 * @param elementFilter		Predicate to filter elements of the input list
-	 * @param elementGuard		Guard to process each element of the input list
 	 * 
 	 * @return a new builder for the resulting list
 	 */
@@ -28,10 +27,11 @@ public class ListSanitizationBuilder<IN, T> extends AbstractCollectionSanitizati
 	}
 
 	/**
-	 * Process each element of the input list using the given guard.
-	 * The result is collected into a new list.
+	 * Filter the input list using the given predicate.
+	 * The result is collected using the provided collector.
 	 * 
 	 * @param elementGuard		Guard to process each element of the input list
+	 * @param collector			Collector to collect the processed elements into a new list
 	 * 
 	 * @return a new builder for the resulting list
 	 */
@@ -54,7 +54,7 @@ public class ListSanitizationBuilder<IN, T> extends AbstractCollectionSanitizati
 
 	/**
 	 * Process each element of the input list using the given guard.
-	 * The result is collected into a new list.
+	 * The result is collected using the provided collector.
 	 * 
 	 * @param elementGuard		Guard to process each element of the input list
 	 * @param collector			Collector to collect the processed elements into a new list
