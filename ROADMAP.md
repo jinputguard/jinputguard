@@ -37,7 +37,9 @@
 - Validation
   - Length: `isNotEmpty()`, `hasSize(int)`, `hasMinSize(int)`, `hasMaxSize(int)`,  `hasSizeBetween(int, int)`
   - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(BiPredicate<T, ?>)`
-- Processing: `processEach(InputGuard<T, OUT>)`, `processEach(InputGuard<T, OUT>, Collector<OUT, ?, List<OUT>>)`
+- Sanitization: 
+  - Filtering: `filter(Predicate<T>)`
+- Processing: `processEach(InputGuard<T, T>)`
 
 
 ## To do
