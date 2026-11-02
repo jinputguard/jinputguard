@@ -1,0 +1,42 @@
+package io.github.jinputguard.builder.base.types.collection;
+
+import io.github.jinputguard.GuardResultAssert;
+import java.util.Collection;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
+abstract class AbstractCollectionSanitizationTest<C extends Collection<String>, B extends AbstractCollectionInputGuardBuilder<C, C, String, B>>
+	extends AbstractCollectionTest<C, B> {
+
+	@Nested
+	@TestInstance(Lifecycle.PER_CLASS)
+	class Filter {
+
+		@Test
+		void when_null_filter_then_throw_IllegalArgumentException() {
+			Assertions.assertThatIllegalArgumentException().isThrownBy(
+				() -> initiateGuard().sanitize().filter(null).then().build()
+			);
+		}
+
+		@Test
+		void nominal() {
+			var listGuard = initiateGuard()
+				.sanitize().filter(value -> !value.isEmpty()).then()
+				.build();
+
+			var actualResult = listGuard.process(buildCollection("", " ", " a", "b ", " c "), "myVal");
+
+			GuardResultAssert.assertThat(actualResult)
+				.isSuccess(buildCollection(" ", " a", "b ", " c "));
+
+			Assertions.assertThat(actualResult.get())
+				.isUnmodifiable();
+		}
+
+	}
+
+}

@@ -247,7 +247,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 
 		@Test
 		void when_duplicate_elements_collection_then_failure() {
-			Assumptions.assumeTrue(allowDuplicates(), "Disabled because underlying collection does not allow duplicate elements by definition (e.g. Set)");
+			Assumptions.assumeTrue(areDuplicatesAllowed(), "Disabled because underlying collection does not allow duplicate elements by definition (e.g. Set)");
 
 			var guard = initiateGuard().validateThat().hasNoDuplicateElements().then().build();
 			var coll = buildCollection("a", "b", "c", "a");

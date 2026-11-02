@@ -4,7 +4,9 @@ import io.github.jinputguard.builder.base.AbstractValidationBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 public abstract class AbstractCollectionValidationBuilder<IN, C extends Collection<T>, T, B extends AbstractCollectionInputGuardBuilder<IN, C, T, B>, SELF extends AbstractCollectionValidationBuilder<IN, C, T, B, SELF>>
 	extends AbstractValidationBuilder<IN, C, B, SELF> {
@@ -102,17 +104,24 @@ public abstract class AbstractCollectionValidationBuilder<IN, C extends Collecti
 	/**
 	 * Validates that the collection does not contain duplicate elements, using their {@link Object#equals(Object)} method.
 	 * 
-	 * @see Object#equals(Object)
+	 * @see Collections#frequency(Collection, Object)
 	 */
 	public SELF hasNoDuplicateElements() {
 
 		builder = notNullValueBuilder().validate(
-			(value, path) -> value.stream().anyMatch(i -> Collections.frequency(value, i) > 1)
-				? BaseValidationErrors.COLLECTION_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS.toFailure(path)
-				: null
+			(value, path) -> {
+				if (value instanceof Set<?>) {
+					return null; // Sets cannot contain duplicates
+				}
+				return value.stream()
+					.collect(Collectors.groupingBy(e -> e, Collectors.counting()))
+					.entrySet().stream()
+					.anyMatch(entry -> entry.getValue() > 1)
+						? BaseValidationErrors.COLLECTION_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS.toFailure(path)
+						: null;
+			}
 		);
 		return cast();
-//		return hasNoDuplicateElements(Object::equals);
 	}
 
 	/**

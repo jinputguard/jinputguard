@@ -3,6 +3,8 @@ package io.github.jinputguard.builder.base.types.collection;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.InputGuards;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ListInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBuilder<IN, List<T>, T, ListInputGuardBuilder<IN, T>> {
 
@@ -20,15 +22,20 @@ public class ListInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBu
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public ListValidationBuilder<IN, T> validateThat() {
-		return new ListValidationBuilder<>(this);
+	protected Collector<T, ?, List<T>> unmodifiableCollector() {
+		return Collectors.toUnmodifiableList();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public ListSanitizationBuilder<IN, T> sanitize() {
 		return new ListSanitizationBuilder<>(this);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public ListValidationBuilder<IN, T> validateThat() {
+		return new ListValidationBuilder<>(this);
 	}
 
 }

@@ -3,6 +3,8 @@ package io.github.jinputguard.builder.base.types.collection;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.guard.InputGuards;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBuilder<IN, Set<T>, T, SetInputGuardBuilder<IN, T>> {
 
@@ -20,15 +22,20 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public SetValidationBuilder<IN, T> validateThat() {
-		return new SetValidationBuilder<>(this);
+	protected Collector<T, ?, Set<T>> unmodifiableCollector() {
+		return Collectors.toUnmodifiableSet();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public SetSanitizationBuilder<IN, T> sanitize() {
 		return new SetSanitizationBuilder<>(this);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public SetValidationBuilder<IN, T> validateThat() {
+		return new SetValidationBuilder<>(this);
 	}
 
 }

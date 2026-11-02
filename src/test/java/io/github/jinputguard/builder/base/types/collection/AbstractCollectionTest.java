@@ -4,10 +4,18 @@ import java.util.Collection;
 
 abstract class AbstractCollectionTest<C extends Collection<String>, B extends AbstractCollectionInputGuardBuilder<C, C, String, B>> {
 
-	abstract B initiateGuard();
+	abstract CollectionProvider<C, B> getCollectionProvider();
 
-	abstract C buildCollection(String... elements);
+	final B initiateGuard() {
+		return getCollectionProvider().initiateGuard();
+	}
 
-	abstract boolean allowDuplicates();
+	final C buildCollection(String... elements) {
+		return getCollectionProvider().buildCollection(elements);
+	}
+
+	final boolean areDuplicatesAllowed() {
+		return getCollectionProvider().areDuplicatesAllowed();
+	}
 
 }
