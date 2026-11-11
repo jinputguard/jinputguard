@@ -11,13 +11,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 class UUIDValidationTest {
 
 	@Nested
-	class IsNotNilUUID {
+	class RequireNotNilUUID {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isNotNilUUID().build();
+			GUARD = InputGuard.builder().forUUID().requireNotNilUUID().build();
 		}
 
 		@ParameterizedTest
@@ -53,13 +53,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV1 {
+	class RequireV1 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV1().build();
+			GUARD = InputGuard.builder().forUUID().requireV1().build();
 		}
 
 		@ParameterizedTest
@@ -95,13 +95,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV2 {
+	class RequireV2 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV2().build();
+			GUARD = InputGuard.builder().forUUID().requireV2().build();
 		}
 
 		@ParameterizedTest
@@ -137,13 +137,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV3 {
+	class RequireV3 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV3().build();
+			GUARD = InputGuard.builder().forUUID().requireV3().build();
 		}
 
 		@ParameterizedTest
@@ -179,13 +179,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV4 {
+	class RequireV4 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV4().build();
+			GUARD = InputGuard.builder().forUUID().requireV4().build();
 		}
 
 		@ParameterizedTest
@@ -221,13 +221,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV5 {
+	class RequireV5 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV5().build();
+			GUARD = InputGuard.builder().forUUID().requireV5().build();
 		}
 
 		@ParameterizedTest
@@ -263,13 +263,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV6 {
+	class RequireV6 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV6().build();
+			GUARD = InputGuard.builder().forUUID().requireV6().build();
 		}
 
 		@ParameterizedTest
@@ -305,13 +305,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV7 {
+	class RequireV7 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV7().build();
+			GUARD = InputGuard.builder().forUUID().requireV7().build();
 		}
 
 		@ParameterizedTest
@@ -347,13 +347,13 @@ class UUIDValidationTest {
 	}
 
 	@Nested
-	class IsV8 {
+	class RequireV8 {
 
 		private static InputGuard<UUID, UUID> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().isV8().build();
+			GUARD = InputGuard.builder().forUUID().requireV8().build();
 		}
 
 		@ParameterizedTest

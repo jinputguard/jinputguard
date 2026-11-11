@@ -174,7 +174,7 @@ class ObjectValidationTest {
 			}
 
 			@Nested
-			class IsEqualTo {
+			class RequireEqualTo {
 
 				private static InputGuard<Object, Object> GUARD_FOR_STRING;
 				private static Object expected = "<expected>";

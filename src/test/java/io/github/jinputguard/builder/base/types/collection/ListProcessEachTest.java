@@ -73,7 +73,7 @@ class ListProcessEachTest {
 
 		@Test
 		void subGuardFailure() {
-			var elementGuard = InputGuard.builder().forString().isNotEmpty().build();
+			var elementGuard = InputGuard.builder().forString().requireNotEmpty().build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)
 				.build();

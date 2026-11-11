@@ -24,7 +24,7 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	// --------------------------------------------------------------------------------------------------------------------
 	// VALIDATION
 
-	private UUIDInputGuardBuilder<IN> isVersion(int version) {
+	private UUIDInputGuardBuilder<IN> requireVersion(int version) {
 		return requireNotNull().validate(
 			(value, path) -> value.version() == version
 				? null
@@ -39,7 +39,7 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @see <a href="https://www.rfc-editor.org/info/rfc4122/#section-4.1.7">RFC 4122, Section 4.1.7</a>
 	 */
-	public UUIDInputGuardBuilder<IN> isNotNilUUID() {
+	public UUIDInputGuardBuilder<IN> requireNotNilUUID() {
 		return requireNotNull().validate(
 			(value, path) -> value.toString().equals("00000000-0000-0000-0000-000000000000")
 				? BaseValidationErrors.UUID_MUST_NOT_BE_NIL.toFailure(path)
@@ -52,8 +52,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV1() {
-		return isVersion(1);
+	public UUIDInputGuardBuilder<IN> requireV1() {
+		return requireVersion(1);
 	}
 
 	/**
@@ -61,8 +61,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV2() {
-		return isVersion(2);
+	public UUIDInputGuardBuilder<IN> requireV2() {
+		return requireVersion(2);
 	}
 
 	/**
@@ -70,8 +70,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV3() {
-		return isVersion(3);
+	public UUIDInputGuardBuilder<IN> requireV3() {
+		return requireVersion(3);
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV4() {
-		return isVersion(4);
+	public UUIDInputGuardBuilder<IN> requireV4() {
+		return requireVersion(4);
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV5() {
-		return isVersion(5);
+	public UUIDInputGuardBuilder<IN> requireV5() {
+		return requireVersion(5);
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV6() {
-		return isVersion(6);
+	public UUIDInputGuardBuilder<IN> requireV6() {
+		return requireVersion(6);
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV7() {
-		return isVersion(7);
+	public UUIDInputGuardBuilder<IN> requireV7() {
+		return requireVersion(7);
 	}
 
 	/**
@@ -115,8 +115,8 @@ public class UUIDInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, UUI
 	 * 
 	 * @return	this builder for chaining
 	 */
-	public UUIDInputGuardBuilder<IN> isV8() {
-		return isVersion(8);
+	public UUIDInputGuardBuilder<IN> requireV8() {
+		return requireVersion(8);
 	}
 
 }

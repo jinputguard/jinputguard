@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 class StringValidationTest {
 
 	@Nested
-	class IsNotEmpty {
+	class RequireNotEmpty {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().isNotEmpty().build();
+			GUARD = InputGuard.builder().forString().requireNotEmpty().build();
 		}
 
 		@Test
@@ -37,13 +37,13 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class isNotBlank {
+	class RequireNotBlank {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().isNotBlank().build();
+			GUARD = InputGuard.builder().forString().requireNotBlank().build();
 		}
 
 		@Test
@@ -62,19 +62,19 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class HasExactLength {
+	class RequireLength {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().hasLength(5).build();
+			GUARD = InputGuard.builder().forString().requireLength(5).build();
 		}
 
 		@Test
 		void length_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasLength(-1).build()
+				() -> InputGuard.builder().forString().requireLength(-1).build()
 			);
 		}
 
@@ -101,33 +101,33 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class HasLengthBetween {
+	class RequireLengthBetween {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().hasLengthBetween(4, 6).build();
+			GUARD = InputGuard.builder().forString().requireLengthBetween(4, 6).build();
 		}
 
 		@Test
 		void minLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasLengthBetween(-1, 6).build()
+				() -> InputGuard.builder().forString().requireLengthBetween(-1, 6).build()
 			);
 		}
 
 		@Test
 		void maxLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasLengthBetween(4, -1).build()
+				() -> InputGuard.builder().forString().requireLengthBetween(4, -1).build()
 			);
 		}
 
 		@Test
 		void minLength_greater_than_maxLength_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasLengthBetween(6, 4).build()
+				() -> InputGuard.builder().forString().requireLengthBetween(6, 4).build()
 			);
 		}
 
@@ -166,19 +166,19 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class HasMinLength {
+	class RequireMinLength {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().hasMinLength(5).build();
+			GUARD = InputGuard.builder().forString().requireMinLength(5).build();
 		}
 
 		@Test
 		void minLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasMinLength(-1).build()
+				() -> InputGuard.builder().forString().requireMinLength(-1).build()
 			);
 		}
 
@@ -204,19 +204,19 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class HasMaxLength {
+	class RequireMaxLength {
 
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().hasMaxLength(5).build();
+			GUARD = InputGuard.builder().forString().requireMaxLength(5).build();
 		}
 
 		@Test
 		void maxLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().hasMaxLength(-1).build()
+				() -> InputGuard.builder().forString().requireMaxLength(-1).build()
 			);
 		}
 
@@ -242,27 +242,27 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class Matches_String {
+	class RequireMatches_String {
 
 		private static final String REGEX = "abc[0-9]";
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().matches(REGEX).build();
+			GUARD = InputGuard.builder().forString().requireMatches(REGEX).build();
 		}
 
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().matches((String) null).build()
+				() -> InputGuard.builder().forString().requireMatches((String) null).build()
 			);
 		}
 
 		@Test
 		void pattern_null_throws_PatternSyntaxException() {
 			Assertions.assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(
-				() -> InputGuard.builder().forString().matches("a{0").build()
+				() -> InputGuard.builder().forString().requireMatches("a{0").build()
 			);
 		}
 
@@ -282,20 +282,20 @@ class StringValidationTest {
 	}
 
 	@Nested
-	class Matches_Pattern {
+	class RequireMatches_Pattern {
 
 		private static final Pattern PATTERN = Pattern.compile("abc[0-9]");
 		private static InputGuard<String, String> GUARD;
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().matches(PATTERN).build();
+			GUARD = InputGuard.builder().forString().requireMatches(PATTERN).build();
 		}
 
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().matches((Pattern) null).build()
+				() -> InputGuard.builder().forString().requireMatches((Pattern) null).build()
 			);
 		}
 

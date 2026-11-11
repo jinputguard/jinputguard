@@ -37,7 +37,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#isEmpty()
 	 */
-	public StringInputGuardBuilder<IN> isNotEmpty() {
+	public StringInputGuardBuilder<IN> requireNotEmpty() {
 		return requireNotNull().validate(
 			(value, path) -> value.isEmpty()
 				? BaseValidationErrors.STRING_MUST_NOT_BE_EMPTY.toFailure(path)
@@ -50,7 +50,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#isBlank()
 	 */
-	public StringInputGuardBuilder<IN> isNotBlank() {
+	public StringInputGuardBuilder<IN> requireNotBlank() {
 		return requireNotNull().validate(
 			(value, path) -> value.isBlank()
 				? BaseValidationErrors.STRING_MUST_NOT_BE_BLANK.toFailure(path)
@@ -67,7 +67,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#length()
 	 */
-	public StringInputGuardBuilder<IN> hasLength(int length) {
+	public StringInputGuardBuilder<IN> requireLength(int length) {
 		if (length < 0) {
 			throw new IllegalArgumentException("length cannot be negative");
 		}
@@ -88,7 +88,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#length()
 	 */
-	public StringInputGuardBuilder<IN> hasLengthBetween(int minLength, int maxLength) {
+	public StringInputGuardBuilder<IN> requireLengthBetween(int minLength, int maxLength) {
 		if (minLength < 0 || maxLength < 0) {
 			throw new IllegalArgumentException("minLength and maxLength cannot be negative");
 		}
@@ -111,7 +111,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#length()
 	 */
-	public StringInputGuardBuilder<IN> hasMinLength(int minLength) {
+	public StringInputGuardBuilder<IN> requireMinLength(int minLength) {
 		if (minLength < 0) {
 			throw new IllegalArgumentException("minLength cannot be negative");
 		}
@@ -131,7 +131,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see String#length()
 	 */
-	public StringInputGuardBuilder<IN> hasMaxLength(int maxLength) {
+	public StringInputGuardBuilder<IN> requireMaxLength(int maxLength) {
 		if (maxLength < 0) {
 			throw new IllegalArgumentException("maxLength cannot be negative");
 		}
@@ -151,9 +151,9 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @throws  PatternSyntaxException	If the expression's syntax is invalid
 	 */
-	public StringInputGuardBuilder<IN> matches(String regex) {
+	public StringInputGuardBuilder<IN> requireMatches(String regex) {
 		Objects.requireNonNull(regex, "regex cannot be null");
-		return matches(Pattern.compile(regex));
+		return requireMatches(Pattern.compile(regex));
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 	 * 
 	 * @see Matcher#matches()
 	 */
-	public StringInputGuardBuilder<IN> matches(Pattern pattern) {
+	public StringInputGuardBuilder<IN> requireMatches(Pattern pattern) {
 		Objects.requireNonNull(pattern, "pattern cannot be null");
 		return requireNotNull().validate(
 			(value, path) -> !pattern.matcher(value).matches()

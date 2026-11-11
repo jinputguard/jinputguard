@@ -47,7 +47,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @see String#isEmpty()
 	 */
-	public SELF isNotEmpty() {
+	public SELF requireNotEmpty() {
 		return requireNotNull().validate(
 			(value, path) -> value.isEmpty()
 				? BaseValidationErrors.COLLECTION_MUST_NOT_BE_EMPTY.toFailure(path)
@@ -60,7 +60,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @param size the expected size
 	 */
-	public SELF hasSize(int size) {
+	public SELF requireSize(int size) {
 		if (size < 0) {
 			throw new IllegalArgumentException("size cannot be negative");
 		}
@@ -76,7 +76,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @param size the maximum size
 	 */
-	public SELF hasMinSize(int size) {
+	public SELF requireMinSize(int size) {
 		if (size < 0) {
 			throw new IllegalArgumentException("size cannot be negative");
 		}
@@ -92,7 +92,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @param size the maximum size
 	 */
-	public SELF hasMaxSize(int size) {
+	public SELF requireMaxSize(int size) {
 		if (size < 0) {
 			throw new IllegalArgumentException("size cannot be negative");
 		}
@@ -109,7 +109,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * @param minSize the minimum size
 	 * @param maxSize the maximum size
 	 */
-	public SELF hasSizeBetween(int minSize, int maxSize) {
+	public SELF requireSizeBetween(int minSize, int maxSize) {
 		if (minSize < 0 || maxSize < 0) {
 			throw new IllegalArgumentException("minSize and maxSize cannot be negative");
 		}
@@ -128,7 +128,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @see Collections#frequency(Collection, Object)
 	 */
-	public SELF hasNoDuplicateElements() {
+	public SELF requireNoDuplicateElements() {
 		return requireNotNull().validate(
 			(value, path) -> {
 				if (value instanceof Set<?>) {
@@ -149,7 +149,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	 * 
 	 * @param duplicateMatcher the matching function to use for comparing elements
 	 */
-	public SELF hasNoDuplicateElements(BiPredicate<T, T> duplicateMatcher) {
+	public SELF requireNoDuplicateElements(BiPredicate<T, T> duplicateMatcher) {
 		if (duplicateMatcher == null) {
 			throw new IllegalArgumentException("duplicateMatcher cannot be null");
 		}

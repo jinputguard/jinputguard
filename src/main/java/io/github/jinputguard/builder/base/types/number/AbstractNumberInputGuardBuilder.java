@@ -56,11 +56,11 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * 
 	 * @param ref	the comparison reference, cannot be <code>null</code>
 	 */
-	public SELF isGreaterThan(T ref) {
+	public SELF requireGreaterThan(T ref) {
 		return requireNotNull().validate(
-			(value, path) -> !numberTester.isGreaterThan(value, ref)
-				? BaseValidationErrors.NUMBER_MUST_BE_GREATER_THAN.toFailure(path, ref)
-				: null
+			(value, path) -> numberTester.isGreaterThan(value, ref)
+				? null
+				: BaseValidationErrors.NUMBER_MUST_BE_GREATER_THAN.toFailure(path, ref)
 		);
 	}
 
@@ -70,11 +70,11 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * 
 	 * @param ref	the comparison reference, cannot be <code>null</code>
 	 */
-	public SELF isGreaterOrEqualTo(T ref) {
+	public SELF requireGreaterOrEqualTo(T ref) {
 		return requireNotNull().validate(
-			(value, path) -> !numberTester.isGreaterOrEqualTo(value, ref)
-				? BaseValidationErrors.NUMBER_MUST_BE_GREATER_OR_EQUAL_TO.toFailure(path, ref)
-				: null
+			(value, path) -> numberTester.isGreaterOrEqualTo(value, ref)
+				? null
+				: BaseValidationErrors.NUMBER_MUST_BE_GREATER_OR_EQUAL_TO.toFailure(path, ref)
 		);
 	}
 
@@ -84,11 +84,11 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * 
 	 * @param ref	the comparison reference, cannot be <code>null</code>
 	 */
-	public SELF isLowerThan(T ref) {
+	public SELF requireLowerThan(T ref) {
 		return requireNotNull().validate(
-			(value, path) -> !numberTester.isLowerThan(value, ref)
-				? BaseValidationErrors.NUMBER_MUST_BE_LOWER_THAN.toFailure(path, ref)
-				: null
+			(value, path) -> numberTester.isLowerThan(value, ref)
+				? null
+				: BaseValidationErrors.NUMBER_MUST_BE_LOWER_THAN.toFailure(path, ref)
 		);
 	}
 
@@ -98,11 +98,11 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * 
 	 * @param ref	the comparison reference, cannot be <code>null</code>
 	 */
-	public SELF isLowerOrEqualTo(T ref) {
+	public SELF requireLowerOrEqualTo(T ref) {
 		return requireNotNull().validate(
-			(value, path) -> !numberTester.isLowerOrEqualTo(value, ref)
-				? BaseValidationErrors.NUMBER_MUST_BE_LOWER_OR_EQUAL_TO.toFailure(path, ref)
-				: null
+			(value, path) -> numberTester.isLowerOrEqualTo(value, ref)
+				? null
+				: BaseValidationErrors.NUMBER_MUST_BE_LOWER_OR_EQUAL_TO.toFailure(path, ref)
 		);
 	}
 
@@ -110,23 +110,23 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * Validate that {@code input > 0}.
 	 * If not, generates {@link NumberMustBeGreaterThan}.
 	 */
-	public SELF isPositive() {
-		return isGreaterThan(numberTester.getZero());
+	public SELF requirePositive() {
+		return requireGreaterThan(numberTester.getZero());
 	}
 
 	/**
 	 * Validate that {@code input >= 0}.
 	 * If not, generates {@link NumberMustBeGreaterOrEqualTo}.
 	 */
-	public SELF isPositiveOrNul() {
-		return isGreaterOrEqualTo(numberTester.getZero());
+	public SELF requirePositiveOrNul() {
+		return requireGreaterOrEqualTo(numberTester.getZero());
 	}
 
 	/**
 	 * Validate that {@code input == 0}.
 	 * If not, generates {@link ObjectMustBeEqualTo}.
 	 */
-	public SELF isZero() {
+	public SELF requireEqualToZero() {
 		return requireEqualTo(numberTester.getZero());
 	}
 
@@ -134,16 +134,16 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * Validate that {@code input < 0}.
 	 * If not, generates {@link NumberMustBeLowerThan}.
 	 */
-	public SELF isNegative() {
-		return isLowerThan(numberTester.getZero());
+	public SELF requireNegative() {
+		return requireLowerThan(numberTester.getZero());
 	}
 
 	/**
 	 * Validate that {@code input <= 0}.
 	 * If not, generates {@link NumberMustBeLowerOrEqualTo}.
 	 */
-	public SELF isNegativeOrNul() {
-		return isLowerOrEqualTo(numberTester.getZero());
+	public SELF requireNegativeOrNul() {
+		return requireLowerOrEqualTo(numberTester.getZero());
 	}
 
 	/**
@@ -155,16 +155,16 @@ public abstract class AbstractNumberInputGuardBuilder<IN, T extends Number, SELF
 	 * 
 	 * @throws IllegalArgumentException	if minInclusive > maxInclusive
 	 */
-	public SELF isBetween(T minInclusive, T maxInclusive) {
+	public SELF requireBetween(T minInclusive, T maxInclusive) {
 		Objects.requireNonNull(minInclusive, "min cannot be null");
 		Objects.requireNonNull(maxInclusive, "max cannot be null");
 		if (numberTester.isGreaterThan(minInclusive, maxInclusive)) {
 			throw new IllegalArgumentException("Min value " + minInclusive + " is greater than max value " + maxInclusive);
 		}
 		return requireNotNull().validate(
-			(value, path) -> !numberTester.isBetween(value, minInclusive, maxInclusive)
-				? BaseValidationErrors.NUMBER_MUST_BE_BETWEEN.toFailure(path, minInclusive, maxInclusive)
-				: null
+			(value, path) -> numberTester.isBetween(value, minInclusive, maxInclusive)
+				? null
+				: BaseValidationErrors.NUMBER_MUST_BE_BETWEEN.toFailure(path, minInclusive, maxInclusive)
 		);
 	}
 

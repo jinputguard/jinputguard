@@ -68,7 +68,7 @@ class SetProcessEachTest {
 
 		@Test
 		void validation_fail() {
-			var elementGuardGuard = InputGuard.builder().forString().isNotEmpty().build();
+			var elementGuardGuard = InputGuard.builder().forString().requireNotEmpty().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuardGuard)
 				.build();
@@ -85,7 +85,7 @@ class SetProcessEachTest {
 
 		@Test
 		void validation_fail_atPath() {
-			var elementGuardGuard = InputGuard.builder().forString().hasMaxLength(2).build();
+			var elementGuardGuard = InputGuard.builder().forString().requireMaxLength(2).build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuardGuard)
 				.build();

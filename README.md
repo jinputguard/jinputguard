@@ -43,14 +43,10 @@ Create input guards and use them at the beginning of any method to process input
 ```java
 // A guard that takes a String as input, and outputs a String that is sanitized and validated.
 InputGuard<String, String> guard = InputGuard.builder().forString()
-    .sanitize()
-      .strip()
-      .toLowerCase()
-      .replace("a", "e")
-      .then()
-    .validateThat()
-      .isMaxLength(4)
-      .then()
+    .strip()
+    .toLowerCase()
+    .replace("a", "e")
+    .requireMaxLength(4)
     .build();
 ```
 * Process some input value by calling the `process` method, that returns the result or throw an exception in case of failure:
@@ -132,9 +128,9 @@ Those predefined builders are directly accessible using appropriate `InputGuard.
 Here is the same guard than in the base builder example, but with specialized `String` builder:
 ```java
 var myGuard = InputGuard.builder()
-    .forString() // also available: forInteger, forLong, etc. (more to come in future versions)
-    .sanitize().strip().replace(".0", "").then() // Specialized String sanitizer
-    .validateThat().isMaxLength(3).then()        // Specialized String validator
+    .forString() // also available: forInteger, forLong, etc.
+    .strip().replace(".0", "")
+    .requireMaxLength(3)
     .build();
 ```
 
@@ -156,11 +152,9 @@ Specialized builders propose various built-in sanitization methods:
 ```java
 InputGuard<String, String> myGuard = InputGuard.builder()
   .forString()       // Specialized String guard builder
-  .sanitize()        // Enter sanitization extension point
-    .strip()
-    .toUpperCase()
-    .prefix("ID-")
-    .then()          // Exit sanitization extension point
+  .strip()
+  .toUpperCase()
+  .prefix("ID-")
   .build();
 
 // Input value " abc123 " becomes "ID-ABC123"
@@ -170,7 +164,6 @@ InputGuard<String, String> myGuard = InputGuard.builder()
 Validation is the process of checking if a variable or data meets certain criteria or constraints. For example, validation can involve verifying that an email address is in the correct format, ensuring a number falls within a specified range, or confirming that required fields are not empty.
 
 ```java
-// InputGuardBuilder.validate(Function<T, ValidationError>)
 InputGuard<String, Integer> myGuard = InputGuard.builder()
   .forClass(String.class)
   .validate(value -> !value.isEmpty(), path -> path + " must not be empty")
@@ -181,7 +174,7 @@ Specialized builders propose various built-in validation methods:
 ```java
 InputGuard<String, Integer> myGuard = InputGuard.builder()
   .forString()       // Specialized String guard builder
-  .validateThat().isNotEmpty().then()
+  .requireNotEmpty()
   .build();
 ```
 
@@ -256,22 +249,19 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .build();
 ```
 
-> [!WARNING]
-> This is not considered a definitive design or approach for the `null` handling problem. A more elegant version is suitable.
-
 ## Nesting guards
 It is possible to reuse guards by nesting one into another.
 
 ```java
 var innerGuard = InputGuard.builder()
     .forString()
-    .sanitize().strip().then()
+    .strip()
     .build();
     
 var outerGuard = InputGuard.builder()
     .forString()
     .apply(innerGuard) // Use "apply(InputGuard<T, T> guard)"
-    .validateThat().isMaxLength(3).then()
+    .requireMaxLength(3)
     .build();
 ```
 
@@ -281,7 +271,7 @@ In case the specialized builder for a specific type does not (yet) exists, or yo
 // InputGuardBuilder.map(Function<T, R>, Function<InputGuard<T, R>, B>)
 InputGuard<String, Integer> myGuard = InputGuard.builder()
   .forString()
-  .map(MyCustomType::parse, MyCustomTypeInputGuardBuilder::new) // Map String into MyCustomType using MyCustomType.parse(String), and return a new specialized builder
+  .map(MyCustomType::parse, path -> path + " is not a valid MyCustomType", MyCustomTypeInputGuardBuilder::new) // Map String into MyCustomType using MyCustomType.parse(String), and return a new specialized builder
   .anyCustomMethod(/* ... */) // Use MyCustomTypeInputGuardBuilder specialized methods
   .build();
 ```
@@ -291,7 +281,7 @@ Input validation should not always throw the same exception everywhere in your c
 
 You can then use the `GuardResult.getOrThrow(Function<GuardFailure, X>)` method to map the `GuardFailure` to your own throwable of type `X`.
 ```java
-GuardResult<Integer> result = myGuard.processToResult("notAnInt");
+GuardResult<Integer> result = myGuard.processToResult("123xxx", "myValue");
 var i = result.getOrThrow(failure -> new MyCustomException(failure)); // throws MyCustomException
 ```
 

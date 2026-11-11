@@ -14,9 +14,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsGreaterThan {
+	class RequireGreaterThan {
 
-		Arguments[] isGreaterThan_arguments() {
+		Arguments[] requireGreaterThan_arguments() {
 			return new Arguments[] {
 				// Value, ref, success
 				Arguments.of(getNumberProvider().getMinValue(), getNumberProvider().getMinValue(), false),
@@ -53,19 +53,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isGreaterThan_arguments")
-		void isGreaterThan(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().isGreaterThan(ref).build();
+		@MethodSource("requireGreaterThan_arguments")
+		void requireGreaterThan(T value, T ref, boolean isSuccess) {
+			var guard = initiateGuard().requireGreaterThan(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isGreaterThan(" + ref + ") = SUCCESS")
+					.as(value + " requireGreaterThan(" + ref + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isGreaterThan(" + ref + ") = FAIL")
+					.as(value + " requireGreaterThan(" + ref + ") = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be greater than " + ref);
 			}
@@ -75,9 +75,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsGreaterOrEqualTo {
+	class RequireGreaterOrEqualTo {
 
-		Arguments[] isGreaterOrEqualTo_arguments() {
+		Arguments[] requireGreaterOrEqualTo_arguments() {
 			return new Arguments[] {
 				// Value, ref, success
 				Arguments.of(getNumberProvider().getMinValue(), getNumberProvider().getMinValue(), true),
@@ -114,19 +114,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isGreaterOrEqualTo_arguments")
-		void isGreaterOrEqualTo(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().isGreaterOrEqualTo(ref).build();
+		@MethodSource("requireGreaterOrEqualTo_arguments")
+		void requireGreaterOrEqualTo(T value, T ref, boolean isSuccess) {
+			var guard = initiateGuard().requireGreaterOrEqualTo(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isGreaterOrEqualTo(" + ref + ") = SUCCESS")
+					.as(value + " requireGreaterOrEqualTo(" + ref + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isGreaterOrEqualTo(" + ref + ") = FAIL")
+					.as(value + " requireGreaterOrEqualTo(" + ref + ") = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be greater or equal to " + ref);
 			}
@@ -136,9 +136,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsLowerThan {
+	class RequireLowerThan {
 
-		Arguments[] isLowerThan_arguments() {
+		Arguments[] requireLowerThan_arguments() {
 			return new Arguments[] {
 				// Value, ref, success
 				Arguments.of(getNumberProvider().getMinValue(), getNumberProvider().getMinValue(), false),
@@ -175,19 +175,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isLowerThan_arguments")
-		void isLowerThan(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().isLowerThan(ref).build();
+		@MethodSource("requireLowerThan_arguments")
+		void requireLowerThan(T value, T ref, boolean isSuccess) {
+			var guard = initiateGuard().requireLowerThan(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isLowerThan(" + ref + ") = SUCCESS")
+					.as(value + " requireLowerThan(" + ref + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isLowerThan(" + ref + ") = FAIL")
+					.as(value + " requireLowerThan(" + ref + ") = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be lower than " + ref);
 			}
@@ -197,9 +197,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsLowerOrEqualTo {
+	class RequireLowerOrEqualTo {
 
-		Arguments[] isLowerOrEqualTo_arguments() {
+		Arguments[] requireLowerOrEqualTo_arguments() {
 			return new Arguments[] {
 				// Value, ref, success
 				Arguments.of(getNumberProvider().getMinValue(), getNumberProvider().getMinValue(), true),
@@ -236,19 +236,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isLowerOrEqualTo_arguments")
-		void isLowerOrEqualTo(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().isLowerOrEqualTo(ref).build();
+		@MethodSource("requireLowerOrEqualTo_arguments")
+		void requireLowerOrEqualTo(T value, T ref, boolean isSuccess) {
+			var guard = initiateGuard().requireLowerOrEqualTo(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isLowerOrEqualTo(" + ref + ") = SUCCESS")
+					.as(value + " requireLowerOrEqualTo(" + ref + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isLowerOrEqualTo(" + ref + ") = FAIL")
+					.as(value + " requireLowerOrEqualTo(" + ref + ") = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be lower or equal to " + ref);
 			}
@@ -258,9 +258,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsPositive {
+	class RequirePositive {
 
-		Arguments[] isPositive_arguments() {
+		Arguments[] requirePositive_arguments() {
 			return new Arguments[] {
 				// Value,  success
 				Arguments.of(getNumberProvider().getMinValue(), false),
@@ -273,19 +273,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isPositive_arguments")
-		void isPositive(T value, boolean isSuccess) {
-			var guard = initiateGuard().isPositive().build();
+		@MethodSource("requirePositive_arguments")
+		void requirePositive(T value, boolean isSuccess) {
+			var guard = initiateGuard().requirePositive().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isPositive() = SUCCESS")
+					.as(value + " requirePositive() = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isPositive() = FAIL")
+					.as(value + " requirePositive() = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be greater than " + getNumberProvider().getZero());
 			}
@@ -295,9 +295,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsPositiveOrNul {
+	class RequirePositiveOrNul {
 
-		Arguments[] isPositiveOrNul_arguments() {
+		Arguments[] requirePositiveOrNul_arguments() {
 			return new Arguments[] {
 				// Value,  success
 				Arguments.of(getNumberProvider().getMinValue(), false),
@@ -310,19 +310,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isPositiveOrNul_arguments")
-		void isPositiveOrNul(T value, boolean isSuccess) {
-			var guard = initiateGuard().isPositiveOrNul().build();
+		@MethodSource("requirePositiveOrNul_arguments")
+		void requirePositiveOrNul(T value, boolean isSuccess) {
+			var guard = initiateGuard().requirePositiveOrNul().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isPositiveOrNul() = SUCCESS")
+					.as(value + " requirePositiveOrNul() = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isPositiveOrNul() = FAIL")
+					.as(value + " requirePositiveOrNul() = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be greater or equal to " + getNumberProvider().getZero());
 			}
@@ -332,9 +332,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsZero {
+	class RequireEqualToZero {
 
-		Arguments[] isZero_arguments() {
+		Arguments[] requireEqualToZero_arguments() {
 			return new Arguments[] {
 				// Value,  success
 				Arguments.of(getNumberProvider().getMinValue(), false),
@@ -347,19 +347,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isZero_arguments")
-		void isZero(T value, boolean isSuccess) {
-			var guard = initiateGuard().isZero().build();
+		@MethodSource("requireEqualToZero_arguments")
+		void requireEqualToZero(T value, boolean isSuccess) {
+			var guard = initiateGuard().requireEqualToZero().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isZero() = SUCCESS")
+					.as(value + " requireZero() = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isZero() = FAIL")
+					.as(value + " requireZero() = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be equal to " + getNumberProvider().getZero());
 			}
@@ -369,9 +369,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsNegative {
+	class RequireNegative {
 
-		Arguments[] isNegative_arguments() {
+		Arguments[] requireNegative_arguments() {
 			return new Arguments[] {
 				// Value,  success
 				Arguments.of(getNumberProvider().getMinValue(), true),
@@ -384,19 +384,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isNegative_arguments")
-		void isNegative(T value, boolean isSuccess) {
-			var guard = initiateGuard().isNegative().build();
+		@MethodSource("requireNegative_arguments")
+		void requireNegative(T value, boolean isSuccess) {
+			var guard = initiateGuard().requireNegative().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isNegative() = SUCCESS")
+					.as(value + " requireNegative() = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isNegative() = FAIL")
+					.as(value + " requireNegative() = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be lower than " + getNumberProvider().getZero());
 			}
@@ -406,9 +406,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsNegativeOrNul {
+	class RequireNegativeOrNul {
 
-		Arguments[] isNegativeOrNul_arguments() {
+		Arguments[] requireNegativeOrNul_arguments() {
 			return new Arguments[] {
 				// Value,  success
 				Arguments.of(getNumberProvider().getMinValue(), true),
@@ -421,19 +421,19 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isNegativeOrNul_arguments")
-		void isNegativeOrNul(T value, boolean isSuccess) {
-			var guard = initiateGuard().isNegativeOrNul().build();
+		@MethodSource("requireNegativeOrNul_arguments")
+		void requireNegativeOrNul(T value, boolean isSuccess) {
+			var guard = initiateGuard().requireNegativeOrNul().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isNegativeOrNul() = SUCCESS")
+					.as(value + " requireNegativeOrNul() = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isNegativeOrNul() = FAIL")
+					.as(value + " requireNegativeOrNul() = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be lower or equal to " + getNumberProvider().getZero());
 			}
@@ -443,9 +443,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class IsBetween {
+	class RequireBetween {
 
-		Arguments[] isBetween_arguments() {
+		Arguments[] requireBetween_arguments() {
 			return new Arguments[] {
 				// @formatter:off
 
@@ -550,42 +550,42 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("isBetween_arguments")
-		void isBetween(T value, T minRef, T maxRef, boolean isSuccess) {
-			var guard = initiateGuard().isBetween(minRef, maxRef).build();
+		@MethodSource("requireBetween_arguments")
+		void requireBetween(T value, T minRef, T maxRef, boolean isSuccess) {
+			var guard = initiateGuard().requireBetween(minRef, maxRef).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isBetween(" + minRef + ", " + maxRef + ") = SUCCESS")
+					.as(value + " requireBetween(" + minRef + ", " + maxRef + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " isBetween(" + minRef + ", " + maxRef + ") = FAIL")
+					.as(value + " requireBetween(" + minRef + ", " + maxRef + ") = FAIL")
 					.isFailure()
 					.hasMessage("myVal must be between " + minRef + " and " + maxRef);
 			}
 		}
 
 		@Test
-		void isBetween_null_exceptions() {
+		void requireBetween_null_exceptions() {
 			Assertions.assertThatNullPointerException()
 				.as("Min isBetween value cannot be null")
-				.isThrownBy(() -> initiateGuard().isBetween(null, getNumberProvider().getOne()).build())
+				.isThrownBy(() -> initiateGuard().requireBetween(null, getNumberProvider().getOne()).build())
 				.withMessage("min cannot be null");
 
 			Assertions.assertThatNullPointerException()
 				.as("Max isBetween value cannot be null")
-				.isThrownBy(() -> initiateGuard().isBetween(getNumberProvider().getMinusOne(), null).build())
+				.isThrownBy(() -> initiateGuard().requireBetween(getNumberProvider().getMinusOne(), null).build())
 				.withMessage("max cannot be null");
 		}
 
 		@Test
-		void isBetween_order_exceptions() {
+		void requireBetween_order_exceptions() {
 			Assertions.assertThatIllegalArgumentException()
 				.as("Min value must be lower or equal to max value")
-				.isThrownBy(() -> initiateGuard().isBetween(getNumberProvider().getOne(), getNumberProvider().getMinusOne()).build())
+				.isThrownBy(() -> initiateGuard().requireBetween(getNumberProvider().getOne(), getNumberProvider().getMinusOne()).build())
 				.withMessageContaining("Min value " + getNumberProvider().getOne() + " is greater than max value " + getNumberProvider().getMinusOne());
 		}
 
