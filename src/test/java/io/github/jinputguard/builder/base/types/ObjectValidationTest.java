@@ -94,14 +94,14 @@ class ObjectValidationTest {
 	class ValidateThatTest {
 
 		@Nested
-		class IsNotNullTest {
+		class requireNotNullTest {
 
 			private static InputGuard<Object, Object> GUARD;
 
 			@BeforeAll
 			static void setup() {
 				GUARD = InputGuard.builder().forClass(Object.class)
-					.validateThat().isNotNull().then()
+					.requireNotNull()
 					.build();
 			}
 
@@ -129,10 +129,10 @@ class ObjectValidationTest {
 				@BeforeAll
 				static void setup() {
 					GUARD_FOR_NUMBER = InputGuard.builder().forClass(Number.class)
-						.validateThat().isInstanceOf(Number.class).then()
+						.requireInstanceOf(Number.class)
 						.build();
 					GUARD_FOR_INTEGER = InputGuard.builder().forClass(Number.class)
-						.validateThat().isInstanceOf(Integer.class).then()
+						.requireInstanceOf(Integer.class)
 						.build();
 				}
 
@@ -182,14 +182,14 @@ class ObjectValidationTest {
 				@BeforeAll
 				static void setup() {
 					GUARD_FOR_STRING = InputGuard.builder().forClass(Object.class)
-						.validateThat().isEqualTo(expected).then()
+						.requireEqualTo(expected)
 						.build();
 				}
 
 				@Test
 				void when_null_expected_and_null_input_then_success() {
 					var actual = InputGuard.builder().forClass(Object.class)
-						.validateThat().isEqualTo(null).then()
+						.requireEqualTo(null)
 						.build()
 						.processToResult(null, "myVal");
 					GuardResultAssert.assertThat(actual).isSuccess(null);
@@ -198,7 +198,7 @@ class ObjectValidationTest {
 				@Test
 				void when_null_expected_and_not_null_input_then_failure() {
 					var actual = InputGuard.builder().forClass(Object.class)
-						.validateThat().isEqualTo(null).then()
+						.requireEqualTo(null)
 						.build()
 						.processToResult("someValue", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()

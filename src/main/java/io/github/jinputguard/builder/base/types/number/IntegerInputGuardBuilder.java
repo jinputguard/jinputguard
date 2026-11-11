@@ -18,10 +18,4 @@ public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilde
 		return new IntegerInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public IntegerValidationBuilder<IN> validateThat() {
-		return new IntegerValidationBuilder<>(this);
-	}
-
 }

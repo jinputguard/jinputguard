@@ -18,10 +18,4 @@ public class LongInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<I
 		return new LongInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public LongValidationBuilder<IN> validateThat() {
-		return new LongValidationBuilder<>(this);
-	}
-
 }

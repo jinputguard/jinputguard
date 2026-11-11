@@ -19,8 +19,4 @@ public class ObjectInputGuardBuilder<IN, OUT> extends AbstractInputGuardBuilder<
 		return new ObjectInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	public ObjectValidationBuilder<IN, OUT> validateThat() {
-		return new ObjectValidationBuilder<>(this);
-	}
-
 }

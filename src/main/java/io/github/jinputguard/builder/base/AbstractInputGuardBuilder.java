@@ -4,6 +4,7 @@ import io.github.jinputguard.GuardFailure;
 import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.InputGuardBuilder;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
+import io.github.jinputguard.failure.BaseValidationErrors;
 import io.github.jinputguard.guard.InputGuards;
 import jakarta.annotation.Nonnull;
 import java.util.Objects;
@@ -46,10 +47,6 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	// ------------------------------------------------------------------------------------------------------------
 	// VALIDATION
 
-	public final SELF requireNotNull() {
-		return ifNullThen().fail();
-	}
-
 	@Override
 	public SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction) {
 		return apply(InputGuards.validationGuard(validationFunction));
@@ -58,6 +55,47 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	@Override
 	public SELF validate(Predicate<OUT> validationPredicate, UnaryOperator<String> messageTemplateFunction) {
 		return this.validate((value, path) -> validationPredicate.test(value) ? null : GuardFailure.from(path, messageTemplateFunction.apply(path)));
+	}
+
+	/**
+	 * Validates that the value is not null.
+	 * If the value is <code>null</code>, it will fail the validation.
+	 */
+	public final SELF requireNotNull() {
+		return ifNullThen().fail();
+	}
+
+	/**
+	 * Validates that the value is an instance of the given class.
+	 * If the value is <code>null</code>, it will fail the validation.
+	 */
+	public final <T extends OUT> SELF requireInstanceOf(Class<T> clazz) {
+		Objects.requireNonNull(clazz, "Expected class cannot be null");
+		return requireNotNull().validate(
+			(value, path) -> clazz.isInstance(value)
+				? null
+				: BaseValidationErrors.OBJECT_MUST_BE_INSTANCE_OF.toFailure(path, clazz.getName())
+		);
+	}
+
+	/**
+	 * Validates that the value is equal to the given other value.
+	 * If the other value is <code>null</code>, it will validate that the value is also <code>null</code>.
+	 */
+	public final SELF requireEqualTo(OUT other) {
+		if (other == null) {
+			return validate(
+				(value, path) -> value != null
+					? BaseValidationErrors.OBJECT_MUST_BE_NULL.toFailure(path)
+					: null
+			);
+		} else {
+			return requireNotNull().validate(
+				(value, path) -> Objects.equals(value, other)
+					? null
+					: BaseValidationErrors.OBJECT_MUST_BE_EQUAL_TO.toFailure(path, other)
+			);
+		}
 	}
 
 	// ------------------------------------------------------------------------------------------------------------

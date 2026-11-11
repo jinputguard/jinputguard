@@ -18,7 +18,7 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
+			GUARD = InputGuard.builder().forString().isNotEmpty().build();
 		}
 
 		@Test
@@ -43,7 +43,7 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().isNotBlank().then().build();
+			GUARD = InputGuard.builder().forString().isNotBlank().build();
 		}
 
 		@Test
@@ -68,13 +68,13 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().hasLength(5).then().build();
+			GUARD = InputGuard.builder().forString().hasLength(5).build();
 		}
 
 		@Test
 		void length_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasLength(-1).then().build()
+				() -> InputGuard.builder().forString().hasLength(-1).build()
 			);
 		}
 
@@ -107,27 +107,27 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().hasLengthBetween(4, 6).then().build();
+			GUARD = InputGuard.builder().forString().hasLengthBetween(4, 6).build();
 		}
 
 		@Test
 		void minLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(-1, 6).then().build()
+				() -> InputGuard.builder().forString().hasLengthBetween(-1, 6).build()
 			);
 		}
 
 		@Test
 		void maxLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(4, -1).then().build()
+				() -> InputGuard.builder().forString().hasLengthBetween(4, -1).build()
 			);
 		}
 
 		@Test
 		void minLength_greater_than_maxLength_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasLengthBetween(6, 4).then().build()
+				() -> InputGuard.builder().forString().hasLengthBetween(6, 4).build()
 			);
 		}
 
@@ -172,13 +172,13 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().hasMinLength(5).then().build();
+			GUARD = InputGuard.builder().forString().hasMinLength(5).build();
 		}
 
 		@Test
 		void minLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasMinLength(-1).then().build()
+				() -> InputGuard.builder().forString().hasMinLength(-1).build()
 			);
 		}
 
@@ -210,13 +210,13 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().hasMaxLength(5).then().build();
+			GUARD = InputGuard.builder().forString().hasMaxLength(5).build();
 		}
 
 		@Test
 		void maxLength_negative_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().hasMaxLength(-1).then().build()
+				() -> InputGuard.builder().forString().hasMaxLength(-1).build()
 			);
 		}
 
@@ -249,20 +249,20 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().matches(REGEX).then().build();
+			GUARD = InputGuard.builder().forString().matches(REGEX).build();
 		}
 
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().matches((String) null).then().build()
+				() -> InputGuard.builder().forString().matches((String) null).build()
 			);
 		}
 
 		@Test
 		void pattern_null_throws_PatternSyntaxException() {
 			Assertions.assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().matches("a{0").then().build()
+				() -> InputGuard.builder().forString().matches("a{0").build()
 			);
 		}
 
@@ -289,13 +289,13 @@ class StringValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forString().validateThat().matches(PATTERN).then().build();
+			GUARD = InputGuard.builder().forString().matches(PATTERN).build();
 		}
 
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().validateThat().matches((Pattern) null).then().build()
+				() -> InputGuard.builder().forString().matches((Pattern) null).build()
 			);
 		}
 

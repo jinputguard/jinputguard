@@ -55,7 +55,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isGreaterThan_arguments")
 		void isGreaterThan(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isGreaterThan(ref).then().build();
+			var guard = initiateGuard().isGreaterThan(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -116,7 +116,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isGreaterOrEqualTo_arguments")
 		void isGreaterOrEqualTo(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isGreaterOrEqualTo(ref).then().build();
+			var guard = initiateGuard().isGreaterOrEqualTo(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -177,7 +177,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isLowerThan_arguments")
 		void isLowerThan(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isLowerThan(ref).then().build();
+			var guard = initiateGuard().isLowerThan(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -238,7 +238,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isLowerOrEqualTo_arguments")
 		void isLowerOrEqualTo(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isLowerOrEqualTo(ref).then().build();
+			var guard = initiateGuard().isLowerOrEqualTo(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -275,7 +275,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isPositive_arguments")
 		void isPositive(T value, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isPositive().then().build();
+			var guard = initiateGuard().isPositive().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -312,7 +312,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isPositiveOrNul_arguments")
 		void isPositiveOrNul(T value, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isPositiveOrNul().then().build();
+			var guard = initiateGuard().isPositiveOrNul().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -349,7 +349,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isZero_arguments")
 		void isZero(T value, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isZero().then().build();
+			var guard = initiateGuard().isZero().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -386,7 +386,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isNegative_arguments")
 		void isNegative(T value, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isNegative().then().build();
+			var guard = initiateGuard().isNegative().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -423,7 +423,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isNegativeOrNul_arguments")
 		void isNegativeOrNul(T value, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isNegativeOrNul().then().build();
+			var guard = initiateGuard().isNegativeOrNul().build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -552,7 +552,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("isBetween_arguments")
 		void isBetween(T value, T minRef, T maxRef, boolean isSuccess) {
-			var guard = initiateGuard().validateThat().isBetween(minRef, maxRef).then().build();
+			var guard = initiateGuard().isBetween(minRef, maxRef).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -572,12 +572,12 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isBetween_null_exceptions() {
 			Assertions.assertThatNullPointerException()
 				.as("Min isBetween value cannot be null")
-				.isThrownBy(() -> initiateGuard().validateThat().isBetween(null, getNumberProvider().getOne()).then().build())
+				.isThrownBy(() -> initiateGuard().isBetween(null, getNumberProvider().getOne()).build())
 				.withMessage("min cannot be null");
 
 			Assertions.assertThatNullPointerException()
 				.as("Max isBetween value cannot be null")
-				.isThrownBy(() -> initiateGuard().validateThat().isBetween(getNumberProvider().getMinusOne(), null).then().build())
+				.isThrownBy(() -> initiateGuard().isBetween(getNumberProvider().getMinusOne(), null).build())
 				.withMessage("max cannot be null");
 		}
 
@@ -585,7 +585,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isBetween_order_exceptions() {
 			Assertions.assertThatIllegalArgumentException()
 				.as("Min value must be lower or equal to max value")
-				.isThrownBy(() -> initiateGuard().validateThat().isBetween(getNumberProvider().getOne(), getNumberProvider().getMinusOne()).then().build())
+				.isThrownBy(() -> initiateGuard().isBetween(getNumberProvider().getOne(), getNumberProvider().getMinusOne()).build())
 				.withMessageContaining("Min value " + getNumberProvider().getOne() + " is greater than max value " + getNumberProvider().getMinusOne());
 		}
 

@@ -17,7 +17,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isNotNilUUID().then().build();
+			GUARD = InputGuard.builder().forUUID().isNotNilUUID().build();
 		}
 
 		@ParameterizedTest
@@ -59,7 +59,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV1().then().build();
+			GUARD = InputGuard.builder().forUUID().isV1().build();
 		}
 
 		@ParameterizedTest
@@ -101,7 +101,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV2().then().build();
+			GUARD = InputGuard.builder().forUUID().isV2().build();
 		}
 
 		@ParameterizedTest
@@ -143,7 +143,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV3().then().build();
+			GUARD = InputGuard.builder().forUUID().isV3().build();
 		}
 
 		@ParameterizedTest
@@ -185,7 +185,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV4().then().build();
+			GUARD = InputGuard.builder().forUUID().isV4().build();
 		}
 
 		@ParameterizedTest
@@ -227,7 +227,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV5().then().build();
+			GUARD = InputGuard.builder().forUUID().isV5().build();
 		}
 
 		@ParameterizedTest
@@ -269,7 +269,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV6().then().build();
+			GUARD = InputGuard.builder().forUUID().isV6().build();
 		}
 
 		@ParameterizedTest
@@ -311,7 +311,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV7().then().build();
+			GUARD = InputGuard.builder().forUUID().isV7().build();
 		}
 
 		@ParameterizedTest
@@ -353,7 +353,7 @@ class UUIDValidationTest {
 
 		@BeforeAll
 		static void setup() {
-			GUARD = InputGuard.builder().forUUID().validateThat().isV8().then().build();
+			GUARD = InputGuard.builder().forUUID().isV8().build();
 		}
 
 		@ParameterizedTest

@@ -18,10 +18,4 @@ public class DoubleInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder
 		return new DoubleInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public DoubleValidationBuilder<IN> validateThat() {
-		return new DoubleValidationBuilder<>(this);
-	}
-
 }

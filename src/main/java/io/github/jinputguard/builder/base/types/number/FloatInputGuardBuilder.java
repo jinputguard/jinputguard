@@ -18,10 +18,4 @@ public class FloatInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<
 		return new FloatInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public FloatValidationBuilder<IN> validateThat() {
-		return new FloatValidationBuilder<>(this);
-	}
-
 }

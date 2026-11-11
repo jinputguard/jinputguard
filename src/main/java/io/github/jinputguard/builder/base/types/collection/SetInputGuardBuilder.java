@@ -26,10 +26,4 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 		return Collectors.toUnmodifiableSet();
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public SetValidationBuilder<IN, T> validateThat() {
-		return new SetValidationBuilder<>(this);
-	}
-
 }

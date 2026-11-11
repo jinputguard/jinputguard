@@ -57,7 +57,7 @@ class ListProcessEachTest {
 
 		@Test
 		void validation_all_success() {
-			var elementGuard = InputGuard.builder().forString().validateThat().isNotNull().then().build();
+			var elementGuard = InputGuard.builder().forString().requireNotNull().build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)
 				.build();
@@ -73,7 +73,7 @@ class ListProcessEachTest {
 
 		@Test
 		void subGuardFailure() {
-			var elementGuard = InputGuard.builder().forString().validateThat().isNotEmpty().then().build();
+			var elementGuard = InputGuard.builder().forString().isNotEmpty().build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)
 				.build();

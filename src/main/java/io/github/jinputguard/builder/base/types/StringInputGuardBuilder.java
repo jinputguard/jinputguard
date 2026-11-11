@@ -6,9 +6,11 @@ import io.github.jinputguard.builder.base.types.number.DoubleInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.FloatInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
+import io.github.jinputguard.failure.BaseValidationErrors;
 import io.github.jinputguard.guard.InputGuards;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -27,8 +29,147 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 		return new StringInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	public StringValidationBuilder<IN> validateThat() {
-		return new StringValidationBuilder<>(this);
+	// --------------------------------------------------------------------------------------------------------------------
+	// VALIDATION
+
+	/**
+	 * Validates that the value is not empty.
+	 * 
+	 * @see String#isEmpty()
+	 */
+	public StringInputGuardBuilder<IN> isNotEmpty() {
+		return requireNotNull().validate(
+			(value, path) -> value.isEmpty()
+				? BaseValidationErrors.STRING_MUST_NOT_BE_EMPTY.toFailure(path)
+				: null
+		);
+	}
+
+	/**
+	 * Validates that the value is not blank.
+	 * 
+	 * @see String#isBlank()
+	 */
+	public StringInputGuardBuilder<IN> isNotBlank() {
+		return requireNotNull().validate(
+			(value, path) -> value.isBlank()
+				? BaseValidationErrors.STRING_MUST_NOT_BE_BLANK.toFailure(path)
+				: null
+		);
+	}
+
+	/**
+	 * Validates that the value's length is exactly given value.
+	 * 
+	 * @param length	The exact length, cannot be negative
+	 * 
+	 * @throws IllegalArgumentException 	If length is negative
+	 * 
+	 * @see String#length()
+	 */
+	public StringInputGuardBuilder<IN> hasLength(int length) {
+		if (length < 0) {
+			throw new IllegalArgumentException("length cannot be negative");
+		}
+		return requireNotNull().validate(
+			(value, path) -> value.length() == length
+				? null
+				: BaseValidationErrors.STRING_MUST_HAVE_EXACT_LENGTH.toFailure(path, length)
+		);
+	}
+
+	/**
+	 * Validates that the value's length is between given values.
+	 * 
+	 * @param minLength	The minimum length, inclusive, cannot be negative
+	 * @param maxLength	The maximum length, inclusive, cannot be negative
+	 * 
+	 * @throws IllegalArgumentException 	If minLength or maxLength is negative
+	 * 
+	 * @see String#length()
+	 */
+	public StringInputGuardBuilder<IN> hasLengthBetween(int minLength, int maxLength) {
+		if (minLength < 0 || maxLength < 0) {
+			throw new IllegalArgumentException("minLength and maxLength cannot be negative");
+		}
+		if (minLength > maxLength) {
+			throw new IllegalArgumentException("Min length " + minLength + " is greater than max length " + maxLength);
+		}
+		return requireNotNull().validate(
+			(value, path) -> value.length() >= minLength && value.length() <= maxLength
+				? null
+				: BaseValidationErrors.STRING_MUST_HAVE_LENGTH_BETWEEN.toFailure(path, minLength, maxLength)
+		);
+	}
+
+	/**
+	 * Validates that the value's length is at least given value.
+	 * 
+	 * @param minLength	The minimum length, inclusive, cannot be negative
+	 * 
+	 * @throws IllegalArgumentException 	If minLength is negative
+	 * 
+	 * @see String#length()
+	 */
+	public StringInputGuardBuilder<IN> hasMinLength(int minLength) {
+		if (minLength < 0) {
+			throw new IllegalArgumentException("minLength cannot be negative");
+		}
+		return requireNotNull().validate(
+			(value, path) -> value.length() < minLength
+				? BaseValidationErrors.STRING_MUST_HAVE_MIN_LENGTH.toFailure(path, minLength)
+				: null
+		);
+	}
+
+	/**
+	 * Validates that the value's length is no more than given value.
+	 * 
+	 * @param maxLength	The maximum length, inclusive, cannot be negative
+	 * 
+	 * @throws IllegalArgumentException 	If maxLength is negative
+	 * 
+	 * @see String#length()
+	 */
+	public StringInputGuardBuilder<IN> hasMaxLength(int maxLength) {
+		if (maxLength < 0) {
+			throw new IllegalArgumentException("maxLength cannot be negative");
+		}
+		return requireNotNull().validate(
+			(value, path) -> value.length() > maxLength
+				? BaseValidationErrors.STRING_MUST_HAVE_MAX_LENGTH.toFailure(path, maxLength)
+				: null
+		);
+	}
+
+	/**
+	 * Validates that the entire value matches the regex.
+	 * 
+	 * @param pattern	The regex to match, cannot be <code>null</code>
+	 * 
+	 * @see Matcher#matches()
+	 * 
+	 * @throws  PatternSyntaxException	If the expression's syntax is invalid
+	 */
+	public StringInputGuardBuilder<IN> matches(String regex) {
+		Objects.requireNonNull(regex, "regex cannot be null");
+		return matches(Pattern.compile(regex));
+	}
+
+	/**
+	 * Validates that the entire value matches the pattern.
+	 * 
+	 * @param pattern	The pattern to match, cannot be <code>null</code>
+	 * 
+	 * @see Matcher#matches()
+	 */
+	public StringInputGuardBuilder<IN> matches(Pattern pattern) {
+		Objects.requireNonNull(pattern, "pattern cannot be null");
+		return requireNotNull().validate(
+			(value, path) -> !pattern.matcher(value).matches()
+				? BaseValidationErrors.STRING_MUST_MATCH_PATTERN.toFailure(path, pattern)
+				: null
+		);
 	}
 
 	// --------------------------------------------------------------------------------------------------------------------

@@ -26,10 +26,4 @@ public class ListInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBu
 		return Collectors.toUnmodifiableList();
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public ListValidationBuilder<IN, T> validateThat() {
-		return new ListValidationBuilder<>(this);
-	}
-
 }
