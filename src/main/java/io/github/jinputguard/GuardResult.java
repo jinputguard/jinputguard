@@ -57,10 +57,10 @@ public interface GuardResult<T> {
 	 * 
 	 * @return	The result value
 	 * 
-	 * @throws InputGuardFailureException if guard failed
+	 * @throws InputGuardException if guard failed
 	 */
 	@Nonnull
-	T getOrThrow() throws InputGuardFailureException;
+	T getOrThrow() throws InputGuardException;
 
 	/**
 	 * Get the value if guard has succeed, or throws an exception if failure.

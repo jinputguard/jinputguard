@@ -18,7 +18,7 @@ class InputGuardTest {
 		@Test
 		void failure() {
 			InputGuard<String, String> guard = (value, path) -> GuardResult.failure(GuardFailure.from(path, "value is wrong"));
-			Assertions.assertThatExceptionOfType(InputGuardFailureException.class)
+			Assertions.assertThatExceptionOfType(InputGuardException.class)
 				.isThrownBy(() -> guard.processOrThrow("plop", "myVal"));
 		}
 

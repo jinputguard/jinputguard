@@ -56,7 +56,7 @@ InputGuard<String, String> guard = InputGuard.builder().forString()
 * Process some input value by calling the `processOrThrow` method, that returns the result or throw an exception in case of failure:
 ```java
 String barValueOK = guard.processOrThrow("  BAAR  "); // "beer"
-String barValueKO = guard.processOrThrow("BAAAAR"); // throw InputGuardFailureException "value is too long"
+String barValueKO = guard.processOrThrow("BAAAAR"); // throw InputGuardException "value is too long"
 ```
 
 * For a better control of the result call the `process` method, that returns a `GuardResult<T>` object:
@@ -232,10 +232,10 @@ if (result.isSuccess()) {
 }
 ```
 
-You can also directly get the output value by calling the `getOrThrow()` method, without testing first. In case of failure, an `InputGuardFailureException` is thrown (extends `IllegalArgumentException`), containing the `GuardFailure`.
+You can also directly get the output value by calling the `getOrThrow()` method, without testing first. In case of failure, an `InputGuardException` is thrown (extends `IllegalArgumentException`), containing the `GuardFailure`.
 ```java
 GuardResult<Integer> result = myGuard.process("notAnInt");
-var i = result.getOrThrow(); // throws InputGuardFailureException
+var i = result.getOrThrow(); // throws InputGuardException
 ```
 
 # Advanced usage

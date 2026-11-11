@@ -43,21 +43,21 @@ class GuardResultTest {
 		assertThat(result.isSuccess()).isFalse();
 		assertThatIllegalStateException().isThrownBy(result::get)
 			.withMessage("Cannot get the value as result is failure, please first test with isSuccess()/isFailure()");
-		assertThatExceptionOfType(InputGuardFailureException.class)
+		assertThatExceptionOfType(InputGuardException.class)
 			.isThrownBy(result::getOrThrow)
 			.withMessage("myVal is wrong")
 			.withCause(cause)
-			.extracting(InputGuardFailureException::getFailure).isEqualTo(failure);
+			.extracting(InputGuardException::getFailure).isEqualTo(failure);
 
 		assertThat(result.isFailure()).isTrue();
 		assertThat(result.getFailure()).isSameAs(failure);
 	}
 
 	@Test
-	void getOrThrowShouldThrowInputGuardFailureException() {
+	void getOrThrowShouldThrowInputGuardException() {
 		var failure = GuardFailure.from("myVal", "value is wrong");
 		var r = GuardResult.failure(failure);
-		InputGuardFailureException ex = assertThrows(InputGuardFailureException.class, r::getOrThrow);
+		InputGuardException ex = assertThrows(InputGuardException.class, r::getOrThrow);
 		assertSame(failure, ex.getFailure());
 	}
 

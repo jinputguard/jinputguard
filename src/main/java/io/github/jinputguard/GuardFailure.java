@@ -10,7 +10,7 @@ import java.io.Serializable;
  * It contains information about the path where the failure happened, the failure message, and an optional cause.
  * 
  * @see InputGuard
- * @see InputGuardFailureException
+ * @see InputGuardException
  */
 public interface GuardFailure extends Serializable {
 

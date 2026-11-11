@@ -68,8 +68,8 @@ class DefaultGuardResult<T> implements GuardResult<T> {
 
 	@Nonnull
 	@Override
-	public T getOrThrow() throws InputGuardFailureException {
-		return getOrThrow(InputGuardFailureException::new);
+	public T getOrThrow() throws InputGuardException {
+		return getOrThrow(InputGuardException::new);
 	}
 
 	@Nonnull
