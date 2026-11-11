@@ -53,15 +53,15 @@ InputGuard<String, String> guard = InputGuard.builder().forString()
       .then()
     .build();
 ```
-* Process some input value by calling the `processOrThrow` method, that returns the result or throw an exception in case of failure:
+* Process some input value by calling the `process` method, that returns the result or throw an exception in case of failure:
 ```java
-String barValueOK = guard.processOrThrow("  BAAR  "); // "beer"
-String barValueKO = guard.processOrThrow("BAAAAR"); // throw InputGuardException "value is too long"
+String barValueOK = guard.process("  BAAR  "); // "beer"
+String barValueKO = guard.process("BAAAAR"); // throw InputGuardException "value is too long"
 ```
 
-* For a better control of the result call the `process` method, that returns a `GuardResult<T>` object:
+* For a better control of the result call the `processToResult` method, that returns a `GuardResult<T>` object:
 ```java
-GuardResult<String> result = guard.process(...);
+GuardResult<String> result = guard.processToResult(...);
 if(result.isSuccess()) { // also exists "isFailure()"
   String newValue = result.get();
   // Do something with newValue
@@ -222,7 +222,7 @@ In case of failure, the failure is retrieved with the `GuardResult.getFailure()`
 Important note: calling one of these methods when the result is in the opposite state (e.g. calling `get()` when `isFailure()` returns `true`) throws an `IllegalStateException`.
 
 ```java
-GuardResult<Integer> result = myGuard.process(...);
+GuardResult<Integer> result = myGuard.processToResult(...);
 if (result.isSuccess()) {
     System.out.println("Guard OK: " + result.get());
     // Calling result.getFailure() here would throw an IllegalStateException
@@ -234,7 +234,7 @@ if (result.isSuccess()) {
 
 You can also directly get the output value by calling the `getOrThrow()` method, without testing first. In case of failure, an `InputGuardException` is thrown (extends `IllegalArgumentException`), containing the `GuardFailure`.
 ```java
-GuardResult<Integer> result = myGuard.process("notAnInt");
+GuardResult<Integer> result = myGuard.processToResult("notAnInt");
 var i = result.getOrThrow(); // throws InputGuardException
 ```
 
@@ -297,7 +297,7 @@ Input validation should not always throw the same exception everywhere in your c
 
 You can then use the `GuardResult.getOrThrow(Function<GuardFailure, X>)` method to map the `GuardFailure` to your own throwable of type `X`.
 ```java
-GuardResult<Integer> result = myGuard.process("notAnInt");
+GuardResult<Integer> result = myGuard.processToResult("notAnInt");
 var i = result.getOrThrow(failure -> new MyCustomException(failure)); // throws MyCustomException
 ```
 

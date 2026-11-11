@@ -57,7 +57,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isGreaterThan(T value, T ref, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isGreaterThan(ref).then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -118,7 +118,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isGreaterOrEqualTo(T value, T ref, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isGreaterOrEqualTo(ref).then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -179,7 +179,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isLowerThan(T value, T ref, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isLowerThan(ref).then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -240,7 +240,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isLowerOrEqualTo(T value, T ref, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isLowerOrEqualTo(ref).then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -277,7 +277,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isPositive(T value, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isPositive().then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -314,7 +314,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isPositiveOrNul(T value, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isPositiveOrNul().then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -351,7 +351,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isZero(T value, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isZero().then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -388,7 +388,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isNegative(T value, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isNegative().then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -425,7 +425,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isNegativeOrNul(T value, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isNegativeOrNul().then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
@@ -554,7 +554,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		void isBetween(T value, T minRef, T maxRef, boolean isSuccess) {
 			var guard = initiateGuard().validateThat().isBetween(minRef, maxRef).then().build();
 
-			var actualResult = guard.process(value, "myVal");
+			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)

@@ -13,7 +13,7 @@ import java.util.Objects;
 public class NoOpGuard<T> implements InputGuard<T, T> {
 
 	@Override
-	public GuardResult<T> process(T value, @Nonnull String path) {
+	public GuardResult<T> processToResult(T value, @Nonnull String path) {
 		return GuardResult.success(value);
 	}
 

@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 class InputGuardTest {
 
 	@Nested
-	class ProcessOrThrow {
+	class Process {
 
 		@Test
 		void success() {
 			InputGuard<String, String> guard = (value, path) -> GuardResult.success(value + "-1");
-			Assertions.assertThat(guard.processOrThrow("plop", "myVal")).isEqualTo("plop-1");
+			Assertions.assertThat(guard.process("plop", "myVal")).isEqualTo("plop-1");
 		}
 
 		@Test
 		void failure() {
 			InputGuard<String, String> guard = (value, path) -> GuardResult.failure(GuardFailure.from(path, "value is wrong"));
 			Assertions.assertThatExceptionOfType(InputGuardException.class)
-				.isThrownBy(() -> guard.processOrThrow("plop", "myVal"));
+				.isThrownBy(() -> guard.process("plop", "myVal"));
 		}
 
 	}
@@ -35,7 +35,7 @@ class InputGuardTest {
 
 			var guard = subGuard1.andThen(subGuard2).andThen(subGuard3);
 
-			GuardResultAssert.assertThat(guard.process("plop", "myVal")).isSuccess("plop-1-2-3");
+			GuardResultAssert.assertThat(guard.processToResult("plop", "myVal")).isSuccess("plop-1-2-3");
 		}
 
 	}
@@ -51,7 +51,7 @@ class InputGuardTest {
 
 			var guard = subGuard1.compose(subGuard2).compose(subGuard3);
 
-			GuardResultAssert.assertThat(guard.process("plop", "myVal")).isSuccess("plop-3-2-1");
+			GuardResultAssert.assertThat(guard.processToResult("plop", "myVal")).isSuccess("plop-3-2-1");
 		}
 
 	}

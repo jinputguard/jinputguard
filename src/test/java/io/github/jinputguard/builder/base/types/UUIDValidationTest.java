@@ -34,7 +34,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_is_not_nil_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -45,7 +45,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_is_nil_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must not be nil UUID");
 		}
@@ -69,7 +69,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -87,7 +87,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v1");
 		}
@@ -111,7 +111,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -129,7 +129,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v2");
 		}
@@ -153,7 +153,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -171,7 +171,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v3");
 		}
@@ -195,7 +195,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -213,7 +213,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v4");
 		}
@@ -237,7 +237,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -255,7 +255,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v5");
 		}
@@ -279,7 +279,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -297,7 +297,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v6");
 		}
@@ -321,7 +321,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -339,7 +339,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v7");
 		}
@@ -363,7 +363,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_correct_version_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess();
 		}
 
@@ -381,7 +381,7 @@ class UUIDValidationTest {
 			}
 		)
 		void when_wrong_version_then_failure(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal must be UUID v8");
 		}

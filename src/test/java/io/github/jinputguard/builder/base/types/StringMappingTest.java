@@ -29,7 +29,7 @@ class StringMappingTest {
 			}
 		)
 		void when_valid_then_success(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(Integer.parseInt(input));
 		}
 
@@ -43,7 +43,7 @@ class StringMappingTest {
 			}
 		)
 		void when_invalid_then_failure(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal cannot be parsed to integer")
 				.hasCauseInstanceOf(NumberFormatException.class);
@@ -70,7 +70,7 @@ class StringMappingTest {
 			}
 		)
 		void success(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(Long.parseLong(input));
 		}
 
@@ -84,7 +84,7 @@ class StringMappingTest {
 			}
 		)
 		void failure(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal cannot be parsed to long")
 				.hasCauseInstanceOf(NumberFormatException.class);
@@ -109,7 +109,7 @@ class StringMappingTest {
 			}
 		)
 		void success(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(Float.parseFloat(input));
 		}
 
@@ -121,7 +121,7 @@ class StringMappingTest {
 			}
 		)
 		void failure(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal cannot be parsed to float")
 				.hasCauseInstanceOf(NumberFormatException.class);
@@ -146,7 +146,7 @@ class StringMappingTest {
 			}
 		)
 		void success(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(Double.parseDouble(input));
 		}
 
@@ -158,7 +158,7 @@ class StringMappingTest {
 			}
 		)
 		void failure(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal cannot be parsed to double")
 				.hasCauseInstanceOf(NumberFormatException.class);
@@ -191,7 +191,7 @@ class StringMappingTest {
 			}
 		)
 		void success(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(UUID.fromString(input));
 		}
 
@@ -203,7 +203,7 @@ class StringMappingTest {
 			}
 		)
 		void failure(String input) {
-			var actual = GUARD.process(input, "myVal");
+			var actual = GUARD.processToResult(input, "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
 				.hasMessage("myVal cannot be parsed to UUID")
 				.hasCauseInstanceOf(IllegalArgumentException.class);

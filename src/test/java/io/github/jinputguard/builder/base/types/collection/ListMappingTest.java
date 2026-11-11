@@ -14,7 +14,7 @@ class ListMappingTest {
 			.map(list -> list.stream().map(Integer::parseInt).toList(), path -> "Invalid " + path)
 			.build();
 
-		var actualResult = listGuard.process(List.of("0", "1", "2"), "myVal");
+		var actualResult = listGuard.processToResult(List.of("0", "1", "2"), "myVal");
 
 		GuardResultAssert.assertThat(actualResult)
 			.isSuccess(List.of(0, 1, 2));

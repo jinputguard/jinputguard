@@ -35,7 +35,7 @@ class UUIDMappingTest {
 			}
 		)
 		void when_valid_then_success(String input) {
-			var actual = GUARD.process(UUID.fromString(input), "myVal");
+			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isSuccess(input);
 		}
 

@@ -25,7 +25,7 @@ class ObjectValidationTest {
 			final var value = new Object();
 
 			Assertions.assertThatRuntimeException()
-				.isThrownBy(() -> guard.process(value, "myVal"))
+				.isThrownBy(() -> guard.processToResult(value, "myVal"))
 				.isEqualTo(exception);
 		}
 
@@ -45,14 +45,14 @@ class ObjectValidationTest {
 
 		@Test
 		void success() {
-			var actualResult = GUARD.process(null, "myVal");
+			var actualResult = GUARD.processToResult(null, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isSuccess(null);
 		}
 
 		@Test
 		void failure() {
-			var actualResult = GUARD.process("plop", "myVal");
+			var actualResult = GUARD.processToResult("plop", "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isFailure()
 				.hasMessage("myVal is not null");
@@ -74,14 +74,14 @@ class ObjectValidationTest {
 
 		@Test
 		void success() {
-			var actualResult = GUARD.process(null, "myVal");
+			var actualResult = GUARD.processToResult(null, "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isSuccess(null);
 		}
 
 		@Test
 		void failure() {
-			var actualResult = GUARD.process("plop", "myVal");
+			var actualResult = GUARD.processToResult("plop", "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
@@ -107,7 +107,7 @@ class ObjectValidationTest {
 
 			@Test
 			void when_null_then_failure() {
-				var actual = GUARD.process(null, "myVal");
+				var actual = GUARD.processToResult(null, "myVal");
 				GuardResultAssert.assertThat(actual)
 					.isFailure()
 					.hasMessage("myVal must not be null");
@@ -116,7 +116,7 @@ class ObjectValidationTest {
 			@Test
 			void when_nonNull_then_success() {
 				final var nonNullObject = new Object();
-				var actual = GUARD.process(nonNullObject, "myVal");
+				var actual = GUARD.processToResult(nonNullObject, "myVal");
 				GuardResultAssert.assertThat(actual).isSuccess(nonNullObject);
 			}
 
@@ -139,7 +139,7 @@ class ObjectValidationTest {
 				@Test
 				void when_null_then_failure() {
 					// null is not instance of Integer
-					var actual = GUARD_FOR_INTEGER.process(null, "myVal");
+					var actual = GUARD_FOR_INTEGER.processToResult(null, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
 						.hasMessage("myVal must not be null");
@@ -149,7 +149,7 @@ class ObjectValidationTest {
 				void when_sameType_then_success() {
 					// Integer is instance of Integer
 					final var intValue = Integer.valueOf(3);
-					var actual = GUARD_FOR_INTEGER.process(intValue, "myVal");
+					var actual = GUARD_FOR_INTEGER.processToResult(intValue, "myVal");
 					GuardResultAssert.assertThat(actual).isSuccess(intValue);
 				}
 
@@ -157,7 +157,7 @@ class ObjectValidationTest {
 				void when_superType_then_success() {
 					// Integer is instance of Number
 					final var intValue = Integer.valueOf(3);
-					var actual = GUARD_FOR_NUMBER.process(intValue, "myVal");
+					var actual = GUARD_FOR_NUMBER.processToResult(intValue, "myVal");
 					GuardResultAssert.assertThat(actual).isSuccess(intValue);
 				}
 
@@ -165,7 +165,7 @@ class ObjectValidationTest {
 				void when_otherType_then_failure() {
 					// Long is not instance of Integer
 					final var longValue = Long.valueOf(3L);
-					var actual = GUARD_FOR_INTEGER.process(longValue, "myVal");
+					var actual = GUARD_FOR_INTEGER.processToResult(longValue, "myVal");
 					GuardResultAssert.assertThat(actual)
 						.isFailure()
 						.hasMessage("myVal must be an instance of " + Integer.class.getName());
@@ -191,7 +191,7 @@ class ObjectValidationTest {
 					var actual = InputGuard.builder().forClass(Object.class)
 						.validateThat().isEqualTo(null).then()
 						.build()
-						.process(null, "myVal");
+						.processToResult(null, "myVal");
 					GuardResultAssert.assertThat(actual).isSuccess(null);
 				}
 
@@ -200,28 +200,28 @@ class ObjectValidationTest {
 					var actual = InputGuard.builder().forClass(Object.class)
 						.validateThat().isEqualTo(null).then()
 						.build()
-						.process("someValue", "myVal");
+						.processToResult("someValue", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
 						.hasMessage("myVal must be null");
 				}
 
 				@Test
 				void when_null_then_failure() {
-					var actual = GUARD_FOR_STRING.process(null, "myVal");
+					var actual = GUARD_FOR_STRING.processToResult(null, "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
 						.hasMessage("myVal must not be null");
 				}
 
 				@Test
 				void when_notEqualValue_then_failure() {
-					var actual = GUARD_FOR_STRING.process("other", "myVal");
+					var actual = GUARD_FOR_STRING.processToResult("other", "myVal");
 					GuardResultAssert.assertThat(actual).isFailure()
 						.hasMessage("myVal must be equal to " + expected);
 				}
 
 				@Test
 				void when_equalValue_then_failure() {
-					var actual = GUARD_FOR_STRING.process(expected, "myVal");
+					var actual = GUARD_FOR_STRING.processToResult(expected, "myVal");
 					GuardResultAssert.assertThat(actual).isSuccess(expected);
 				}
 

@@ -28,7 +28,7 @@ abstract class AbstractCollectionSanitizationTest<C extends Collection<String>, 
 				.sanitize().filter(value -> !value.isEmpty()).then()
 				.build();
 
-			var actualResult = listGuard.process(buildCollection("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = listGuard.processToResult(buildCollection("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(buildCollection(" ", " a", "b ", " c "));

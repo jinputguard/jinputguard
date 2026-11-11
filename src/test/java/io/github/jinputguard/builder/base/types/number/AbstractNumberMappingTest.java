@@ -31,7 +31,7 @@ abstract class AbstractNumberMappingTest<T extends Number> extends AbstractNumbe
 		@ParameterizedTest
 		@MethodSource("mapToInt_arguments")
 		void mapToInt(T testedValue, int expectedValue) {
-			GuardResultAssert.assertThat(guard.process(testedValue, "myVal")).as("mapToInt(" + testedValue + ")").isSuccess(expectedValue);
+			GuardResultAssert.assertThat(guard.processToResult(testedValue, "myVal")).as("mapToInt(" + testedValue + ")").isSuccess(expectedValue);
 		}
 
 	}
@@ -56,7 +56,7 @@ abstract class AbstractNumberMappingTest<T extends Number> extends AbstractNumbe
 		@ParameterizedTest
 		@MethodSource("mapToLong_arguments")
 		void mapToLong(T testedValue, long expectedValue) {
-			GuardResultAssert.assertThat(guard.process(testedValue, "myVal")).as("mapToLong(" + testedValue + ")").isSuccess(expectedValue);
+			GuardResultAssert.assertThat(guard.processToResult(testedValue, "myVal")).as("mapToLong(" + testedValue + ")").isSuccess(expectedValue);
 		}
 
 	}
@@ -81,7 +81,7 @@ abstract class AbstractNumberMappingTest<T extends Number> extends AbstractNumbe
 		@ParameterizedTest
 		@MethodSource("mapToFloat_arguments")
 		void mapToFloat(T testedValue, float expectedValue) {
-			GuardResultAssert.assertThat(guard.process(testedValue, "myVal")).as("mapToFloat(" + testedValue + ")").isSuccess(expectedValue);
+			GuardResultAssert.assertThat(guard.processToResult(testedValue, "myVal")).as("mapToFloat(" + testedValue + ")").isSuccess(expectedValue);
 		}
 
 	}
@@ -106,7 +106,7 @@ abstract class AbstractNumberMappingTest<T extends Number> extends AbstractNumbe
 		@ParameterizedTest
 		@MethodSource("mapToDouble_arguments")
 		void mapToDouble(T testedValue, double expectedValue) {
-			GuardResultAssert.assertThat(guard.process(testedValue, "myVal")).as("mapToDouble(" + testedValue + ")").isSuccess(expectedValue);
+			GuardResultAssert.assertThat(guard.processToResult(testedValue, "myVal")).as("mapToDouble(" + testedValue + ")").isSuccess(expectedValue);
 		}
 
 	}

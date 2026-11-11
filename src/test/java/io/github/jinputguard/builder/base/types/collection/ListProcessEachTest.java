@@ -20,7 +20,7 @@ class ListProcessEachTest {
 				.processEach(elementGuard)
 				.build();
 
-			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = listGuard.processToResult(List.of("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(List.of("", "", "a", "b", "c"));
@@ -42,7 +42,7 @@ class ListProcessEachTest {
 
 			var listWithNull = new ArrayList<>(List.of("", " ", " a", "b ", " c "));
 			listWithNull.add(null);
-			var actualResult = listGuard.process(listWithNull, "myVal");
+			var actualResult = listGuard.processToResult(listWithNull, "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(List.of("", "", "a", "b", "c", "!"));
@@ -63,7 +63,7 @@ class ListProcessEachTest {
 				.processEach(elementGuard)
 				.build();
 
-			var actualResult = listGuard.process(List.of("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = listGuard.processToResult(List.of("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(List.of("", " ", " a", "b ", " c "));
@@ -80,7 +80,7 @@ class ListProcessEachTest {
 				.build();
 
 			var value = List.of("", "abc", "", "123", "");
-			var actualResult = listGuard.process(value, "myVal");
+			var actualResult = listGuard.processToResult(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()

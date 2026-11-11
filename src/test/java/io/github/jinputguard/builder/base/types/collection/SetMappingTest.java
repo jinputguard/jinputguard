@@ -14,7 +14,7 @@ class SetMappingTest {
 			.map(set -> set.stream().map(Integer::parseInt).collect(Collectors.toSet()), path -> "Invalid " + path)
 			.build();
 
-		var actualResult = setGuard.process(Set.of("0", "1", "2"), "myVal");
+		var actualResult = setGuard.processToResult(Set.of("0", "1", "2"), "myVal");
 
 		GuardResultAssert.assertThat(actualResult)
 			.isSuccess(Set.of(0, 1, 2));

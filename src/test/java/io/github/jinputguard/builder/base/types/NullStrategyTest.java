@@ -14,7 +14,7 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		var actualResult = guard.process(null, "myVal");
+		var actualResult = guard.processToResult(null, "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isSuccess("null-1");
 	}
@@ -26,8 +26,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("null-1");
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess("null-1");
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -37,8 +37,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess(null);
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess(null);
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -48,8 +48,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isFailure();
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isFailure();
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -59,8 +59,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("default-1");
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess("default-1");
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -82,8 +82,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess(null);
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess(null);
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -97,8 +97,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-1")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("plop-1");
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess("plop-1");
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1");
 	}
 
 	@Test
@@ -116,8 +116,8 @@ class NullStrategyTest {
 			.sanitize(value -> value + "-5")
 			.build();
 
-		GuardResultAssert.assertThat(guard.process(null, "myVal")).isSuccess("null-2-3-4-5");
-		GuardResultAssert.assertThat(guard.process("val", "myVal")).isSuccess("val-1-2-3-4-5");
+		GuardResultAssert.assertThat(guard.processToResult(null, "myVal")).isSuccess("null-2-3-4-5");
+		GuardResultAssert.assertThat(guard.processToResult("val", "myVal")).isSuccess("val-1-2-3-4-5");
 	}
 
 }

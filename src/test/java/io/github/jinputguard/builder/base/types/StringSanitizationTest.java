@@ -16,14 +16,14 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().strip().then().build();
-			var actualResult = guard.process(" \t plop \r\n", "myVal");
+			var actualResult = guard.processToResult(" \t plop \r\n", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void full_whitespace() {
 			var guard = InputGuard.builder().forString().sanitize().strip().then().build();
-			var actualResult = guard.process(" \t \r\n", "myVal");
+			var actualResult = guard.processToResult(" \t \r\n", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("");
 		}
 
@@ -35,7 +35,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().toLowerCase().then().build();
-			var actualResult = guard.process("THIS IS Éé", "myVal");
+			var actualResult = guard.processToResult("THIS IS Éé", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("this is éé");
 		}
 
@@ -47,7 +47,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().toUpperCase().then().build();
-			var actualResult = guard.process("THIS IS Éé", "myVal");
+			var actualResult = guard.processToResult("THIS IS Éé", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("THIS IS ÉÉ");
 		}
 
@@ -59,7 +59,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 		}
 
@@ -71,21 +71,21 @@ class StringSanitizationTest {
 		@Test
 		void empty_prefix_does_nothing() {
 			var guard = InputGuard.builder().forString().sanitize().prefix("").then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void when_already_prefixed_do_nothing() {
 			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-			var actualResult = guard.process("p-plop", "myVal");
+			var actualResult = guard.processToResult("p-plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 		}
 
 		@Test
 		void when_already_prefixed_with_other_case_then_do_prefix() {
 			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
-			var actualResult = guard.process("P-plop", "myVal");
+			var actualResult = guard.processToResult("P-plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-P-plop");
 		}
 
@@ -97,7 +97,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 		}
 
@@ -109,21 +109,21 @@ class StringSanitizationTest {
 		@Test
 		void empty_suffix_does_nothing() {
 			var guard = InputGuard.builder().forString().sanitize().suffix("").then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void when_already_suffixed_do_nothing() {
 			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-			var actualResult = guard.process("plop-s", "myVal");
+			var actualResult = guard.processToResult("plop-s", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 		}
 
 		@Test
 		void when_already_suffixed_with_other_case_then_do_suffix() {
 			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
-			var actualResult = guard.process("plop-S", "myVal");
+			var actualResult = guard.processToResult("plop-S", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-S-s");
 		}
 
@@ -135,7 +135,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replace('p', 'a').then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 		}
 
@@ -161,7 +161,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replace("p", "a").then().build();
-			var actualResult = guard.process("plop", "myVal");
+			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 		}
 
@@ -194,7 +194,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replaceAll("a.b[0-9]", "zzz").then().build();
-			var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
+			var actualResult = guard.processToResult("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 		}
 
@@ -222,7 +222,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replaceAll(PATTERN, "zzz").then().build();
-			var actualResult = guard.process("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
+			var actualResult = guard.processToResult("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 		}
 
@@ -255,7 +255,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replaceFirst("a.b[0-9]", "zzz").then().build();
-			var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
+			var actualResult = guard.processToResult("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 		}
 
@@ -283,7 +283,7 @@ class StringSanitizationTest {
 		@Test
 		void nominal() {
 			var guard = InputGuard.builder().forString().sanitize().replaceFirst(PATTERN, "zzz").then().build();
-			var actualResult = guard.process("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
+			var actualResult = guard.processToResult("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 		}
 

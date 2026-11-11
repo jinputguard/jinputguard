@@ -23,7 +23,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 	}
 
 	@Override
-	public GuardResult<C_OUT> process(C_IN value, @Nonnull String path) {
+	public GuardResult<C_OUT> processToResult(C_IN value, @Nonnull String path) {
 		if (value instanceof SequencedCollection<?>) {
 			return internalProcessSequenced(value, path);
 		} else {
@@ -33,7 +33,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 
 	public GuardResult<C_OUT> internalProcess(C_IN value, @Nonnull String path) {
 		var resultMap = value.stream()
-			.map(elem -> elementGuard.process(elem, path + "[X]"))
+			.map(elem -> elementGuard.processToResult(elem, path + "[X]"))
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of()).stream()
@@ -54,7 +54,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 
 		var iter = value.iterator();
 		var resultMap = IntStream.range(0, value.size())
-			.mapToObj(index -> elementGuard.process(iter.next(), path + "[" + index + "]"))
+			.mapToObj(index -> elementGuard.processToResult(iter.next(), path + "[" + index + "]"))
 			.filter(Objects::nonNull)
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 

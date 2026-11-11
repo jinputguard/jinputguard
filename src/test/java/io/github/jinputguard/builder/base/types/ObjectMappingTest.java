@@ -30,7 +30,7 @@ class ObjectMappingTest {
 		@ParameterizedTest
 		@MethodSource("mapToString_arguments")
 		void mapToString(Object testedValue, String expectedValue) {
-			GuardResultAssert.assertThat(guard.process(testedValue, "myVal")).as("mapToString(" + testedValue + ")").isSuccess(expectedValue);
+			GuardResultAssert.assertThat(guard.processToResult(testedValue, "myVal")).as("mapToString(" + testedValue + ")").isSuccess(expectedValue);
 		}
 
 	}
@@ -45,7 +45,7 @@ class ObjectMappingTest {
 			.build();
 
 		final var value = new Object();
-		var actualResult = guard.process(value, "myVal");
+		var actualResult = guard.processToResult(value, "myVal");
 
 		GuardResultAssert.assertThat(actualResult).isFailure()
 			.hasMessage("Invalid myVal")
@@ -60,7 +60,7 @@ class ObjectMappingTest {
 			.map(value -> outputValue, path -> "Invalid " + path)
 			.build();
 
-		var actual = guard.process(inputValue, "myVal");
+		var actual = guard.processToResult(inputValue, "myVal");
 
 		GuardResultAssert.assertThat(actual).isSuccess(outputValue);
 	}

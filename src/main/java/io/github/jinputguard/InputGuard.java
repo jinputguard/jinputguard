@@ -43,7 +43,7 @@ public interface InputGuard<IN, OUT> {
 	 * @return the result of processing the input value, containing either the processed value or the error details
 	 */
 	@Nonnull
-	GuardResult<OUT> process(@Nullable IN value, @Nonnull String property);
+	GuardResult<OUT> processToResult(@Nullable IN value, @Nonnull String property);
 
 	/**
 	 * Process the input value and return the processed value, or throw an exception if the processing fails.
@@ -54,8 +54,8 @@ public interface InputGuard<IN, OUT> {
 	 * @throws GuardException if the processing fails, containing the error details
 	 */
 	@Nullable
-	default OUT processOrThrow(@Nullable IN value, @Nonnull String property) {
-		return process(value, property).getOrThrow();
+	default OUT process(@Nullable IN value, @Nonnull String property) {
+		return processToResult(value, property).getOrThrow();
 	}
 
 	// ===========================================================================================================

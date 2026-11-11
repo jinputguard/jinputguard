@@ -21,7 +21,7 @@ class SetProcessEachTest {
 				.processEach(elementGuardGuard)
 				.build();
 
-			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = setGuard.processToResult(Set.of("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(Set.of("", "a", "b", "c"));
@@ -40,7 +40,7 @@ class SetProcessEachTest {
 
 			var listWithNull = new HashSet<>(List.of("", " ", " a", "b ", " c "));
 			listWithNull.add(null);
-			var actualResult = setGuard.process(listWithNull, "myVal");
+			var actualResult = setGuard.processToResult(listWithNull, "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(Set.of("", "a", "b", "c", "!"));
@@ -61,7 +61,7 @@ class SetProcessEachTest {
 				.processEach(elementGuardGuard)
 				.build();
 
-			var actualResult = setGuard.process(Set.of("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = setGuard.processToResult(Set.of("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isSuccess(Set.of("", " ", " a", "b ", " c "));
@@ -75,7 +75,7 @@ class SetProcessEachTest {
 				.build();
 
 			var value = Set.of("", "abc", "123");
-			var actualResult = setGuard.process(value, "myVal");
+			var actualResult = setGuard.processToResult(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
@@ -92,7 +92,7 @@ class SetProcessEachTest {
 				.build();
 
 			var value = Set.of("", "abc", "0", "123");
-			var actualResult = setGuard.process(value, "myVal");
+			var actualResult = setGuard.processToResult(value, "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()

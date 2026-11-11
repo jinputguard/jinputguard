@@ -18,7 +18,7 @@ class ObjectSanitizationTest {
 			})
 			.build();
 		Assertions.assertThatRuntimeException()
-			.isThrownBy(() -> guard.process(new Object(), "myVal"))
+			.isThrownBy(() -> guard.processToResult(new Object(), "myVal"))
 			.isEqualTo(exception);
 	}
 
@@ -37,14 +37,14 @@ class ObjectSanitizationTest {
 
 		@Test
 		void when_applyWithNull_then_function_is_called() {
-			var actualResult = GUARD.process(null, "myVal");
+			var actualResult = GUARD.processToResult(null, "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
 		}
 
 		@Test
 		void when_apply_then_function_is_called() {
 			var nonNullObject = new Object();
-			var actualResult = GUARD.process(nonNullObject, "myVal");
+			var actualResult = GUARD.processToResult(nonNullObject, "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
 		}
 

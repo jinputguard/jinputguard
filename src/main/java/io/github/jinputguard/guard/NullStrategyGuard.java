@@ -26,12 +26,12 @@ public class NullStrategyGuard<IN, OUT> implements InputGuard<IN, OUT> {
 	}
 
 	@Override
-	public GuardResult<OUT> process(IN value, @Nonnull String path) {
+	public GuardResult<OUT> processToResult(IN value, @Nonnull String path) {
 		return switch (strategy) {
-			case KeepProcessing<IN> str -> nextGuard.process(value, path);
-			case ReturnNull<IN> str -> value == null ? GuardResult.success(null) : nextGuard.process(value, path);
-			case Fail<IN> str -> value == null ? GuardResult.failure(BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)) : nextGuard.process(value, path);
-			case UseDefault<IN>(var defaultValue) -> nextGuard.process(value == null ? defaultValue : value, path);
+			case KeepProcessing<IN> str -> nextGuard.processToResult(value, path);
+			case ReturnNull<IN> str -> value == null ? GuardResult.success(null) : nextGuard.processToResult(value, path);
+			case Fail<IN> str -> value == null ? GuardResult.failure(BaseValidationErrors.OBJECT_MUST_NOT_BE_NULL.toFailure(path)) : nextGuard.processToResult(value, path);
+			case UseDefault<IN>(var defaultValue) -> nextGuard.processToResult(value == null ? defaultValue : value, path);
 		};
 	}
 

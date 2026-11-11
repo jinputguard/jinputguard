@@ -16,13 +16,13 @@ public class ChainedGuard<IN, OUT, NEW_OUT> implements InputGuard<IN, NEW_OUT> {
 	}
 
 	@Override
-	public GuardResult<NEW_OUT> process(IN value, @Nonnull String path) {
-		var resultOut = firstGuard.process(value, path);
+	public GuardResult<NEW_OUT> processToResult(IN value, @Nonnull String path) {
+		var resultOut = firstGuard.processToResult(value, path);
 		if (resultOut.isFailure()) {
 			return GuardResult.failure(resultOut.getFailure());
 		}
 		var outValue = resultOut.get();
-		return secondGuard.process(outValue, path);
+		return secondGuard.processToResult(outValue, path);
 	}
 
 	@Override
