@@ -19,10 +19,6 @@ public class ObjectInputGuardBuilder<IN, OUT> extends AbstractInputGuardBuilder<
 		return new ObjectInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	public ObjectSanitizationBuilder<IN, OUT> sanitize() {
-		return new ObjectSanitizationBuilder<>(this);
-	}
-
 	public ObjectValidationBuilder<IN, OUT> validateThat() {
 		return new ObjectValidationBuilder<>(this);
 	}

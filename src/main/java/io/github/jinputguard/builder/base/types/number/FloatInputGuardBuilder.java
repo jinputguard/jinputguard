@@ -6,7 +6,7 @@ import io.github.jinputguard.guard.InputGuards;
 public class FloatInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Float, FloatInputGuardBuilder<IN>> {
 
 	public FloatInputGuardBuilder(InputGuard<IN, Float> previous) {
-		super(previous);
+		super(previous, FloatTester.INSTANCE);
 	}
 
 	@Override
@@ -16,12 +16,6 @@ public class FloatInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<
 
 	public static FloatInputGuardBuilder<Float> newInstance() {
 		return new FloatInputGuardBuilder<>(InputGuards.noOpGuard());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public FloatSanitizationBuilder<IN> sanitize() {
-		return new FloatSanitizationBuilder<>(this);
 	}
 
 	@Override

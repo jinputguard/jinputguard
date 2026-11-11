@@ -6,7 +6,7 @@ import io.github.jinputguard.guard.InputGuards;
 public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Integer, IntegerInputGuardBuilder<IN>> {
 
 	public IntegerInputGuardBuilder(InputGuard<IN, Integer> previous) {
-		super(previous);
+		super(previous, IntegerTester.INSTANCE);
 	}
 
 	@Override
@@ -16,12 +16,6 @@ public class IntegerInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilde
 
 	public static IntegerInputGuardBuilder<Integer> newInstance() {
 		return new IntegerInputGuardBuilder<>(InputGuards.noOpGuard());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public IntegerSanitizationBuilder<IN> sanitize() {
-		return new IntegerSanitizationBuilder<>(this);
 	}
 
 	@Override

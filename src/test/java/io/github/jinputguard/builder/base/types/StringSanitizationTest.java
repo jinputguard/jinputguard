@@ -15,14 +15,14 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().strip().then().build();
+			var guard = InputGuard.builder().forString().strip().build();
 			var actualResult = guard.processToResult(" \t plop \r\n", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void full_whitespace() {
-			var guard = InputGuard.builder().forString().sanitize().strip().then().build();
+			var guard = InputGuard.builder().forString().strip().build();
 			var actualResult = guard.processToResult(" \t \r\n", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("");
 		}
@@ -34,7 +34,7 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().toLowerCase().then().build();
+			var guard = InputGuard.builder().forString().toLowerCase().build();
 			var actualResult = guard.processToResult("THIS IS Éé", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("this is éé");
 		}
@@ -46,7 +46,7 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().toUpperCase().then().build();
+			var guard = InputGuard.builder().forString().toUpperCase().build();
 			var actualResult = guard.processToResult("THIS IS Éé", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("THIS IS ÉÉ");
 		}
@@ -58,33 +58,33 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
+			var guard = InputGuard.builder().forString().prefix("p-").build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 		}
 
 		@Test
 		void null_prefix_throws_NPE() {
-			Assertions.assertThatNullPointerException().isThrownBy(() -> InputGuard.builder().forString().sanitize().prefix(null));
+			Assertions.assertThatNullPointerException().isThrownBy(() -> InputGuard.builder().forString().prefix(null));
 		}
 
 		@Test
 		void empty_prefix_does_nothing() {
-			var guard = InputGuard.builder().forString().sanitize().prefix("").then().build();
+			var guard = InputGuard.builder().forString().prefix("").build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void when_already_prefixed_do_nothing() {
-			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
+			var guard = InputGuard.builder().forString().prefix("p-").build();
 			var actualResult = guard.processToResult("p-plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-plop");
 		}
 
 		@Test
 		void when_already_prefixed_with_other_case_then_do_prefix() {
-			var guard = InputGuard.builder().forString().sanitize().prefix("p-").then().build();
+			var guard = InputGuard.builder().forString().prefix("p-").build();
 			var actualResult = guard.processToResult("P-plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("p-P-plop");
 		}
@@ -96,33 +96,33 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
+			var guard = InputGuard.builder().forString().suffix("-s").build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 		}
 
 		@Test
 		void null_suffix_throws_NPE() {
-			Assertions.assertThatNullPointerException().isThrownBy(() -> InputGuard.builder().forString().sanitize().suffix(null));
+			Assertions.assertThatNullPointerException().isThrownBy(() -> InputGuard.builder().forString().suffix(null));
 		}
 
 		@Test
 		void empty_suffix_does_nothing() {
-			var guard = InputGuard.builder().forString().sanitize().suffix("").then().build();
+			var guard = InputGuard.builder().forString().suffix("").build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop");
 		}
 
 		@Test
 		void when_already_suffixed_do_nothing() {
-			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
+			var guard = InputGuard.builder().forString().suffix("-s").build();
 			var actualResult = guard.processToResult("plop-s", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-s");
 		}
 
 		@Test
 		void when_already_suffixed_with_other_case_then_do_suffix() {
-			var guard = InputGuard.builder().forString().sanitize().suffix("-s").then().build();
+			var guard = InputGuard.builder().forString().suffix("-s").build();
 			var actualResult = guard.processToResult("plop-S", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("plop-S-s");
 		}
@@ -134,7 +134,7 @@ class StringSanitizationTest {
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replace('p', 'a').then().build();
+			var guard = InputGuard.builder().forString().replace('p', 'a').build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 		}
@@ -147,20 +147,20 @@ class StringSanitizationTest {
 		@Test
 		void target_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replace(null, "zzz").then().build()
+				() -> InputGuard.builder().forString().replace(null, "zzz").build()
 			);
 		}
 
 		@Test
 		void replacement_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replace("p", null).then().build()
+				() -> InputGuard.builder().forString().replace("p", null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replace("p", "a").then().build();
+			var guard = InputGuard.builder().forString().replace("p", "a").build();
 			var actualResult = guard.processToResult("plop", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("aloa");
 		}
@@ -173,27 +173,27 @@ class StringSanitizationTest {
 		@Test
 		void regex_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceAll((String) null, "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceAll((String) null, "zzz").build()
 			);
 		}
 
 		@Test
 		void regex_invalid_throws_PatternSyntaxException() {
 			Assertions.assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceAll("a{0", "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceAll("a{0", "zzz").build()
 			);
 		}
 
 		@Test
 		void replacement_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceAll("a.b[0-9]", null).then().build()
+				() -> InputGuard.builder().forString().replaceAll("a.b[0-9]", null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replaceAll("a.b[0-9]", "zzz").then().build();
+			var guard = InputGuard.builder().forString().replaceAll("a.b[0-9]", "zzz").build();
 			var actualResult = guard.processToResult("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 		}
@@ -208,20 +208,20 @@ class StringSanitizationTest {
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceAll((Pattern) null, "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceAll((Pattern) null, "zzz").build()
 			);
 		}
 
 		@Test
 		void replacement_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceAll(PATTERN, null).then().build()
+				() -> InputGuard.builder().forString().replaceAll(PATTERN, null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replaceAll(PATTERN, "zzz").then().build();
+			var guard = InputGuard.builder().forString().replaceAll(PATTERN, "zzz").build();
 			var actualResult = guard.processToResult("replaced: anb5 / replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / replaced: zzz / not replaced: ab5");
 		}
@@ -234,27 +234,27 @@ class StringSanitizationTest {
 		@Test
 		void regex_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceFirst((String) null, "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceFirst((String) null, "zzz").build()
 			);
 		}
 
 		@Test
 		void regex_invalid_throws_PatternSyntaxException() {
 			Assertions.assertThatExceptionOfType(PatternSyntaxException.class).isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceFirst("a{0", "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceFirst("a{0", "zzz").build()
 			);
 		}
 
 		@Test
 		void replacement_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceFirst("a.b[0-9]", null).then().build()
+				() -> InputGuard.builder().forString().replaceFirst("a.b[0-9]", null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replaceFirst("a.b[0-9]", "zzz").then().build();
+			var guard = InputGuard.builder().forString().replaceFirst("a.b[0-9]", "zzz").build();
 			var actualResult = guard.processToResult("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 		}
@@ -269,20 +269,20 @@ class StringSanitizationTest {
 		@Test
 		void pattern_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceFirst((Pattern) null, "zzz").then().build()
+				() -> InputGuard.builder().forString().replaceFirst((Pattern) null, "zzz").build()
 			);
 		}
 
 		@Test
 		void replacement_null_throws_NPE() {
 			Assertions.assertThatNullPointerException().isThrownBy(
-				() -> InputGuard.builder().forString().sanitize().replaceFirst(PATTERN, null).then().build()
+				() -> InputGuard.builder().forString().replaceFirst(PATTERN, null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
-			var guard = InputGuard.builder().forString().sanitize().replaceFirst(PATTERN, "zzz").then().build();
+			var guard = InputGuard.builder().forString().replaceFirst(PATTERN, "zzz").build();
 			var actualResult = guard.processToResult("replaced: anb5 / not replaced: anb5 / not replaced: ab5", "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess("replaced: zzz / not replaced: anb5 / not replaced: ab5");
 		}

@@ -18,14 +18,14 @@ abstract class AbstractCollectionSanitizationTest<C extends Collection<String>, 
 		@Test
 		void when_null_filter_then_throw_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
-				() -> initiateGuard().sanitize().filter(null).then().build()
+				() -> initiateGuard().filter(null).build()
 			);
 		}
 
 		@Test
 		void nominal() {
 			var listGuard = initiateGuard()
-				.sanitize().filter(value -> !value.isEmpty()).then()
+				.filter(value -> !value.isEmpty())
 				.build();
 
 			var actualResult = listGuard.processToResult(buildCollection("", " ", " a", "b ", " c "), "myVal");

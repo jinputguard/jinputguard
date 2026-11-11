@@ -15,7 +15,7 @@ class ListProcessEachTest {
 
 		@Test
 		void nominal() {
-			var elementGuard = InputGuard.builder().forString().sanitize().strip().then().build();
+			var elementGuard = InputGuard.builder().forString().strip().build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)
 				.build();
@@ -33,8 +33,7 @@ class ListProcessEachTest {
 		void nominal_withNullDefaults() {
 			var elementGuard = InputGuard.builder().forString()
 				.ifNullThen().useDefault("!")
-				.sanitize()
-				.strip().then()
+				.strip()
 				.build();
 			var listGuard = InputGuard.builder().forList(String.class)
 				.processEach(elementGuard)

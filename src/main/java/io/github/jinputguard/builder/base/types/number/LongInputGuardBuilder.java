@@ -6,7 +6,7 @@ import io.github.jinputguard.guard.InputGuards;
 public class LongInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Long, LongInputGuardBuilder<IN>> {
 
 	public LongInputGuardBuilder(InputGuard<IN, Long> previous) {
-		super(previous);
+		super(previous, LongTester.INSTANCE);
 	}
 
 	@Override
@@ -16,12 +16,6 @@ public class LongInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<I
 
 	public static LongInputGuardBuilder<Long> newInstance() {
 		return new LongInputGuardBuilder<>(InputGuards.noOpGuard());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public LongSanitizationBuilder<IN> sanitize() {
-		return new LongSanitizationBuilder<>(this);
 	}
 
 	@Override

@@ -16,7 +16,7 @@ class SetProcessEachTest {
 
 		@Test
 		void nominal() {
-			var elementGuardGuard = InputGuard.builder().forString().sanitize().strip().then().build();
+			var elementGuardGuard = InputGuard.builder().forString().strip().build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuardGuard)
 				.build();
@@ -31,8 +31,7 @@ class SetProcessEachTest {
 		void nominal_withNullDefaults() {
 			var elementGuard = InputGuard.builder().forString()
 				.ifNullThen().useDefault("!")
-				.sanitize()
-				.strip().then()
+				.strip()
 				.build();
 			var setGuard = InputGuard.builder().forSet(String.class)
 				.processEach(elementGuard)

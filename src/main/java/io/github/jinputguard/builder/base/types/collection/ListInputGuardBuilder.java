@@ -28,12 +28,6 @@ public class ListInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBu
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ListSanitizationBuilder<IN, T> sanitize() {
-		return new ListSanitizationBuilder<>(this);
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
 	public ListValidationBuilder<IN, T> validateThat() {
 		return new ListValidationBuilder<>(this);
 	}

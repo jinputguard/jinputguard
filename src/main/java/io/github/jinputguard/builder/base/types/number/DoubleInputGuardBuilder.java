@@ -6,7 +6,7 @@ import io.github.jinputguard.guard.InputGuards;
 public class DoubleInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder<IN, Double, DoubleInputGuardBuilder<IN>> {
 
 	public DoubleInputGuardBuilder(InputGuard<IN, Double> previous) {
-		super(previous);
+		super(previous, DoubleTester.INSTANCE);
 	}
 
 	@Override
@@ -16,12 +16,6 @@ public class DoubleInputGuardBuilder<IN> extends AbstractNumberInputGuardBuilder
 
 	public static DoubleInputGuardBuilder<Double> newInstance() {
 		return new DoubleInputGuardBuilder<>(InputGuards.noOpGuard());
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public DoubleSanitizationBuilder<IN> sanitize() {
-		return new DoubleSanitizationBuilder<>(this);
 	}
 
 	@Override

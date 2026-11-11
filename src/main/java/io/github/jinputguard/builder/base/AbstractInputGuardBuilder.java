@@ -39,8 +39,16 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 		return apply(InputGuards.sanitizationGuard(sanitizationFunction));
 	}
 
+	protected SELF sanitizeOrNullFail(UnaryOperator<OUT> sanitizationFunction) {
+		return requireNotNull().sanitize(sanitizationFunction);
+	}
+
 	// ------------------------------------------------------------------------------------------------------------
 	// VALIDATION
+
+	public final SELF requireNotNull() {
+		return ifNullThen().fail();
+	}
 
 	@Override
 	public SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction) {

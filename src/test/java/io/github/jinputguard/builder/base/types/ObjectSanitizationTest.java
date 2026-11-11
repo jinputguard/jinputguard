@@ -3,14 +3,32 @@ package io.github.jinputguard.builder.base.types;
 import io.github.jinputguard.GuardResultAssert;
 import io.github.jinputguard.InputGuard;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ObjectSanitizationTest {
 
 	@Test
-	void when_exception() {
+	void when_sanitize_then_function_is_called() {
+		final Object newObject = new Object();
+		var guard = InputGuard.builder().forClass(Object.class).sanitize(v -> newObject).build();
+
+		var actualResult = guard.processToResult(new Object(), "myVal");
+
+		GuardResultAssert.assertThat(actualResult).isSuccess(newObject);
+	}
+
+	@Test
+	void when_sanitizeWithNullInput_then_function_is_called() {
+		final Object newObject = new Object();
+		var guard = InputGuard.builder().forClass(Object.class).sanitize(v -> newObject).build();
+
+		var actualResult = guard.processToResult(null, "myVal");
+
+		GuardResultAssert.assertThat(actualResult).isSuccess(newObject);
+	}
+
+	@Test
+	void when_sanitize_throw_exception() {
 		var exception = new RuntimeException("any runtime exception happening :-/");
 		var guard = InputGuard.builder().forClass(Object.class)
 			.sanitize(value -> {
@@ -20,34 +38,6 @@ class ObjectSanitizationTest {
 		Assertions.assertThatRuntimeException()
 			.isThrownBy(() -> guard.processToResult(new Object(), "myVal"))
 			.isEqualTo(exception);
-	}
-
-	@Nested
-	class ApplyTest {
-
-		private static final Object NEW_OBJECT = new Object();
-		private static InputGuard<Object, Object> GUARD;
-
-		@BeforeAll
-		static void setup() {
-			GUARD = InputGuard.builder().forClass(Object.class)
-				.sanitize().apply(v -> NEW_OBJECT).then()
-				.build();
-		}
-
-		@Test
-		void when_applyWithNull_then_function_is_called() {
-			var actualResult = GUARD.processToResult(null, "myVal");
-			GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
-		}
-
-		@Test
-		void when_apply_then_function_is_called() {
-			var nonNullObject = new Object();
-			var actualResult = GUARD.processToResult(nonNullObject, "myVal");
-			GuardResultAssert.assertThat(actualResult).isSuccess(NEW_OBJECT);
-		}
-
 	}
 
 }

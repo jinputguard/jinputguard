@@ -7,7 +7,10 @@ import io.github.jinputguard.builder.base.types.number.FloatInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.IntegerInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.LongInputGuardBuilder;
 import io.github.jinputguard.guard.InputGuards;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, String, StringInputGuardBuilder<IN>> {
 
@@ -24,13 +27,134 @@ public class StringInputGuardBuilder<IN> extends AbstractInputGuardBuilder<IN, S
 		return new StringInputGuardBuilder<>(InputGuards.noOpGuard());
 	}
 
-	public StringSanitizationBuilder<IN> sanitize() {
-		return new StringSanitizationBuilder<>(this);
-	}
-
 	public StringValidationBuilder<IN> validateThat() {
 		return new StringValidationBuilder<>(this);
 	}
+
+	// --------------------------------------------------------------------------------------------------------------------
+	// SANITIZATION
+
+	/**
+	 * Apply {@link String#strip()}
+	 */
+	public StringInputGuardBuilder<IN> strip() {
+		return sanitizeOrNullFail(String::strip);
+	}
+
+	/**
+	 * Apply {@link String#toUpperCase()}
+	 */
+	public StringInputGuardBuilder<IN> toUpperCase() {
+		return sanitizeOrNullFail(String::toUpperCase);
+	}
+
+	/**
+	 * Apply {@link String#toLowerCase()}
+	 */
+	public StringInputGuardBuilder<IN> toLowerCase() {
+		return sanitizeOrNullFail(String::toLowerCase);
+	}
+
+	/**
+	 * Add the given prefix if the value does not already starts with.
+	 * 
+	 * @param prefix The prefix, cannot be <code>null</code>
+	 * 
+	 * @see String#startsWith(String)
+	 */
+	public StringInputGuardBuilder<IN> prefix(String prefix) {
+		Objects.requireNonNull(prefix, "prefix cannot be null");
+		return sanitizeOrNullFail(value -> value.startsWith(prefix) ? value : prefix + value);
+	}
+
+	/**
+	 * Add the given suffix if the value does not already ends with.
+	 * 
+	 * @param suffix The suffix, cannot be <code>null</code>
+	 * 
+	 * @see String#endsWith(String)
+	 */
+	public StringInputGuardBuilder<IN> suffix(String suffix) {
+		Objects.requireNonNull(suffix, "suffix cannot be null");
+		return sanitizeOrNullFail(value -> value.endsWith(suffix) ? value : value + suffix);
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replace(char, char)}
+	 * 
+	 * @param oldChar	The old character
+	 * @param newChar	The new character
+	 */
+	public StringInputGuardBuilder<IN> replace(char oldChar, char newChar) {
+		return sanitizeOrNullFail(value -> value.replace(oldChar, newChar));
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replace(CharSequence, CharSequence)}
+	 * 
+	 * @param  target 		The sequence of char values to be replaced, cannot be <code>null</code>
+	 * @param  replacement 	The replacement sequence of char values, cannot be <code>null</code>
+	 */
+	public StringInputGuardBuilder<IN> replace(CharSequence target, CharSequence replacement) {
+		Objects.requireNonNull(target, "target cannot be null");
+		Objects.requireNonNull(replacement, "replacement cannot be null");
+		return sanitizeOrNullFail(value -> value.replace(target, replacement));
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replaceAll(String, String)}
+	 * 
+	 * @param   regex		The regular expression to which this string is to be matched, cannot be <code>null</code>
+	 * @param   replacement	The string to be substituted for each match, cannot be <code>null</code>
+	 * 
+	 * @throws  PatternSyntaxException	If the expression's syntax is invalid
+	 */
+	public StringInputGuardBuilder<IN> replaceAll(String regex, String replacement) {
+		Objects.requireNonNull(regex, "regex cannot be null");
+		Objects.requireNonNull(replacement, "replacement cannot be null");
+		return replaceAll(Pattern.compile(regex), replacement);
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replaceAll(String, String)}
+	 * 
+	 * @param   pattern		The patternto which this string is to be matched, cannot be <code>null</code>
+	 * @param   replacement	The string to be substituted for each match, cannot be <code>null</code>
+	 */
+	public StringInputGuardBuilder<IN> replaceAll(Pattern pattern, String replacement) {
+		Objects.requireNonNull(pattern, "pattern cannot be null");
+		Objects.requireNonNull(replacement, "replacement cannot be null");
+		return sanitizeOrNullFail(value -> pattern.matcher(value).replaceAll(replacement));
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replaceFirst(String, String)}
+	 * 
+	 * @param   regex		The regular expression to which this string is to be matched, cannot be <code>null</code>
+	 * @param   replacement	The string to be substituted for the first match, cannot be <code>null</code>
+	 * 
+	 * @throws  PatternSyntaxException	If the expression's syntax is invalid
+	 */
+	public StringInputGuardBuilder<IN> replaceFirst(String regex, String replacement) {
+		Objects.requireNonNull(regex, "regex cannot be null");
+		Objects.requireNonNull(replacement, "replacement cannot be null");
+		return replaceFirst(Pattern.compile(regex), replacement);
+	}
+
+	/**
+	 * Apply similar behavior than {@link String#replaceFirst(String, String)}
+	 * 
+	 * @param   pattern		The pattern to which this string is to be matched, cannot be <code>null</code>
+	 * @param   replacement	The string to be substituted for the first match, cannot be <code>null</code>
+	 */
+	public StringInputGuardBuilder<IN> replaceFirst(Pattern pattern, String replacement) {
+		Objects.requireNonNull(pattern, "pattern cannot be null");
+		Objects.requireNonNull(replacement, "replacement cannot be null");
+		return sanitizeOrNullFail(value -> pattern.matcher(value).replaceFirst(replacement));
+	}
+
+	// --------------------------------------------------------------------------------------------------------------------
+	// MAPPING
 
 	/**
 	 * Parse the input to an int value using {@link Integer#parseInt(String)}.
