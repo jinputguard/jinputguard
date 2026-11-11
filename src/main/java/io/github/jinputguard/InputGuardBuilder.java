@@ -7,6 +7,7 @@ import jakarta.annotation.Nonnull;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * Builder for {@link InputGuard}.
@@ -43,21 +44,18 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @return	a new builder
 	 */
 	@Nonnull
-	SELF sanitize(@Nonnull Function<OUT, OUT> sanitizationFunction);
+	SELF sanitize(@Nonnull UnaryOperator<OUT> sanitizationFunction);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// VALIDATION
 
 	/**
 	 * Validate the value using the given validation function.
-	 * The validation function takes the output value and a path as input, and returns an {@link ErrorMessage} if the value is invalid, or <code>null</code> if the value is valid.
-	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing the returned {@link ErrorMessage}.
+	 * In case of failure, the guard will fail with a {@link GuardFailure} created by the validation function.
 	 * 
-	 * @param validationFunction	The validation function to apply on the value and the path
+	 * @param validationFunction	A function that takes the output value and the path, and returns a {@link GuardFailure} if the value is invalid, or <code>null</code> if the value is valid
 	 * 
 	 * @return	a new builder
-	 * 
-	 * @see ValidationFailure
 	 */
 	@Nonnull
 	SELF validate(@Nonnull BiFunction<OUT, String, GuardFailure> validationFunction);
@@ -66,7 +64,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * Validate the value using the given predicate.
 	 * In case of failure, the guard will fail with a {@link ValidationFailure} containing a {@link ValidationError#GenericError} with the given error message.
 	 * 
-	 * @param validationPredicate	The test to apply on the value
+	 * @param validationPredicate	The test to apply on the value, returning <code>true</code> if the value is valid, or <code>false</code> if the value is invalid
 	 * @param errorMessageFunction	A function that takes the path as input and returns an error message to use in case of failure
 	 * 
 	 * @return	a new builder
@@ -75,7 +73,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 * @see GenericValidationError
 	 */
 	@Nonnull
-	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull Function<String, String> errorMessageFunction);
+	SELF validate(@Nonnull Predicate<OUT> validationPredicate, @Nonnull UnaryOperator<String> errorMessageFunction);
 
 	// ------------------------------------------------------------------------------------------------------------
 	// MAPPING
@@ -95,7 +93,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull UnaryOperator<String> failureMessageFunction
 	);
 
 	/**
@@ -115,7 +113,7 @@ public interface InputGuardBuilder<IN, OUT, SELF extends InputGuardBuilder<IN, O
 	 */
 	@Nonnull
 	<NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull UnaryOperator<String> failureMessageFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	);
 
 	/**

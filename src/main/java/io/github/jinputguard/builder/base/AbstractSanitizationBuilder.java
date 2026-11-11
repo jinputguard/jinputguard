@@ -1,7 +1,7 @@
 package io.github.jinputguard.builder.base;
 
 import io.github.jinputguard.InputGuardBuilder;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public abstract class AbstractSanitizationBuilder<IN, T, B extends InputGuardBuilder<IN, T, B>, SELF extends AbstractSanitizationBuilder<IN, T, B, SELF>>
 	extends AbstractIntermediateWithReturnBuilder<IN, T, B, SELF> {
@@ -17,7 +17,7 @@ public abstract class AbstractSanitizationBuilder<IN, T, B extends InputGuardBui
 	 * 
 	 * @return this sanitization builder
 	 */
-	public SELF apply(Function<T, T> function) {
+	public SELF apply(UnaryOperator<T> function) {
 		builder = builder.sanitize(function);
 		return cast();
 	}

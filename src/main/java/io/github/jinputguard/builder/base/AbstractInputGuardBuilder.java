@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractInputGuardBuilder<IN, OUT, SELF>> implements InputGuardBuilder<IN, OUT, SELF> {
 
@@ -34,7 +35,7 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	// SANITIZATION
 
 	@Override
-	public SELF sanitize(Function<OUT, OUT> sanitizationFunction) {
+	public SELF sanitize(UnaryOperator<OUT> sanitizationFunction) {
 		return apply(InputGuards.sanitizationGuard(sanitizationFunction));
 	}
 
@@ -47,9 +48,8 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	}
 
 	@Override
-	public SELF validate(Predicate<OUT> validationPredicate, Function<String, String> messageTemplateFunction) {
+	public SELF validate(Predicate<OUT> validationPredicate, UnaryOperator<String> messageTemplateFunction) {
 		return this.validate((value, path) -> validationPredicate.test(value) ? null : GuardFailure.from(path, messageTemplateFunction.apply(path)));
-
 	}
 
 	// ------------------------------------------------------------------------------------------------------------
@@ -58,14 +58,14 @@ public abstract class AbstractInputGuardBuilder<IN, OUT, SELF extends AbstractIn
 	@SuppressWarnings("unchecked")
 	@Override
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> InputGuardBuilder<IN, NEW_OUT, B> map(
-		Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction
+		Function<OUT, NEW_OUT> mappingFunction, @Nonnull UnaryOperator<String> failureMessageFunction
 	) {
 		return (InputGuardBuilder<IN, NEW_OUT, B>) map(mappingFunction, failureMessageFunction, ObjectInputGuardBuilder::new);
 	}
 
 	@Override
 	public <NEW_OUT, B extends InputGuardBuilder<IN, NEW_OUT, B>> B map(
-		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull Function<String, String> failureMessageFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
+		@Nonnull Function<OUT, NEW_OUT> mappingFunction, @Nonnull UnaryOperator<String> failureMessageFunction, @Nonnull Function<InputGuard<IN, NEW_OUT>, B> builderFunction
 	) {
 		return builderFunction.apply(InputGuards.mappingGuard(this.build(), mappingFunction, failureMessageFunction));
 	}

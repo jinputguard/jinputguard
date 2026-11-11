@@ -166,6 +166,25 @@ InputGuard<String, String> myGuard = InputGuard.builder()
 // Input value " abc123 " becomes "ID-ABC123"
 ```
 
+## Validation
+Validation is the process of checking if a variable or data meets certain criteria or constraints. For example, validation can involve verifying that an email address is in the correct format, ensuring a number falls within a specified range, or confirming that required fields are not empty.
+
+```java
+// InputGuardBuilder.validate(Function<T, ValidationError>)
+InputGuard<String, Integer> myGuard = InputGuard.builder()
+  .forClass(String.class)
+  .validate(value -> !value.isEmpty(), path -> path + " must not be empty")
+  .build();
+```
+
+Specialized builders propose various built-in validation methods:
+```java
+InputGuard<String, Integer> myGuard = InputGuard.builder()
+  .forString()       // Specialized String guard builder
+  .validateThat().isNotEmpty().then()
+  .build();
+```
+
 ## Mapping
 Mapping is the process of transforming a variable of a given type into another type. 
 
@@ -186,31 +205,6 @@ InputGuard<String, Integer> myGuard = InputGuard.builder()
   .mapToInteger()
   .build();
 // Input value "123" becomes 123 (Integer)
-```
-
-## Validation
-Validation is the process of checking if a variable or data meets certain criteria or constraints. For example, validation can involve verifying that an email address is in the correct format, ensuring a number falls within a specified range, or confirming that required fields are not empty.
-
-The `validate` method takes a `Function<T, ErrorMessage>` as argument, returning `null` if the value is valid, or a non-null `ErrorMessage` otherwise.
-
-> [!NOTE]
-> For now `ErrorMessage` is basically an interface exposing a simple `String getMessage()` method. More methods could be added some day (e.g. `Map<String, String> getParameters()`, etc.).
-
-
-```java
-// InputGuardBuilder.validate(Function<T, ValidationError>)
-InputGuard<String, Integer> myGuard = InputGuard.builder()
-  .forClass(String.class)
-  .validate(value -> value.isEmpty() ? new ValidationError.StringIsEmpty() : null)
-  .build();
-```
-
-Specialized builders propose various built-in validation methods:
-```java
-InputGuard<String, Integer> myGuard = InputGuard.builder()
-  .forString()       // Specialized String guard builder
-  .validateThat().isNotEmpty().then()
-  .build();
 ```
 
 ## Guard result
