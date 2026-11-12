@@ -47,7 +47,7 @@ class UUIDValidationTest {
 		void when_is_nil_then_failure(String input) {
 			var actual = GUARD.processToResult(UUID.fromString(input), "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal must not be nil UUID");
+				.hasMessage("myVal must not be the nil UUID");
 		}
 
 	}

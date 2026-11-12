@@ -128,7 +128,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 				GuardResultAssert.assertThat(actualResult)
 					.as(value + " requireGreaterOrEqualTo(" + ref + ") = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be greater or equal to " + ref);
+					.hasMessage("myVal must be greater than or equal to " + ref);
 			}
 		}
 
@@ -136,9 +136,9 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class RequireLowerThan {
+	class RequireLessThan {
 
-		Arguments[] requireLowerThan_arguments() {
+		Arguments[] requireLessThan_arguments() {
 			return new Arguments[] {
 				// Value, ref, success
 				Arguments.of(getNumberProvider().getMinValue(), getNumberProvider().getMinValue(), false),
@@ -175,21 +175,21 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		}
 
 		@ParameterizedTest
-		@MethodSource("requireLowerThan_arguments")
-		void requireLowerThan(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().requireLowerThan(ref).build();
+		@MethodSource("requireLessThan_arguments")
+		void requireLessThan(T value, T ref, boolean isSuccess) {
+			var guard = initiateGuard().requireLessThan(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
 			if (isSuccess) {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " requireLowerThan(" + ref + ") = SUCCESS")
+					.as(value + " requireLessThan(" + ref + ") = SUCCESS")
 					.isSuccess(value);
 			} else {
 				GuardResultAssert.assertThat(actualResult)
-					.as(value + " requireLowerThan(" + ref + ") = FAIL")
+					.as(value + " requireLessThan(" + ref + ") = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be lower than " + ref);
+					.hasMessage("myVal must be less than " + ref);
 			}
 		}
 
@@ -238,7 +238,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 		@ParameterizedTest
 		@MethodSource("requireLowerOrEqualTo_arguments")
 		void requireLowerOrEqualTo(T value, T ref, boolean isSuccess) {
-			var guard = initiateGuard().requireLowerOrEqualTo(ref).build();
+			var guard = initiateGuard().requireLessThanOrEqualTo(ref).build();
 
 			var actualResult = guard.processToResult(value, "myVal");
 
@@ -250,7 +250,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 				GuardResultAssert.assertThat(actualResult)
 					.as(value + " requireLowerOrEqualTo(" + ref + ") = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be lower or equal to " + ref);
+					.hasMessage("myVal must be less than or equal to " + ref);
 			}
 		}
 
@@ -324,7 +324,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 				GuardResultAssert.assertThat(actualResult)
 					.as(value + " requirePositiveOrNul() = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be greater or equal to " + getNumberProvider().getZero());
+					.hasMessage("myVal must be greater than or equal to " + getNumberProvider().getZero());
 			}
 		}
 
@@ -398,7 +398,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 				GuardResultAssert.assertThat(actualResult)
 					.as(value + " requireNegative() = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be lower than " + getNumberProvider().getZero());
+					.hasMessage("myVal must be less than " + getNumberProvider().getZero());
 			}
 		}
 
@@ -435,7 +435,7 @@ abstract class AbstractNumberValidationTest<T extends Number> extends AbstractNu
 				GuardResultAssert.assertThat(actualResult)
 					.as(value + " requireNegativeOrNul() = FAIL")
 					.isFailure()
-					.hasMessage("myVal must be lower or equal to " + getNumberProvider().getZero());
+					.hasMessage("myVal must be less than or equal to " + getNumberProvider().getZero());
 			}
 		}
 

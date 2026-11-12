@@ -60,7 +60,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have exactly 2 element(s)");
+				.hasMessage("myVal must have exactly 2 elements");
 		}
 
 		@Test
@@ -69,7 +69,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have exactly 2 element(s)");
+				.hasMessage("myVal must have exactly 2 elements");
 		}
 
 	}
@@ -103,7 +103,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have at least 2 element(s)");
+				.hasMessage("myVal must have at least 2 elements");
 		}
 
 		@Test
@@ -147,7 +147,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have at most 2 element(s)");
+				.hasMessage("myVal must have at most 2 elements");
 		}
 
 	}
@@ -185,7 +185,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have between 2 and 4 element(s)");
+				.hasMessage("myVal must have between 2 and 4 elements");
 		}
 
 		@Test
@@ -215,7 +215,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(buildCollection("a", "b", "c", "d", "e"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must have between 2 and 4 element(s)");
+				.hasMessage("myVal must have between 2 and 4 elements");
 		}
 
 	}
@@ -254,7 +254,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(coll, "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must not contain duplicate elements");
+				.hasMessage("myVal contains duplicate elements");
 		}
 
 	}
@@ -292,7 +292,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			var actualResult = guard.processToResult(coll, "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
-				.hasMessage("myVal must not contain duplicate elements");
+				.hasMessage("myVal contains duplicate elements");
 		}
 
 	}

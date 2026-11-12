@@ -82,7 +82,7 @@ class StringValidationTest {
 		void when_longer_then_failure() {
 			var actual = GUARD.processToResult("123456", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal must be exactly 5 char(s) long");
+				.hasMessage("myVal must be exactly 5 characters long");
 		}
 
 		@Test
@@ -95,7 +95,7 @@ class StringValidationTest {
 		void when_shorter_then_failure() {
 			var actual = GUARD.processToResult("1234", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal must be exactly 5 char(s) long");
+				.hasMessage("myVal must be exactly 5 characters long");
 		}
 
 	}
@@ -135,7 +135,7 @@ class StringValidationTest {
 		void when_shorter_then_failure() {
 			var actual = GUARD.processToResult("123", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal must be between 4 and 6 char(s) long");
+				.hasMessage("myVal must be between 4 and 6 characters long");
 		}
 
 		@Test
@@ -160,7 +160,7 @@ class StringValidationTest {
 		void when_longer_then_failure() {
 			var actual = GUARD.processToResult("1234567", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal must be between 4 and 6 char(s) long");
+				.hasMessage("myVal must be between 4 and 6 characters long");
 		}
 
 	}
@@ -198,7 +198,7 @@ class StringValidationTest {
 		void when_shorter_then_failure() {
 			var actual = GUARD.processToResult("1234", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal is too short: 5 chars min");
+				.hasMessage("myVal must be at least 5 characters long");
 		}
 
 	}
@@ -236,7 +236,7 @@ class StringValidationTest {
 		void when_longer_then_failure() {
 			var actual = GUARD.processToResult("123456", "myVal");
 			GuardResultAssert.assertThat(actual).isFailure()
-				.hasMessage("myVal is too long: 5 chars max");
+				.hasMessage("myVal must be at most 5 characters long");
 		}
 
 	}

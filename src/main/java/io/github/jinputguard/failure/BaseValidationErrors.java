@@ -23,20 +23,20 @@ public enum BaseValidationErrors {
 
 	STRING_MUST_NOT_BE_BLANK ("%s must not be blank"),
 
-	STRING_MUST_HAVE_EXACT_LENGTH ("%s must be exactly %s char(s) long"),
+	STRING_MUST_HAVE_EXACT_LENGTH ("%s must be exactly %s characters long"),
 
-	STRING_MUST_HAVE_LENGTH_BETWEEN ("%s must be between %s and %s char(s) long"),
+	STRING_MUST_HAVE_LENGTH_BETWEEN ("%s must be between %s and %s characters long"),
 
-	STRING_MUST_HAVE_MIN_LENGTH ("%s is too short: %s chars min"),
+	STRING_MUST_HAVE_MIN_LENGTH ("%s must be at least %s characters long"),
 
-	STRING_MUST_HAVE_MAX_LENGTH ("%s is too long: %s chars max"),
+	STRING_MUST_HAVE_MAX_LENGTH ("%s must be at most %s characters long"),
 
 	STRING_MUST_MATCH_PATTERN ("%s must match pattern %s"),
 
 	// --------------------------------------------------------------------------
 	// UUID
 
-	UUID_MUST_NOT_BE_NIL ("%s must not be nil UUID"),
+	UUID_MUST_NOT_BE_NIL ("%s must not be the nil UUID"),
 
 	UUID_MUST_BE_EXACT_VERSION ("%s must be UUID v%s"),
 
@@ -45,11 +45,11 @@ public enum BaseValidationErrors {
 
 	NUMBER_MUST_BE_GREATER_THAN ("%s must be greater than %s"),
 
-	NUMBER_MUST_BE_GREATER_OR_EQUAL_TO ("%s must be greater or equal to %s"),
+	NUMBER_MUST_BE_GREATER_OR_EQUAL_TO ("%s must be greater than or equal to %s"),
 
-	NUMBER_MUST_BE_LOWER_THAN ("%s must be lower than %s"),
+	NUMBER_MUST_BE_LOWER_THAN ("%s must be less than %s"),
 
-	NUMBER_MUST_BE_LOWER_OR_EQUAL_TO ("%s must be lower or equal to %s"),
+	NUMBER_MUST_BE_LOWER_OR_EQUAL_TO ("%s must be less than or equal to %s"),
 
 	NUMBER_MUST_BE_BETWEEN ("%s must be between %s and %s"),
 
@@ -58,15 +58,15 @@ public enum BaseValidationErrors {
 
 	COLLECTION_MUST_NOT_BE_EMPTY ("%s must not be empty"),
 
-	COLLECTION_SIZE_EXACT ("%s must have exactly %s element(s)"),
+	COLLECTION_SIZE_EXACT ("%s must have exactly %s elements"),
 
-	COLLECTION_SIZE_MIN ("%s must have at least %s element(s)"),
+	COLLECTION_SIZE_MIN ("%s must have at least %s elements"),
 
-	COLLECTION_SIZE_MAX ("%s must have at most %s element(s)"),
+	COLLECTION_SIZE_MAX ("%s must have at most %s elements"),
 
-	COLLECTION_SIZE_BETWEEN ("%s must have between %s and %s element(s)"),
+	COLLECTION_SIZE_BETWEEN ("%s must have between %s and %s elements"),
 
-	COLLECTION_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS ("%s must not contain duplicate elements"),
+	COLLECTION_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS ("%s contains duplicate elements"),
 
 	;
 

@@ -97,8 +97,8 @@ class SetProcessEachTest {
 				.isFailure()
 				.hasMessage("""
 					myVal contains 2 illegal elements:
-					  - myVal[?] is too long: 2 chars max
-					  - myVal[?] is too long: 2 chars max""");
+					  - myVal[?] must be at most 2 characters long
+					  - myVal[?] must be at most 2 characters long""");
 			;
 		}
 
