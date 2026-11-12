@@ -28,10 +28,10 @@ abstract class AbstractCollectionSanitizationTest<C extends Collection<String>, 
 				.filter(value -> !value.isEmpty())
 				.build();
 
-			var actualResult = listGuard.processToResult(buildCollection("", " ", " a", "b ", " c "), "myVal");
+			var actualResult = listGuard.processToResult(buildMutableCollection("", " ", " a", "b ", " c "), "myVal");
 
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccess(buildCollection(" ", " a", "b ", " c "));
+				.isSuccess(buildMutableCollection(" ", " a", "b ", " c "));
 
 			Assertions.assertThat(actualResult.get())
 				.isUnmodifiable();

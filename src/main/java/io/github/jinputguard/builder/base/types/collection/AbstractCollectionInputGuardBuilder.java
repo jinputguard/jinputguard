@@ -4,6 +4,8 @@ import io.github.jinputguard.InputGuard;
 import io.github.jinputguard.builder.base.AbstractInputGuardBuilder;
 import io.github.jinputguard.failure.BaseValidationErrors;
 import io.github.jinputguard.guard.CollectionIterationGuard;
+import io.github.jinputguard.guard.InputGuards;
+import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -20,6 +22,8 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	}
 
 	protected abstract Collector<T, ?, C> unmodifiableCollector();
+
+	protected abstract C makeUnmodifiableCopy(Collection<T> collection);
 
 	// --------------------------------------------------------------------------------------------------------------------
 	// SANITIZATION
@@ -160,6 +164,13 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 		);
 	}
 
+	/**
+	 * Validates that the collection does not contain null elements.
+	 */
+	public SELF requireNoNullElements() {
+		return processEach(InputGuards.nullStrategyGuard(NullStrategy.fail()));
+	}
+
 	// --------------------------------------------------------------------------------------------------------------------
 	// ELEMENT ITERATION
 
@@ -181,8 +192,8 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	/**
 	 * Maps the input collection to an unmodifiable collection.
 	 */
-	public SELF mapToUnmodifiable() {
-		return sanitize(coll -> coll.stream().collect(unmodifiableCollector()));
+	public SELF makeUnmodifiableCopy() {
+		return sanitize(coll -> makeUnmodifiableCopy(coll));
 	}
 
 }

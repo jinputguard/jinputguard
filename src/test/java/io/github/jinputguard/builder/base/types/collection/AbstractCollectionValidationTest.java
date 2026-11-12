@@ -19,14 +19,14 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_one_element_then_success() {
 			var guard = initiateGuard().requireNotEmpty().build();
-			var actualResult = guard.processToResult(buildCollection("one"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("one"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_is_empty_then_failure() {
 			var guard = initiateGuard().requireNotEmpty().build();
-			var actualResult = guard.processToResult(buildCollection(), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection(), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must not be empty");
@@ -49,15 +49,15 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void nominal_success() {
 			var guard = initiateGuard().requireSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
-				.isSuccess(buildCollection("a", "b"));
+				.isSuccess(buildMutableCollection("a", "b"));
 		}
 
 		@Test
 		void when_too_short_then_failure() {
 			var guard = initiateGuard().requireSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have exactly 2 elements");
@@ -66,7 +66,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_too_long_then_failure() {
 			var guard = initiateGuard().requireSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have exactly 2 elements");
@@ -92,7 +92,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 				.requireMinSize(2)
 				.build();
 
-			var actualResult = guard.processToResult(buildCollection("a", "b"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b"), "myVal");
 
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
@@ -100,7 +100,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_shorter_then_failure() {
 			var guard = initiateGuard().requireMinSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have at least 2 elements");
@@ -109,7 +109,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_longer_then_success() {
 			var guard = initiateGuard().requireMinSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
@@ -130,21 +130,21 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_exactMaxSize_then_success() {
 			var guard = initiateGuard().requireMaxSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_shorter_then_success() {
 			var guard = initiateGuard().requireMaxSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_longer_then_failure() {
 			var guard = initiateGuard().requireMaxSize(2).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have at most 2 elements");
@@ -182,7 +182,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_shorter_then_failure() {
 			var guard = initiateGuard().requireSizeBetween(2, 4).build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have between 2 and 4 elements");
@@ -191,28 +191,28 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_exactMinSize_then_success() {
 			var guard = initiateGuard().requireSizeBetween(2, 4).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_inRange_then_success() {
 			var guard = initiateGuard().requireSizeBetween(2, 4).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_exactMaxSize_then_success() {
 			var guard = initiateGuard().requireSizeBetween(2, 4).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c", "d"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c", "d"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_longer_then_failure() {
 			var guard = initiateGuard().requireSizeBetween(2, 4).build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c", "d", "e"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c", "d", "e"), "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal must have between 2 and 4 elements");
@@ -227,21 +227,21 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_empty_collection_then_success() {
 			var guard = initiateGuard().requireNoDuplicateElements().build();
-			var actualResult = guard.processToResult(buildCollection(), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection(), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_single_element_collection_then_success() {
 			var guard = initiateGuard().requireNoDuplicateElements().build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_distinct_elements_collection_then_success() {
 			var guard = initiateGuard().requireNoDuplicateElements().build();
-			var actualResult = guard.processToResult(buildCollection("a", "b", "c"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
@@ -250,7 +250,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 			Assumptions.assumeTrue(areDuplicatesAllowed(), "Disabled because underlying collection does not allow duplicate elements by definition (e.g. Set)");
 
 			var guard = initiateGuard().requireNoDuplicateElements().build();
-			var coll = buildCollection("a", "b", "c", "a");
+			var coll = buildMutableCollection("a", "b", "c", "a");
 			var actualResult = guard.processToResult(coll, "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
@@ -264,6 +264,7 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 	class RequireNoDuplicateElementsBiPredicate {
 
 		private static final BiPredicate<String, String> HAVE_SAME_LENGTH = (a, b) -> a.length() == b.length();
+
 		@Test
 		void null_function_throws_IllegalArgumentException() {
 			Assertions.assertThatIllegalArgumentException().isThrownBy(
@@ -274,25 +275,56 @@ abstract class AbstractCollectionValidationTest<C extends Collection<String>, B 
 		@Test
 		void when_single_element_collection_then_success() {
 			var guard = initiateGuard().requireNoDuplicateElements(HAVE_SAME_LENGTH).build();
-			var actualResult = guard.processToResult(buildCollection("a"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_distinct_elements_collection_then_success() {
 			var guard = initiateGuard().requireNoDuplicateElements(HAVE_SAME_LENGTH).build();
-			var actualResult = guard.processToResult(buildCollection("a", "bb", "ccc"), "myVal");
+			var actualResult = guard.processToResult(buildMutableCollection("a", "bb", "ccc"), "myVal");
 			GuardResultAssert.assertThat(actualResult).isSuccess();
 		}
 
 		@Test
 		void when_duplicate_elements_collection_then_failure() {
 			var guard = initiateGuard().requireNoDuplicateElements(HAVE_SAME_LENGTH).build();
-			var coll = buildCollection("a", "bb", "c");
+			var coll = buildMutableCollection("a", "bb", "c");
 			var actualResult = guard.processToResult(coll, "myVal");
 			GuardResultAssert.assertThat(actualResult)
 				.isFailure()
 				.hasMessage("myVal contains duplicate elements");
+		}
+
+	}
+
+	@Nested
+	@TestInstance(Lifecycle.PER_CLASS)
+	class RequireNoNullElements {
+
+		@Test
+		void when_single_non_null_element_collection_then_success() {
+			var guard = initiateGuard().requireNoNullElements().build();
+			var actualResult = guard.processToResult(buildMutableCollection("a"), "myVal");
+			GuardResultAssert.assertThat(actualResult).isSuccess();
+		}
+
+		@Test
+		void when_all_non_null_elements_collection_then_success() {
+			var guard = initiateGuard().requireNoNullElements().build();
+			var actualResult = guard.processToResult(buildMutableCollection("a", "b", "c"), "myVal");
+			GuardResultAssert.assertThat(actualResult).isSuccess();
+		}
+
+		@Test
+		void when_one_null_element_collection_then_success() {
+			var guard = initiateGuard().requireNoNullElements().build();
+			var actualResult = guard.processToResult(buildMutableCollection("a", null, "c"), "myVal");
+			GuardResultAssert.assertThat(actualResult)
+				.isFailure()
+				.hasMessage("""
+					myVal contains 1 illegal element:
+					  - %s must not be null""".formatted(getElementName("myVal", 1)));
 		}
 
 	}

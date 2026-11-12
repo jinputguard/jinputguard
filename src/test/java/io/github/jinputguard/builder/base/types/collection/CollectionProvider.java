@@ -1,7 +1,9 @@
 package io.github.jinputguard.builder.base.types.collection;
 
 import io.github.jinputguard.InputGuard;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,9 +11,11 @@ public sealed interface CollectionProvider<C extends Collection<String>, B exten
 
 	B initiateGuard();
 
-	C buildCollection(String... elements);
+	C buildMutableCollection(String... elements);
 
 	boolean areDuplicatesAllowed();
+
+	String getElementName(String path, int index);
 
 	static CollectionProvider<List<String>, ListInputGuardBuilder<List<String>, String>> listProvider() {
 		return new ListProvider();
@@ -29,13 +33,22 @@ public sealed interface CollectionProvider<C extends Collection<String>, B exten
 		}
 
 		@Override
-		public List<String> buildCollection(String... elements) {
-			return List.of(elements);
+		public List<String> buildMutableCollection(String... elements) {
+			var coll = new ArrayList<String>(elements.length);
+			for (var element : elements) {
+				coll.add(element);
+			}
+			return coll;
 		}
 
 		@Override
 		public boolean areDuplicatesAllowed() {
 			return true;
+		}
+
+		@Override
+		public String getElementName(String path, int index) {
+			return path + "[" + index + "]";
 		}
 
 	}
@@ -48,13 +61,22 @@ public sealed interface CollectionProvider<C extends Collection<String>, B exten
 		}
 
 		@Override
-		public Set<String> buildCollection(String... elements) {
-			return Set.of(elements);
+		public Set<String> buildMutableCollection(String... elements) {
+			var coll = new HashSet<String>(elements.length);
+			for (var element : elements) {
+				coll.add(element);
+			}
+			return coll;
 		}
 
 		@Override
 		public boolean areDuplicatesAllowed() {
 			return false;
+		}
+
+		@Override
+		public String getElementName(String path, int index) {
+			return path + "[?]";
 		}
 
 	}

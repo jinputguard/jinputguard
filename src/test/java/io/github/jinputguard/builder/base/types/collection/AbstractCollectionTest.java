@@ -10,12 +10,16 @@ abstract class AbstractCollectionTest<C extends Collection<String>, B extends Ab
 		return getCollectionProvider().initiateGuard();
 	}
 
-	final C buildCollection(String... elements) {
-		return getCollectionProvider().buildCollection(elements);
+	final C buildMutableCollection(String... elements) {
+		return getCollectionProvider().buildMutableCollection(elements);
 	}
 
 	final boolean areDuplicatesAllowed() {
 		return getCollectionProvider().areDuplicatesAllowed();
+	}
+
+	final String getElementName(String path, int index) {
+		return getCollectionProvider().getElementName(path, index);
 	}
 
 }

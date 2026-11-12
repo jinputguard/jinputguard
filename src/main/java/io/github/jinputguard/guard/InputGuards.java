@@ -32,11 +32,26 @@ public final class InputGuards {
 	// ===========================================================================================================
 
 	/**
+	 * Creates a guard that will handle null input according to the given strategy.
 	 * 
-	 * @param <IN>
-	 * @param <OUT>
-	 * @param nullStrategy
-	 * @return
+	 * @param <IN>			The type of the input
+	 * @param nullStrategy	The strategy to handle null input
+	 * 
+	 * @return				A guard ready to be used or combined with other guard(s)
+	 */
+	public static <IN> InputGuard<IN, IN> nullStrategyGuard(NullStrategy<IN> nullStrategy) {
+		Objects.requireNonNull(nullStrategy, "NullStrategy cannot be null");
+		return nullStrategyGuard(nullStrategy, noOpGuard());
+	}
+
+	/**
+	 * Creates a guard that will handle null input according to the given strategy, and then pass the non-null input to the next guard.
+	 * 
+	 * @param <IN>			The type of the input
+	 * @param nullStrategy	The strategy to handle null input
+	 * @param nextGuard		The next guard to process the non-null input
+	 * 
+	 * @return				A guard ready to be used or combined with other guard(s)
 	 */
 	public static <IN, OUT> InputGuard<IN, OUT> nullStrategyGuard(NullStrategy<IN> nullStrategy, InputGuard<IN, OUT> nextGuard) {
 		Objects.requireNonNull(nullStrategy, "NullStrategy cannot be null");

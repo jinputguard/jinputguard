@@ -35,11 +35,13 @@
 ### Collections
 - Types: List, Set
 - Validation
+  - null: `requireNoNullElements()`
   - Length: `isNotEmpty()`, `hasSize(int)`, `hasMinSize(int)`, `hasMaxSize(int)`,  `hasSizeBetween(int, int)`
   - Duplication: `doesNotContainDuplicates()`, `doesNotContainDuplicates(BiPredicate<T, ?>)`
 - Sanitization: 
   - Filtering: `filter(Predicate<T>)`
 - Processing: `processEach(InputGuard<T, T>)`
+- Mapping: `makeUnmodifiableCopy()`, `mapToUnmodifiableSet()` (for List), `mapToUnmodifiableList()` (for Set)
 
 
 ## To do
