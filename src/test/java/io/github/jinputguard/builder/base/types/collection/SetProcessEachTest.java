@@ -80,7 +80,7 @@ class SetProcessEachTest {
 				.isFailure()
 				.hasMessage("""
 					myVal contains 1 illegal element:
-					  - myVal[X] must not be empty""");
+					  - myVal[?] must not be empty""");
 		}
 
 		@Test
@@ -97,8 +97,8 @@ class SetProcessEachTest {
 				.isFailure()
 				.hasMessage("""
 					myVal contains 2 illegal elements:
-					  - myVal[X] is too long: 2 chars max
-					  - myVal[X] is too long: 2 chars max""");
+					  - myVal[?] is too long: 2 chars max
+					  - myVal[?] is too long: 2 chars max""");
 			;
 		}
 

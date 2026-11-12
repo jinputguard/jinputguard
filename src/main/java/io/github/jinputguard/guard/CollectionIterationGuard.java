@@ -33,7 +33,7 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 
 	public GuardResult<C_OUT> internalProcess(C_IN value, @Nonnull String path) {
 		var resultMap = value.stream()
-			.map(elem -> elementGuard.processToResult(elem, path + "[X]"))
+			.map(elem -> elementGuard.processToResult(elem, path + "[?]"))
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of()).stream()
@@ -55,7 +55,6 @@ public class CollectionIterationGuard<C_IN extends Collection<T>, T, C_OUT exten
 		var iter = value.iterator();
 		var resultMap = IntStream.range(0, value.size())
 			.mapToObj(index -> elementGuard.processToResult(iter.next(), path + "[" + index + "]"))
-			.filter(Objects::nonNull)
 			.collect(Collectors.groupingBy(GuardResult::isSuccess));
 
 		var failures = resultMap.getOrDefault(false, List.of())
