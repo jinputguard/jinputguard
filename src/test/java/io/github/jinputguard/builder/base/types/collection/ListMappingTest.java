@@ -6,7 +6,12 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ListMappingTest {
+class ListMappingTest extends AbstractCollectionMappingTest<List<String>, ListInputGuardBuilder<List<String>, String>> {
+
+	@Override
+	CollectionProvider<List<String>, ListInputGuardBuilder<List<String>, String>> getCollectionProvider() {
+		return CollectionProvider.listProvider();
+	}
 
 	@Test
 	void nominal() {

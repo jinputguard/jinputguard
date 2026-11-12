@@ -175,4 +175,14 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 		return apply(new CollectionIterationGuard<>(elementGuard, unmodifiableCollector()));
 	}
 
+	// --------------------------------------------------------------------------------------------------------------------
+	// MAPPING
+
+	/**
+	 * Maps the input collection to an unmodifiable collection.
+	 */
+	public SELF mapToUnmodifiable() {
+		return sanitize(coll -> coll.stream().collect(unmodifiableCollector()));
+	}
+
 }

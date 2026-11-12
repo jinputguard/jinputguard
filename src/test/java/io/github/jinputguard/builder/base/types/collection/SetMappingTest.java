@@ -6,7 +6,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
-class SetMappingTest {
+class SetMappingTest extends AbstractCollectionMappingTest<Set<String>, SetInputGuardBuilder<Set<String>, String>> {
+
+	@Override
+	CollectionProvider<Set<String>, SetInputGuardBuilder<Set<String>, String>> getCollectionProvider() {
+		return CollectionProvider.setProvider();
+	}
 
 	@Test
 	void nominal() {
