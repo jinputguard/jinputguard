@@ -7,7 +7,6 @@ import io.github.jinputguard.guard.CollectionIterationGuard;
 import io.github.jinputguard.guard.InputGuards;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiPredicate;
@@ -53,7 +52,7 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	/**
 	 * Validates that the collection is not empty.
 	 * 
-	 * @see String#isEmpty()
+	 * @see Collection#isEmpty()
 	 */
 	public SELF requireNotEmpty() {
 		return requireNotNull().validate(
@@ -134,7 +133,6 @@ public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collecti
 	/**
 	 * Validates that the collection does not contain duplicate elements, using their {@link Object#equals(Object)} method.
 	 * 
-	 * @see Collections#frequency(Collection, Object)
 	 */
 	public SELF requireNoDuplicateElements() {
 		return requireNotNull().validate(

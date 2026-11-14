@@ -3,6 +3,7 @@ package io.github.jinputguard;
 import io.github.jinputguard.builder.base.types.ObjectInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.StringInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.UUIDInputGuardBuilder;
+import io.github.jinputguard.builder.base.types.array.ArrayInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.collection.ListInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.collection.SetInputGuardBuilder;
 import io.github.jinputguard.builder.base.types.number.DoubleInputGuardBuilder;
@@ -99,6 +100,21 @@ public final class BuilderFactory {
 	 */
 	public FloatInputGuardBuilder<Float> forFloat() {
 		return FloatInputGuardBuilder.newInstance();
+	}
+
+	// ------------------------------------------------------------------------------------------------------------
+	// ARRAYS
+
+	/**
+	 * Create a builder for arrays of the given element type.
+	 * 
+	 * @param elementClass	the class of the elements in the array
+	 * @param <T>			the type of the elements in the array
+	 * 
+	 * @return	a builder for arrays of the given element type
+	 */
+	public <T> ArrayInputGuardBuilder<T[], T> forArrayOf(Class<T> elementClass) {
+		return ArrayInputGuardBuilder.newInstance(elementClass);
 	}
 
 	// ------------------------------------------------------------------------------------------------------------

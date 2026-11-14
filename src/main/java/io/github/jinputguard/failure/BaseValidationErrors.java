@@ -54,6 +54,21 @@ public enum BaseValidationErrors {
 	NUMBER_MUST_BE_BETWEEN ("%s must be between %s and %s"),
 
 	// --------------------------------------------------------------------------
+	// ARRAY
+
+	ARRAY_MUST_NOT_BE_EMPTY ("%s must not be empty"),
+
+	ARRAY_LENGTH_EXACT ("%s must have exactly %s elements"),
+
+	ARRAY_LENGTH_MIN ("%s must have at least %s elements"),
+
+	ARRAY_LENGTH_MAX ("%s must have at most %s elements"),
+
+	ARRAY_LENGTH_BETWEEN ("%s must have between %s and %s elements"),
+
+	ARRAY_MUST_NOT_CONTAIN_DUPLICATE_ELEMENTS ("%s contains duplicate elements"),
+
+	// --------------------------------------------------------------------------
 	// COLLECTION
 
 	COLLECTION_MUST_NOT_BE_EMPTY ("%s must not be empty"),
