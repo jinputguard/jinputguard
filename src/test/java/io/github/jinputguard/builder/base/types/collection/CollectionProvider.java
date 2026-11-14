@@ -29,7 +29,7 @@ public sealed interface CollectionProvider<C extends Collection<String>, B exten
 
 		@Override
 		public ListInputGuardBuilder<List<String>, String> initiateGuard() {
-			return InputGuard.builder().forList(String.class);
+			return InputGuard.builder().forListOf(String.class);
 		}
 
 		@Override
@@ -57,7 +57,7 @@ public sealed interface CollectionProvider<C extends Collection<String>, B exten
 
 		@Override
 		public SetInputGuardBuilder<Set<String>, String> initiateGuard() {
-			return InputGuard.builder().forSet(String.class);
+			return InputGuard.builder().forSetOf(String.class);
 		}
 
 		@Override

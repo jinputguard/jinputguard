@@ -113,8 +113,8 @@ public final class BuilderFactory {
 	 * @return	a builder for lists of the given element type
 	 */
 	@SuppressWarnings("unused")
-	public <T> ListInputGuardBuilder<List<T>, T> forList(Class<T> elementClass) {
-		return ListInputGuardBuilder.newInstance();
+	public <T> ListInputGuardBuilder<List<T>, T> forListOf(Class<T> elementClass) {
+		return ListInputGuardBuilder.newInstance(elementClass);
 	}
 
 	/**
@@ -126,8 +126,8 @@ public final class BuilderFactory {
 	 * @return	a builder for sets of the given element type
 	 */
 	@SuppressWarnings("unused")
-	public <T> SetInputGuardBuilder<Set<T>, T> forSet(Class<T> elementClass) {
-		return SetInputGuardBuilder.newInstance();
+	public <T> SetInputGuardBuilder<Set<T>, T> forSetOf(Class<T> elementClass) {
+		return SetInputGuardBuilder.newInstance(elementClass);
 	}
 
 }

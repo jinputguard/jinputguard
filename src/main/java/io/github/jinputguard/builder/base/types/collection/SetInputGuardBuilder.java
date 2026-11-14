@@ -10,17 +10,17 @@ import java.util.stream.Collectors;
 
 public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBuilder<IN, Set<T>, T, SetInputGuardBuilder<IN, T>> {
 
-	public SetInputGuardBuilder(InputGuard<IN, Set<T>> previous) {
-		super(previous);
+	public SetInputGuardBuilder(InputGuard<IN, Set<T>> previous, Class<T> elementClass) {
+		super(previous, elementClass);
 	}
 
 	@Override
 	protected SetInputGuardBuilder<IN, T> newInstance(InputGuard<IN, Set<T>> guard) {
-		return new SetInputGuardBuilder<>(guard);
+		return new SetInputGuardBuilder<>(guard, elementClass);
 	}
 
-	public static <T> SetInputGuardBuilder<Set<T>, T> newInstance() {
-		return new SetInputGuardBuilder<>(InputGuards.noOpGuard());
+	public static <T> SetInputGuardBuilder<Set<T>, T> newInstance(Class<T> elementClass) {
+		return new SetInputGuardBuilder<>(InputGuards.noOpGuard(), elementClass);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SetInputGuardBuilder<IN, T> extends AbstractCollectionInputGuardBui
 		return map(
 			List::copyOf,
 			path -> path + " cannot be mapped to a List",
-			ListInputGuardBuilder::new
+			previous -> new ListInputGuardBuilder<>(previous, elementClass)
 		);
 	}
 

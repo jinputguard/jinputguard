@@ -8,6 +8,7 @@ import io.github.jinputguard.guard.InputGuards;
 import io.github.jinputguard.guard.NullStrategyGuard.NullStrategy;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -17,8 +18,11 @@ import java.util.stream.Collectors;
 public abstract class AbstractCollectionInputGuardBuilder<IN, C extends Collection<T>, T, SELF extends AbstractCollectionInputGuardBuilder<IN, C, T, SELF>>
 	extends AbstractInputGuardBuilder<IN, C, SELF> {
 
-	protected AbstractCollectionInputGuardBuilder(InputGuard<IN, C> previous) {
+	protected final Class<T> elementClass;
+
+	protected AbstractCollectionInputGuardBuilder(InputGuard<IN, C> previous, Class<T> elementClass) {
 		super(previous);
+		this.elementClass = Objects.requireNonNull(elementClass, "elementClass must not be null");
 	}
 
 	protected abstract Collector<T, ?, C> unmodifiableCollector();

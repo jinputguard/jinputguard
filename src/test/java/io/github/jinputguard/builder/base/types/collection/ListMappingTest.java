@@ -17,7 +17,7 @@ class ListMappingTest extends AbstractCollectionMappingTest<List<String>, ListIn
 
 	@Test
 	void nominal() {
-		var listGuard = InputGuard.builder().forList(String.class)
+		var listGuard = InputGuard.builder().forListOf(String.class)
 			.map(list -> list.stream().map(Integer::parseInt).toList(), path -> "Invalid " + path)
 			.build();
 

@@ -18,7 +18,7 @@ class SetMappingTest extends AbstractCollectionMappingTest<Set<String>, SetInput
 
 	@Test
 	void nominal() {
-		var setGuard = InputGuard.builder().forSet(String.class)
+		var setGuard = InputGuard.builder().forSetOf(String.class)
 			.map(set -> set.stream().map(Integer::parseInt).collect(Collectors.toSet()), path -> "Invalid " + path)
 			.build();
 
